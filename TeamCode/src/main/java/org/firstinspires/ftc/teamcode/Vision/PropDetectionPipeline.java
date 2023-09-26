@@ -14,19 +14,18 @@ public class PropDetectionPipeline extends OpenCvPipeline {
     //video frame of camera, is our input for processFrame()
     Mat mat = new Mat();
 
-    public enum PoleLocation {
+    public enum PropLocation {
         LEFT,
         MIDDLE,
         RIGHT,
         UNKNOWN,
-        //        FAR,
         CLOSE
     }
 
     private boolean closeToPole = false;
 
 
-    private PoleLocation elementLocation;
+    private PropLocation elementLocation;
 
     //defining regions of interest (ROI)
     //Divide the camera frame into three rectangles
@@ -85,22 +84,22 @@ public class PropDetectionPipeline extends OpenCvPipeline {
         right.release();
 
         if (Math.round(polePercentage * 100) > 60) {
-            elementLocation = PoleLocation.CLOSE;
+            elementLocation = PropLocation.CLOSE;
         }
         else if(leftPercentage > middlePercentage && leftPercentage > rightPercentage){
-            elementLocation = PoleLocation.LEFT;
+            elementLocation = PropLocation.LEFT;
         }
         else if(middlePercentage > leftPercentage && middlePercentage > rightPercentage){
-            elementLocation = PoleLocation.MIDDLE;
+            elementLocation = PropLocation.MIDDLE;
         }
         else if(rightPercentage > leftPercentage && rightPercentage > middlePercentage){
-            elementLocation = PoleLocation.RIGHT;
+            elementLocation = PropLocation.RIGHT;
         }
 //        else if(Math.round(polePercentage * 100) < 60){
-//            elementLocation = PoleLocation.FAR;
+//            elementLocation = PropLocation.FAR;
 //        }
         else{
-            elementLocation = PoleLocation.UNKNOWN;
+            elementLocation = PropLocation.UNKNOWN;
         }
 
         telemetry.addData("left percentage", Math.round(leftPercentage * 100) + "%");
@@ -117,7 +116,7 @@ public class PropDetectionPipeline extends OpenCvPipeline {
 
     }
 
-    public PoleLocation getPoleLocation(){
+    public PropLocation getPropLocation(){
         return elementLocation;
     }
 

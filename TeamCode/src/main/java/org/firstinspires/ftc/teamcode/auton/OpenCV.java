@@ -57,21 +57,21 @@ public class PoleDetectionNoLift extends LinearOpMode{
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
         while (poleInRange == false) {
-            PropDetectionPipeline.PoleLocation elementLocation = PropDetectionPipeline.getPoleLocation();
+            PropDetectionPipeline.PropLocation elementLocation = PropDetectionPipeline.getPropLocation();
 //            if (runTime.time() > 7) {
 //
 //                break;
 //            }
-            if (elementLocation == PropDetectionPipeline.PoleLocation.RIGHT) {
+            if (elementLocation == PropDetectionPipeline.PropLocation.RIGHT) {
                 encoderDrive(0.25, -25, 25, -25, 25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PoleLocation.LEFT) {
+            } else if (elementLocation == PropDetectionPipeline.PropLocation.LEFT) {
                 encoderDrive(0.25, 25, -25, 25, -25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PoleLocation.MIDDLE) {
+            } else if (elementLocation == PropDetectionPipeline.PropLocation.MIDDLE) {
                 encoderDrive(0.25, 25, 25, 25, 25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PoleLocation.CLOSE) {
+            } else if (elementLocation == PropDetectionPipeline.PropLocation.CLOSE) {
                 stop(1000);
                 poleInRange = true;
             } else {

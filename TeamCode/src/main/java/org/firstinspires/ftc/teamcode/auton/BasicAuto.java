@@ -45,7 +45,6 @@ public class BasicAuto extends LinearOpMode{
                 robot.fLeftWheel.setPower(0);
                 robot.bRightWheel.setPower(0);
                 robot.bLeftWheel.setPower(0);
-
             break;
             case 3:c = Side.rRed;
                 robot.fRightWheel.setPower(-1);

@@ -68,7 +68,16 @@ public class BasicAuto extends LinearOpMode{
         }
         waitForStart(); //wait for play button to be pressed
 
-        // Autonoumous code starts here
+        // Autonomous code starts here
+        robot.fLeftWheel.setPower(1);
+        robot.fRightWheel.setPower(1);
+        robot.bLeftWheel.setPower(1);
+        robot.bRightWheel.setPower(1);
+        sleep(1000);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
 
     }
 }

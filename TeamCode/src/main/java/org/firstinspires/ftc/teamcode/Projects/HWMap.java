@@ -10,6 +10,7 @@ public class HWMap extends Project{
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
     public DcMotor slide = null;
+    public DcMotor linkage = null;
 
 
 
@@ -20,6 +21,9 @@ public class HWMap extends Project{
         fRightWheel = hwMap.dcMotor.get("fRightWheel");
         bLeftWheel = hwMap.dcMotor.get("bLeftWheel");
         bRightWheel = hwMap.dcMotor.get("bRightWheel");
+        slide = hwMap.dcMotor.get("slide");
+        linkage = hwMap.dcMotor.get("linkage");
+
 
         // Set Direction
         fRightWheel.setDirection(DcMotor.Direction.FORWARD);

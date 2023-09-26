@@ -11,6 +11,9 @@ public class HWMap extends Project{
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
+    public DcMotor slide = null;
+
+
 
     public WebcamName camera = null;
 

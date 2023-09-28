@@ -13,8 +13,10 @@ public class HWMap extends Project{
     public DcMotor bRightWheel = null;
     public DcMotor slide = null;
     public Servo rClaw = null;
-
-
+    public Servo lClaw = null;
+    public Servo oClaw = null;
+    //public Servo wrist = null;
+    //public DcMotor wrist = null;
 
 
     public WebcamName camera = null;
@@ -28,6 +30,11 @@ public class HWMap extends Project{
         bLeftWheel = hwMap.dcMotor.get("bLeftWheel");
         bRightWheel = hwMap.dcMotor.get("bRightWheel");
         slide = hwMap.dcMotor.get("slide");
+        rClaw = hwMap.servo.get("rClaw");
+        lClaw = hwMap.servo.get("lClaw");
+        oClaw = hwMap.servo.get("oClaw");
+        //wrist = hwMap.servo.get("wrist");
+        //wrist = hwMap.dcMotor.get("wrist");
 
 
 
@@ -36,18 +43,24 @@ public class HWMap extends Project{
         fLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         bRightWheel.setDirection(DcMotor.Direction.FORWARD);
         bLeftWheel.setDirection(DcMotor.Direction.REVERSE);
+        slide.setDirection(DcMotor.Direction.FORWARD);
+        //wrist.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
         fRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set brakes
         fRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Get webcam from hardware map
         camera = hwMap.get(WebcamName.class, "camera");
@@ -59,5 +72,7 @@ public class HWMap extends Project{
         fLeftWheel.setPower(0);
         bRightWheel.setPower(0);
         bLeftWheel.setPower(0);
+        slide.setPower(0);
+        //wrist.setPower(0);
     }
 }

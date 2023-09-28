@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 
 @Autonomous
-public class PoleDetectionNoLift extends LinearOpMode{
+public class OpenCV extends LinearOpMode{
     public HWMap robot = new HWMap();
     OpenCvCamera webcam;
     PropDetectionPipeline PropDetectionPipeline = new PropDetectionPipeline(telemetry);
-    boolean poleInRange = false;
+    boolean propInRange = false;
     public ElapsedTime runTime = new ElapsedTime(); //sets up a timer in the program
 
 
@@ -56,7 +56,7 @@ public class PoleDetectionNoLift extends LinearOpMode{
         //NEEDS TO BE FIXED
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
-        while (poleInRange == false) {
+        while (propInRange == false) {
             PropDetectionPipeline.PropLocation elementLocation = PropDetectionPipeline.getPropLocation();
 //            if (runTime.time() > 7) {
 //
@@ -73,14 +73,14 @@ public class PoleDetectionNoLift extends LinearOpMode{
                 stop(1000);
             } else if (elementLocation == PropDetectionPipeline.PropLocation.CLOSE) {
                 stop(1000);
-                poleInRange = true;
+                propInRange = true;
             } else {
                 encoderDrive(0.25, -25, -25, -25, -25);
                 stop(1000);
             }
         }
 
-        if (poleInRange == true) {
+        if (propInRange == true) {
             encoderDrive(0.25, -25, 25, -25, 25);
             stop(2000);
 
@@ -106,25 +106,25 @@ public class PoleDetectionNoLift extends LinearOpMode{
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = robot.frontleft.getCurrentPosition() + (int) (frontLeftCounts);
-            newFrontRightTarget = robot.frontright.getCurrentPosition() + (int) (frontRightCounts);
-            newBackLeftTarget = robot.backleft.getCurrentPosition() + (int) (backLeftCounts);
-            newBackRightTarget = robot.backright.getCurrentPosition() + (int) (backRightCounts);
-            robot.frontleft.setTargetPosition(newFrontLeftTarget);
-            robot.frontright.setTargetPosition(newFrontRightTarget);
-            robot.backleft.setTargetPosition(newBackLeftTarget);
-            robot.backright.setTargetPosition(newBackRightTarget);
+            newFrontLeftTarget = robot.fLeftWheel.getCurrentPosition() + (int) (frontLeftCounts);
+            newFrontRightTarget = robot.fRightWheel.getCurrentPosition() + (int) (frontRightCounts);
+            newBackLeftTarget = robot.bLeftWheel.getCurrentPosition() + (int) (backLeftCounts);
+            newBackRightTarget = robot.bRightWheel.getCurrentPosition() + (int) (backRightCounts);
+            robot.fLeftWheel.setTargetPosition(newFrontLeftTarget);
+            robot.fRightWheel.setTargetPosition(newFrontRightTarget);
+            robot.bLeftWheel.setTargetPosition(newBackLeftTarget);
+            robot.bRightWheel.setTargetPosition(newBackRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            robot.frontleft.setPower(Math.abs(speed));
-            robot.frontright.setPower(Math.abs(speed));
-            robot.backleft.setPower(Math.abs(speed));
-            robot.backright.setPower(Math.abs(speed));
+            robot.fLeftWheel.setPower(Math.abs(speed));
+            robot.fRightWheel.setPower(Math.abs(speed));
+            robot.bLeftWheel.setPower(Math.abs(speed));
+            robot.bRightWheel.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -133,36 +133,24 @@ public class PoleDetectionNoLift extends LinearOpMode{
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                    (robot.frontleft.isBusy() && robot.frontright.isBusy() && robot.backleft.isBusy() && robot.backright.isBusy())) {
+                    (robot.fLeftWheel.isBusy() && robot.fRightWheel.isBusy() && robot.bLeftWheel.isBusy() && robot.bRightWheel.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1", "Running to %7d :%7d", newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
                 telemetry.addData("Path2", "Running at %7d :%7d",
-                        robot.frontleft.getCurrentPosition(),
-                        robot.frontright.getCurrentPosition(),
-                        robot.backleft.getCurrentPosition(),
-                        robot.backright.getCurrentPosition());
+
                 telemetry.update();
             }
 
             // Stop all motion;
-            robot.frontleft.setPower(0);
-            robot.frontright.setPower(0);
-            robot.backleft.setPower(0);
-            robot.backright.setPower(0);
+
 
             // Turn off RUN_TO_POSITION
-            robot.frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         }
     }
     public void stop(int time) {
-        robot.frontleft.setPower(0);
-        robot.frontright.setPower(0);
-        robot.backleft.setPower(0);
-        robot.backright.setPower(0);
+
         sleep(time);
     }
 

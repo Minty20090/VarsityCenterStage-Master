@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Vision.PropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.Vision.RedPropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.Vision.BluePropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.Vision.PropDetectionPipeline.PropLocation;
 import org.firstinspires.ftc.teamcode.Vision.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -23,7 +25,10 @@ import org.firstinspires.ftc.teamcode.Projects.HWMap;
 public class OpenCV extends LinearOpMode{
     public HWMap robot = new HWMap();
     OpenCvCamera webcam;
-    PropDetectionPipeline PropDetectionPipeline = new PropDetectionPipeline(telemetry);
+
+    RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
+    BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
+    AprilTagDetectionPipeline AprilTagDetectionPipeline = new AprilTagDetectionPipeline();
     boolean propInRange = false;
     public ElapsedTime runTime = new ElapsedTime(); //sets up a timer in the program
 
@@ -31,11 +36,56 @@ public class OpenCV extends LinearOpMode{
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        RedPropDetectionPipeline propDetectionPipeline;
+        Side c = Side.rBlue;
+        int side = 1;
+        if(gamepad1.right_bumper == true){
+            if(side<4) {
+                side++;
+            }
+            else if(side == 4){
+                side = 1;
+            }
+        }
+        switch(side) {
+            case 1:
+                propDetectionPipeline = RedPropDetectionPipeline;
+                c = Side.rBlue;
+                break;
+            case 2:
+                c = Side.lBlue;
+                robot.fRightWheel.setPower(1);
+                robot.fLeftWheel.setPower(-1);
+                robot.bRightWheel.setPower(-1);
+                robot.bLeftWheel.setPower(1);
+                sleep(1000);
+                robot.fRightWheel.setPower(0);
+                robot.fLeftWheel.setPower(0);
+                robot.bRightWheel.setPower(0);
+                robot.bLeftWheel.setPower(0);
+                break;
+            case 3:
+                c = Side.rRed;
+                robot.fRightWheel.setPower(-1);
+                robot.fLeftWheel.setPower(1);
+                robot.bRightWheel.setPower(1);
+                robot.bLeftWheel.setPower(-1);
+                sleep(1000);
+                robot.fRightWheel.setPower(0);
+                robot.fLeftWheel.setPower(0);
+                robot.bRightWheel.setPower(0);
+                robot.bLeftWheel.setPower(0);
+                break;
+            case 4:
+                c = Side.lRed;
+                break;
+        }
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
-        webcam.setPipeline(PropDetectionPipeline);
+        webcam.setPipeline(propDetectionPipeline);
+        webcam.setPipeline(AprilTagDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -57,21 +107,18 @@ public class OpenCV extends LinearOpMode{
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
         while (propInRange == false) {
-            PropDetectionPipeline.PropLocation elementLocation = PropDetectionPipeline.getPropLocation();
-//            if (runTime.time() > 7) {
-//
-//                break;
-//            }
-            if (elementLocation == PropDetectionPipeline.PropLocation.RIGHT) {
+            PropDetectionPipeline.PropLocation elementLocation = propDetectionPipeline.getPropLocation();
+
+            if (elementLocation == PropLocation.RIGHT) {
                 encoderDrive(0.25, -25, 25, -25, 25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PropLocation.LEFT) {
+            } else if (elementLocation == PropLocation.LEFT) {
                 encoderDrive(0.25, 25, -25, 25, -25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PropLocation.MIDDLE) {
+            } else if (elementLocation == PropLocation.MIDDLE) {
                 encoderDrive(0.25, 25, 25, 25, 25);
                 stop(1000);
-            } else if (elementLocation == PropDetectionPipeline.PropLocation.CLOSE) {
+            } else if (elementLocation == PropLocation.CLOSE) {
                 stop(1000);
                 propInRange = true;
             } else {
@@ -137,7 +184,7 @@ public class OpenCV extends LinearOpMode{
 
                 // Display it for the driver.
                 telemetry.addData("Path1", "Running to %7d :%7d", newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
-                telemetry.addData("Path2", "Running at %7d :%7d",
+                telemetry.addData("Path2", "Running at %7d :%7d");
 
                 telemetry.update();
             }

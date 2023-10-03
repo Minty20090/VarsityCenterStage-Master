@@ -58,6 +58,7 @@ public class BasicAuto extends LinearOpMode{
                 robot.bLeftWheel.setPower(0);
             break;
             case 4:c = Side.lRed;
+
             break;
         }
 
@@ -79,5 +80,19 @@ public class BasicAuto extends LinearOpMode{
         robot.bLeftWheel.setPower(0);
         robot.bRightWheel.setPower(0);
 
+    }
+    public static void forward (int power, int time){
+       /*
+        robot.fLeftWheel.setPower(power);
+        robot.fRightWheel.setPower(power);
+        robot.bLeftWheel.setPower(power);
+        robot.bRightWheel.setPower(power);
+        sleep(time);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+
+        */
     }
 }

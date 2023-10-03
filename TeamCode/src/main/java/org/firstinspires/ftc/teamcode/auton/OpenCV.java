@@ -47,44 +47,11 @@ public class OpenCV extends LinearOpMode{
                 side = 1;
             }
         }
-        switch(side) {
-            case 1:
-                propDetectionPipeline = RedPropDetectionPipeline;
-                c = Side.rBlue;
-                break;
-            case 2:
-                c = Side.lBlue;
-                robot.fRightWheel.setPower(1);
-                robot.fLeftWheel.setPower(-1);
-                robot.bRightWheel.setPower(-1);
-                robot.bLeftWheel.setPower(1);
-                sleep(1000);
-                robot.fRightWheel.setPower(0);
-                robot.fLeftWheel.setPower(0);
-                robot.bRightWheel.setPower(0);
-                robot.bLeftWheel.setPower(0);
-                break;
-            case 3:
-                c = Side.rRed;
-                robot.fRightWheel.setPower(-1);
-                robot.fLeftWheel.setPower(1);
-                robot.bRightWheel.setPower(1);
-                robot.bLeftWheel.setPower(-1);
-                sleep(1000);
-                robot.fRightWheel.setPower(0);
-                robot.fLeftWheel.setPower(0);
-                robot.bRightWheel.setPower(0);
-                robot.bLeftWheel.setPower(0);
-                break;
-            case 4:
-                c = Side.lRed;
-                break;
-        }
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
-        webcam.setPipeline(propDetectionPipeline);
+
         webcam.setPipeline(AprilTagDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -101,31 +68,75 @@ public class OpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         waitForStart();
+        switch(side) {
+            case 1:
+
+                c = Side.rBlue;
+
+                break;
+            case 2:
+
+                c = Side.lBlue;
+
+                break;
+            case 3:
+
+                c = Side.rRed;
+
+                break;
+            case 4:
+
+                c = Side.lRed;
+
+                break;
+        }
 
 
         //NEEDS TO BE FIXED
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
         while (propInRange == false) {
-            PropDetectionPipeline.PropLocation elementLocation = propDetectionPipeline.getPropLocation();
-
-            if (elementLocation == PropLocation.RIGHT) {
-                encoderDrive(0.25, -25, 25, -25, 25);
-                stop(1000);
-            } else if (elementLocation == PropLocation.LEFT) {
-                encoderDrive(0.25, 25, -25, 25, -25);
-                stop(1000);
-            } else if (elementLocation == PropLocation.MIDDLE) {
-                encoderDrive(0.25, 25, 25, 25, 25);
-                stop(1000);
-            } else if (elementLocation == PropLocation.CLOSE) {
-                stop(1000);
-                propInRange = true;
-            } else {
-                encoderDrive(0.25, -25, -25, -25, -25);
-                stop(1000);
+            if (c == Side.rBlue || c == Side.lBlue){
+                BluePropDetectionPipeline.PropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
+                if (elementLocation == PropLocation.RIGHT) {
+                    encoderDrive(0.25, -25, 25, -25, 25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.LEFT) {
+                    encoderDrive(0.25, 25, -25, 25, -25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.MIDDLE) {
+                    encoderDrive(0.25, 25, 25, 25, 25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+                    encoderDrive(0.25, -25, -25, -25, -25);
+                    stop(1000);
+                }
             }
+            else{
+                RedPropDetectionPipeline.PropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
+                if (elementLocation == PropLocation.RIGHT) {
+                    encoderDrive(0.25, -25, 25, -25, 25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.LEFT) {
+                    encoderDrive(0.25, 25, -25, 25, -25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.MIDDLE) {
+                    encoderDrive(0.25, 25, 25, 25, 25);
+                    stop(1000);
+                } else if (elementLocation == PropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+                    encoderDrive(0.25, -25, -25, -25, -25);
+                    stop(1000);
+                }
+            }
+
         }
+
 
         if (propInRange == true) {
             encoderDrive(0.25, -25, 25, -25, 25);

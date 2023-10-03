@@ -24,7 +24,7 @@ public class BasicAuto extends LinearOpMode{
         robot.init(hardwareMap);
         Side c = Side.rBlue;
         int side = 1;
-        if(robot.Gamepad1.rightBumper == true){
+        if(gamepad1.right_bumper == true){
             if(side<4) {
                 side++;
             }

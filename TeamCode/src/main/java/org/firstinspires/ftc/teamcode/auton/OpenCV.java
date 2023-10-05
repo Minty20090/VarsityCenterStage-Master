@@ -224,6 +224,41 @@ public class OpenCV extends LinearOpMode{
 
         sleep(time);
     }
+    public void moveRobot(int time) {
+        robot.fLeftWheel.setPower(1);
+        robot.fRightWheel.setPower(1);
+        robot.bLeftWheel.setPower(1);
+        robot.bRightWheel.setPower(1);
+        sleep(time);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+    }
+    public void turnRobot(String direction, int degrees) {
+        if (direction == "right") {
+            robot.fRightWheel.setPower(-.5);
+            robot.bRightWheel.setPower(-.5);
+            robot.fLeftWheel.setPower(.5);
+            robot.bLeftWheel.setPower(.5);
+            sleep(degrees/45*500);
+            robot.fRightWheel.setPower(0);
+            robot.fLeftWheel.setPower(0);
+            robot.bRightWheel.setPower(0);
+            robot.bLeftWheel.setPower(0);
+        }
+        if (direction == "left") {
+            robot.fRightWheel.setPower(.5);
+            robot.bRightWheel.setPower(.5);
+            robot.fLeftWheel.setPower(-.5);
+            robot.bLeftWheel.setPower(-.5);
+            sleep(degrees/45*650);
+            robot.fRightWheel.setPower(0);
+            robot.fLeftWheel.setPower(0);
+            robot.bRightWheel.setPower(0);
+            robot.bLeftWheel.setPower(0);
+        }
+    }
 
 
 }

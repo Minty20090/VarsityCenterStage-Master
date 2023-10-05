@@ -9,7 +9,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Vision.RedPropDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Vision.BluePropDetectionPipeline;
-import org.firstinspires.ftc.teamcode.Vision.PropDetectionPipeline.PropLocation;
+import org.firstinspires.ftc.teamcode.Vision.BluePropDetectionPipeline.BluePropLocation;
+import org.firstinspires.ftc.teamcode.Vision.RedPropDetectionPipeline.RedPropLocation;
+
 import org.firstinspires.ftc.teamcode.Vision.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -25,10 +27,21 @@ import org.firstinspires.ftc.teamcode.Projects.HWMap;
 public class OpenCV extends LinearOpMode{
     public HWMap robot = new HWMap();
     OpenCvCamera webcam;
+    // Lens intrinsics
+    // UNITS ARE PIXELS
+    // NOTE: this calibration is for the C920 webcam at 800x448.
+    // You will need to do your own calibration for other configurations!
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
 
     RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
     BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
-    AprilTagDetectionPipeline AprilTagDetectionPipeline = new AprilTagDetectionPipeline();
+    AprilTagDetectionPipeline AprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
     boolean propInRange = false;
     public ElapsedTime runTime = new ElapsedTime(); //sets up a timer in the program
 
@@ -97,17 +110,17 @@ public class OpenCV extends LinearOpMode{
         runTime.reset();
         while (propInRange == false) {
             if (c == Side.rBlue || c == Side.lBlue){
-                BluePropDetectionPipeline.PropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
-                if (elementLocation == PropLocation.RIGHT) {
+                BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
+                if (elementLocation == BluePropLocation.RIGHT) {
                     encoderDrive(0.25, -25, 25, -25, 25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.LEFT) {
+                } else if (elementLocation == BluePropLocation.LEFT) {
                     encoderDrive(0.25, 25, -25, 25, -25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.MIDDLE) {
+                } else if (elementLocation == BluePropLocation.MIDDLE) {
                     encoderDrive(0.25, 25, 25, 25, 25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.CLOSE) {
+                } else if (elementLocation == BluePropLocation.CLOSE) {
                     stop(1000);
                     propInRange = true;
                 } else {
@@ -116,17 +129,17 @@ public class OpenCV extends LinearOpMode{
                 }
             }
             else{
-                RedPropDetectionPipeline.PropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
-                if (elementLocation == PropLocation.RIGHT) {
+                RedPropDetectionPipeline.RedPropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
+                if (elementLocation == RedPropLocation.RIGHT) {
                     encoderDrive(0.25, -25, 25, -25, 25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.LEFT) {
+                } else if (elementLocation == RedPropLocation.LEFT) {
                     encoderDrive(0.25, 25, -25, 25, -25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.MIDDLE) {
+                } else if (elementLocation == RedPropLocation.MIDDLE) {
                     encoderDrive(0.25, 25, 25, 25, 25);
                     stop(1000);
-                } else if (elementLocation == PropLocation.CLOSE) {
+                } else if (elementLocation == RedPropLocation.CLOSE) {
                     stop(1000);
                     propInRange = true;
                 } else {

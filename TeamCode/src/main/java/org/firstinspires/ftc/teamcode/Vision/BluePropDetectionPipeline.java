@@ -14,7 +14,7 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
     //video frame of camera, is our input for processFrame()
     Mat mat = new Mat();
 
-    public enum PropLocation {
+    public enum BluePropLocation {
         LEFT,
         MIDDLE,
         RIGHT,
@@ -25,7 +25,7 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
     private boolean closeToPole = false;
 
 
-    private PropLocation elementLocation;
+    private BluePropLocation elementLocation;
 
     //defining regions of interest (ROI)
     //Divide the camera frame into three rectangles
@@ -84,22 +84,22 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
         right.release();
 
         if (Math.round(polePercentage * 100) > 60) {
-            elementLocation = PropLocation.CLOSE;
+            elementLocation = BluePropLocation.CLOSE;
         }
         else if(leftPercentage > middlePercentage && leftPercentage > rightPercentage){
-            elementLocation = PropLocation.LEFT;
+            elementLocation = BluePropLocation.LEFT;
         }
         else if(middlePercentage > leftPercentage && middlePercentage > rightPercentage){
-            elementLocation = PropLocation.MIDDLE;
+            elementLocation = BluePropLocation.MIDDLE;
         }
         else if(rightPercentage > leftPercentage && rightPercentage > middlePercentage){
-            elementLocation = PropLocation.RIGHT;
+            elementLocation = BluePropLocation.RIGHT;
         }
 //        else if(Math.round(polePercentage * 100) < 60){
 //            elementLocation = PropLocation.FAR;
 //        }
         else{
-            elementLocation = PropLocation.UNKNOWN;
+            elementLocation = BluePropLocation.UNKNOWN;
         }
 
         telemetry.addData("left percentage", Math.round(leftPercentage * 100) + "%");
@@ -116,7 +116,7 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
 
     }
 
-    public PropLocation getPropLocation(){
+    public BluePropLocation getPropLocation(){
         return elementLocation;
     }
 

@@ -38,13 +38,16 @@ public class OpenCV extends LinearOpMode{
 
     // UNITS ARE METERS
     double tagsize = 0.166;
+    int Left = 1;
+    int Middle = 2;
+    int Right = 3;
+    AprilTagDetection tagOfInterest = null;
 
     RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
     BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
     AprilTagDetectionPipeline AprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
     boolean propInRange = false;
     public ElapsedTime runTime = new ElapsedTime(); //sets up a timer in the program
-
 
     @Override
     public void runOpMode() {
@@ -79,6 +82,62 @@ public class OpenCV extends LinearOpMode{
         });
 
         telemetry.setMsTransmissionInterval(50);
+
+        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
+        if (currentDetections.size() != 0)
+        {
+            boolean tagFound = false;
+
+            for(AprilTagDetection tag : currentDetections)
+
+                if(tag.id == Left  || tag.id == Middle || tag.id == Right )
+                {
+                    tagOfInterest = tag;
+                    tagFound = true;
+                    break;
+                }
+
+            if(tagFound)
+            {
+                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                tagToTelemetry(tagOfInterest);
+            }
+            else
+            {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if(tagOfInterest == null)
+                {
+                    telemetry.addLine("(The tag has never been seen)");
+                }
+                else
+                {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+            }
+
+        }
+        else
+        {
+            telemetry.addLine("Don't see tag of interest\nlol, get better:(");
+
+            if(tagOfInterest == null)
+            {
+                telemetry.addLine("(The tag has never been seen in the history of this run, the records must be incomplete)");
+            }
+            else
+            {
+                telemetry.addLine("\nBut we thankfully HAVE seen the tag before; last seen at:");
+                tagToTelemetry(tagOfInterest);
+            }
+
+        }
+
+        telemetry.update();
+        sleep(20);
+
 
         waitForStart();
         switch(side) {
@@ -261,6 +320,9 @@ public class OpenCV extends LinearOpMode{
 //            robot.bLeftWheel.setPower(0);
 //        }
 //    }
-
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+    }
 
 }

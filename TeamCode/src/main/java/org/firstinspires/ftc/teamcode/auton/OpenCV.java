@@ -223,7 +223,7 @@ public class OpenCV extends LinearOpMode{
     public void stop(int time) {
 
         sleep(time);
-//    }
+   }
 //    public void moveRobot(int time) {
 //        robot.fLeftWheel.setPower(1);
 //        robot.fRightWheel.setPower(1);

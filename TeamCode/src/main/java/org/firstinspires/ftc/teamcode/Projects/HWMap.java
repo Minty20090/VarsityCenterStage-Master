@@ -15,6 +15,8 @@ public class HWMap extends Project{
     public Servo rClaw = null;
     public Servo lClaw = null;
     public Servo oClaw = null;
+    public Servo wrist = null;
+    public Servo stick = null;
     //public Servo wrist = null;
     //public DcMotor wrist = null;
 
@@ -25,12 +27,13 @@ public class HWMap extends Project{
     @Override
     public void init(HardwareMap hwMap) {
         // Get motors from hardware map
-        fLeftWheel = hwMap.dcMotor.get("fleft");
-        fRightWheel = hwMap.dcMotor.get("fright");
-        bLeftWheel = hwMap.dcMotor.get("bleft");
-        bRightWheel = hwMap.dcMotor.get("bright");
-//        slide = hwMap.dcMotor.get("slide");
-//        rClaw = hwMap.servo.get("rClaw");
+        fLeftWheel = hwMap.dcMotor.get("FrontLeft");
+        fRightWheel = hwMap.dcMotor.get("FrontRight");
+        bLeftWheel = hwMap.dcMotor.get("BackLeft");
+        bRightWheel = hwMap.dcMotor.get("BackRight");
+
+        wrist = hwMap.servo.get("Wrist");
+        stick = hwMap.servo.get("Stick");
 //        lClaw = hwMap.servo.get("lClaw");
 //        oClaw = hwMap.servo.get("oClaw");
         //wrist = hwMap.servo.get("wrist");

@@ -12,8 +12,11 @@ public class FleaFlickerMap extends Project{
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
     public DcMotor lift = null;
-    public Servo door = null;
-
+    public Servo gate = null;
+    public Servo clawR = null;
+    public Servo clawL = null;
+    public Servo intakeR = null;
+    public Servo intakeL = null;
 
     public WebcamName camera = null;
 
@@ -26,7 +29,12 @@ public class FleaFlickerMap extends Project{
         bLeftWheel = hwMap.dcMotor.get("bleft");
         bRightWheel = hwMap.dcMotor.get("bright");
         lift = hwMap.dcMotor.get("lift");
-        door = hwMap.servo.get("door");
+        gate = hwMap.servo.get("door");
+        clawR = hwMap.servo.get("clawR");
+        clawL = hwMap.servo.get("clawL");
+        intakeR = hwMap.servo.get("intakeR");
+        intakeL = hwMap.servo.get("intakeL");
+
 
 
 

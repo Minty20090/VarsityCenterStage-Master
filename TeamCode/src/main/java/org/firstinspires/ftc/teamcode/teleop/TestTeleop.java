@@ -42,7 +42,24 @@ public class TestTeleop extends LinearOpMode {
             robot.bRightWheel.setPower(backRightPower*speed);
 
             // Teleop Code goes here
+
+            // ============================================
+            //                     ICI
+            // ============================================
+            if (gamepad1.a) {
+                robot.stick.setPosition(0);
+            } else if (gamepad1.b) {
+                robot.stick.setPosition(1);
+            }
             
+            if (gamepad1.x) {
+                double currentPosition = robot.wrist.getPosition();
+                robot.wrist.setPosition(currentPosition + 5.00);
+            } else if (gamepad1.y) {
+                double currentPosition = robot.wrist.getPosition();
+                robot.wrist.setPosition(currentPosition - 5.00);
+            }
+
         }
 
     }

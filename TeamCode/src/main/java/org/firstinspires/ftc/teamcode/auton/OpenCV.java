@@ -49,9 +49,8 @@ public class OpenCV extends LinearOpMode{
     @Override
     public void runOpMode() {
         // robot.init(hardwareMap);
-
         RedPropDetectionPipeline propDetectionPipeline;
-        //Side c = Side.rBlue;
+        Side c = Side.rBlue;
         int side = 1;
         if(gamepad1.right_bumper == true){
             if(side<4) {
@@ -85,22 +84,22 @@ public class OpenCV extends LinearOpMode{
         switch(side) {
             case 1:
 
-               // c = Side.rBlue;
+                c = Side.rBlue;
 
                 break;
             case 2:
 
-                //c = Side.lBlue;
+                c = Side.lBlue;
 
                 break;
             case 3:
 
-                //c = Side.rRed;
+                c = Side.rRed;
 
                 break;
             case 4:
 
-               // c = Side.lRed;
+                c = Side.lRed;
 
                 break;
         }
@@ -110,7 +109,7 @@ public class OpenCV extends LinearOpMode{
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
         while (propInRange == false) {
-            if (side == 1 || side ==2){
+            if (c == Side.rBlue || c == Side.lBlue){
                 BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
 //                if (elementLocation == BluePropLocation.RIGHT) {
 //                    encoderDrive(0.25, -25, 25, -25, 25);

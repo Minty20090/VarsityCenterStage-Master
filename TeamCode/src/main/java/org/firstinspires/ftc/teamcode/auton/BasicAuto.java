@@ -5,24 +5,28 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 @Autonomous(name = "BasicAuto")
-enum Side {
-    rBlue,
-    lBlue,
-    rRed,
-    lRed
-}
+
 public class BasicAuto extends LinearOpMode{
 
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad previousGamepad1 = new Gamepad();
 
+
     public HWMap robot = new HWMap();
 
     @Override
     public void runOpMode() throws InterruptedException {
+       // enum Side {
+           // rBlue,
+          //  lBlue,
+           // rRed,
+          //  lRed
+        //}
+
+
         //initialize hardware map
         robot.init(hardwareMap);
-        Side c = Side.rBlue;
+       // Side c = Side.rBlue;
         int side = 1;
         if(gamepad1.right_bumper == true){
             if(side<4) {
@@ -33,9 +37,9 @@ public class BasicAuto extends LinearOpMode{
             }
         }
         switch(side){
-            case 1:c = Side.rBlue;
+            case 1:;
             break;
-            case 2:c = Side.lBlue;
+            case 2:
                 robot.fRightWheel.setPower(1);
                 robot.fLeftWheel.setPower(-1);
                 robot.bRightWheel.setPower(-1);
@@ -46,7 +50,7 @@ public class BasicAuto extends LinearOpMode{
                 robot.bRightWheel.setPower(0);
                 robot.bLeftWheel.setPower(0);
             break;
-            case 3:c = Side.rRed;
+            case 3:
                 robot.fRightWheel.setPower(-1);
                 robot.fLeftWheel.setPower(1);
                 robot.bRightWheel.setPower(1);
@@ -57,13 +61,14 @@ public class BasicAuto extends LinearOpMode{
                 robot.bRightWheel.setPower(0);
                 robot.bLeftWheel.setPower(0);
             break;
-            case 4:c = Side.lRed;
+            case 4:
 
             break;
         }
 
         while(!isStarted()){
             // only the ghost of programmers past know why tf this is set up this way
+            //ok boomer
             previousGamepad1.copy(currentGamepad1);
             currentGamepad1.copy(gamepad1);
         }

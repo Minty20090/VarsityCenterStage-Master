@@ -27,10 +27,6 @@ public class OpenCV extends LinearOpMode{
 
     // UNITS ARE METERS
     double tagsize = 0.166;
-    int Left = 1;
-    int Middle = 2;
-    int Right = 3;
-    AprilTagDetection tagOfInterest = null;
 
     RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
     BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
@@ -38,11 +34,12 @@ public class OpenCV extends LinearOpMode{
     boolean propInRange = false;
     public ElapsedTime runTime = new ElapsedTime(); //sets up a timer in the program
 
+
     @Override
     public void runOpMode() {
         // robot.init(hardwareMap);
-
-        Side c = Side.rBlue;
+        RedPropDetectionPipeline propDetectionPipeline;
+       // Side c = Side.rBlue;
         int side = 1;
         if(gamepad1.right_bumper == true){
             if(side<4) {
@@ -51,6 +48,12 @@ public class OpenCV extends LinearOpMode{
             else if(side == 4){
                 side = 1;
             }
+        }
+        switch(side){
+            case 1:telemetry.addLine("rBlue"); break;
+            case 2:telemetry.addLine("lBlue"); break;
+            case 3:telemetry.addLine("rRed"); break;
+            case 4:telemetry.addLine("lRed"); break;
         }
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -72,130 +75,51 @@ public class OpenCV extends LinearOpMode{
 
         telemetry.setMsTransmissionInterval(50);
 
-        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
-
-        if (currentDetections.size() != 0)
-        {
-            boolean tagFound = false;
-
-            for(AprilTagDetection tag : currentDetections)
-
-                if(tag.id == Left  || tag.id == Middle || tag.id == Right )
-                {
-                    tagOfInterest = tag;
-                    tagFound = true;
-                    break;
-                }
-
-            if(tagFound)
-            {
-                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                tagToTelemetry(tagOfInterest);
-            }
-            else
-            {
-                telemetry.addLine("Don't see tag of interest :(");
-
-                if(tagOfInterest == null)
-                {
-                    telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
-                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                    tagToTelemetry(tagOfInterest);
-                }
-            }
-
-        }
-        else
-        {
-            telemetry.addLine("Don't see tag of interest\nlol, get better:(");
-
-            if(tagOfInterest == null)
-            {
-                telemetry.addLine("(The tag has never been seen in the history of this run, the records must be incomplete)");
-            }
-            else
-            {
-                telemetry.addLine("\nBut we thankfully HAVE seen the tag before; last seen at:");
-                tagToTelemetry(tagOfInterest);
-            }
-
-        }
-
-        telemetry.update();
-        sleep(20);
-
-
         waitForStart();
-        switch(side) {
-            case 1:
 
-                c = Side.rBlue;
-
-                break;
-            case 2:
-
-                c = Side.lBlue;
-
-                break;
-            case 3:
-
-                c = Side.rRed;
-
-                break;
-            case 4:
-
-                c = Side.lRed;
-
-                break;
-        }
 
 
         //NEEDS TO BE FIXED
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
-        while (propInRange == false) {
-            if (c == Side.rBlue || c == Side.lBlue){
+        while (propInRange == false n) {
+            if (side ==1 || side == 2){
                 BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
-                webcam.setPipeline(BluePropDetectionPipeline);
-//                if (elementLocation == BluePropLocation.RIGHT) {
-//                    encoderDrive(0.25, -25, 25, -25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.LEFT) {
-//                    encoderDrive(0.25, 25, -25, 25, -25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.MIDDLE) {
-//                    encoderDrive(0.25, 25, 25, 25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.CLOSE) {
-//                    stop(1000);
-//                    propInRange = true;
-//                } else {
-//                    encoderDrive(0.25, -25, -25, -25, -25);
-//                    stop(1000);
-//                }
+               if (elementLocation == BluePropLocation.RIGHT) {
+                    telemetry.addLine("right");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.LEFT) {
+                   telemetry.addLine("left");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.MIDDLE) {
+                   telemetry.addLine("middle");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+
+                    stop(1000);
+                }
             }
             else{
                 RedPropDetectionPipeline.RedPropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
-                webcam.setPipeline(RedPropDetectionPipeline);
-//                if (elementLocation == RedPropLocation.RIGHT) {
-//                    encoderDrive(0.25, -25, 25, -25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.LEFT) {
-//                    encoderDrive(0.25, 25, -25, 25, -25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.MIDDLE) {
-//                    encoderDrive(0.25, 25, 25, 25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.CLOSE) {
-//                    stop(1000);
-//                    propInRange = true;
-//                } else {
-//                    encoderDrive(0.25, -25, -25, -25, -25);
-//                    stop(1000);
-//                }
+                if (elementLocation == RedPropLocation.RIGHT) {
+                    encoderDrive(0.25, -25, 25, -25, 25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.LEFT) {
+                    encoderDrive(0.25, 25, -25, 25, -25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.MIDDLE) {
+                    encoderDrive(0.25, 25, 25, 25, 25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+                    encoderDrive(0.25, -25, -25, -25, -25);
+                    stop(1000);
+                }
             }
 
         }
@@ -309,9 +233,6 @@ public class OpenCV extends LinearOpMode{
 //            robot.bLeftWheel.setPower(0);
 //        }
 //    }
-    void tagToTelemetry(AprilTagDetection detection)
-    {
-        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-    }
+
 
 }

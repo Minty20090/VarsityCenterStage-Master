@@ -66,7 +66,7 @@ public class HWMap extends Project{
         //wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Get webcam from hardware map
-//        camera = hwMap.get(WebcamName.class, "camera");
+       camera = hwMap.get(WebcamName.class, "camera");
 
         Stop();
     }

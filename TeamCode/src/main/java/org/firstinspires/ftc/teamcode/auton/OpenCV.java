@@ -50,7 +50,7 @@ public class OpenCV extends LinearOpMode{
     public void runOpMode() {
         // robot.init(hardwareMap);
         RedPropDetectionPipeline propDetectionPipeline;
-        Side c = Side.rBlue;
+       // Side c = Side.rBlue;
         int side = 1;
         if(gamepad1.right_bumper == true){
             if(side<4) {
@@ -59,6 +59,12 @@ public class OpenCV extends LinearOpMode{
             else if(side == 4){
                 side = 1;
             }
+        }
+        switch(side){
+            case 1:telemetry.addLine("rBlue"); break;
+            case 2:telemetry.addLine("lBlue"); break;
+            case 3:telemetry.addLine("rRed"); break;
+            case 4:telemetry.addLine("lRed"); break;
         }
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -81,71 +87,50 @@ public class OpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         waitForStart();
-        switch(side) {
-            case 1:
 
-                c = Side.rBlue;
-
-                break;
-            case 2:
-
-                c = Side.lBlue;
-
-                break;
-            case 3:
-
-                c = Side.rRed;
-
-                break;
-            case 4:
-
-                c = Side.lRed;
-
-                break;
-        }
 
 
         //NEEDS TO BE FIXED
         // DRIVE TO AND LINE UP WITH POLE
         runTime.reset();
-        while (propInRange == false) {
-            if (c == Side.rBlue || c == Side.lBlue){
+        while (propInRange == false n) {
+            if (side ==1 || side == 2){
                 BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
-//                if (elementLocation == BluePropLocation.RIGHT) {
-//                    encoderDrive(0.25, -25, 25, -25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.LEFT) {
-//                    encoderDrive(0.25, 25, -25, 25, -25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.MIDDLE) {
-//                    encoderDrive(0.25, 25, 25, 25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == BluePropLocation.CLOSE) {
-//                    stop(1000);
-//                    propInRange = true;
-//                } else {
-//                    encoderDrive(0.25, -25, -25, -25, -25);
-//                    stop(1000);
-//                }
+               if (elementLocation == BluePropLocation.RIGHT) {
+                    telemetry.addLine("right");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.LEFT) {
+                   telemetry.addLine("left");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.MIDDLE) {
+                   telemetry.addLine("middle");
+                    stop(1000);
+                } else if (elementLocation == BluePropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+
+                    stop(1000);
+                }
             }
             else{
                 RedPropDetectionPipeline.RedPropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
-//                if (elementLocation == RedPropLocation.RIGHT) {
-//                    encoderDrive(0.25, -25, 25, -25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.LEFT) {
-//                    encoderDrive(0.25, 25, -25, 25, -25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.MIDDLE) {
-//                    encoderDrive(0.25, 25, 25, 25, 25);
-//                    stop(1000);
-//                } else if (elementLocation == RedPropLocation.CLOSE) {
-//                    stop(1000);
-//                    propInRange = true;
-//                } else {
-//                    encoderDrive(0.25, -25, -25, -25, -25);
-//                    stop(1000);
-//                }
+                if (elementLocation == RedPropLocation.RIGHT) {
+                    encoderDrive(0.25, -25, 25, -25, 25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.LEFT) {
+                    encoderDrive(0.25, 25, -25, 25, -25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.MIDDLE) {
+                    encoderDrive(0.25, 25, 25, 25, 25);
+                    stop(1000);
+                } else if (elementLocation == RedPropLocation.CLOSE) {
+                    stop(1000);
+                    propInRange = true;
+                } else {
+                    encoderDrive(0.25, -25, -25, -25, -25);
+                    stop(1000);
+                }
             }
 
         }

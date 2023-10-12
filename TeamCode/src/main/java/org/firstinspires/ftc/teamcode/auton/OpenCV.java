@@ -9,7 +9,10 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
+import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
+import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
 import java.util.ArrayList;
 
 @Autonomous
@@ -39,28 +42,38 @@ public class OpenCV extends LinearOpMode{
     public void runOpMode() {
         // robot.init(hardwareMap);
         RedPropDetectionPipeline propDetectionPipeline;
-       // Side c = Side.rBlue;
+        // Side c = Side.rBlue;
         int side = 1;
-        if(gamepad1.right_bumper == true){
-            if(side<4) {
+        if (gamepad1.right_bumper == true) {
+            if (side < 4) {
                 side++;
-            }
-            else if(side == 4){
+            } else if (side == 4) {
                 side = 1;
             }
         }
-        switch(side){
-            case 1:telemetry.addLine("rBlue"); break;
-            case 2:telemetry.addLine("lBlue"); break;
-            case 3:telemetry.addLine("rRed"); break;
-            case 4:telemetry.addLine("lRed"); break;
+        switch (side) {
+            case 1:
+                telemetry.addLine("rBlue");
+                telemetry.update();
+                break;
+            case 2:
+                telemetry.addLine("lBlue");
+                telemetry.update();
+                break;
+            case 3:
+                telemetry.addLine("rRed");
+                telemetry.update();
+                break;
+            case 4:
+                telemetry.addLine("lRed");
+                telemetry.update();
+                break;
         }
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
 
-        webcam.setPipeline(AprilTagDetectionPipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -75,70 +88,48 @@ public class OpenCV extends LinearOpMode{
 
         telemetry.setMsTransmissionInterval(50);
 
-        waitForStart();
-
-
-
-        //NEEDS TO BE FIXED
-        // DRIVE TO AND LINE UP WITH POLE
-        runTime.reset();
-        while (propInRange == false n) {
-            if (side ==1 || side == 2){
+        while (!isStarted() && !isStopRequested()) {
+            //NEEDS TO BE FIXED
+            // DRIVE TO AND LINE UP WITH POLE
+            runTime.reset();
+            if (side == 1 || side == 2) {
+                webcam.setPipeline(BluePropDetectionPipeline);
                 BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
-               if (elementLocation == BluePropLocation.RIGHT) {
+                if (elementLocation == BluePropLocation.RIGHT) {
                     telemetry.addLine("right");
-                    stop(1000);
+                    telemetry.update();
                 } else if (elementLocation == BluePropLocation.LEFT) {
-                   telemetry.addLine("left");
-                    stop(1000);
+                    telemetry.addLine("left");
+                    telemetry.update();
                 } else if (elementLocation == BluePropLocation.MIDDLE) {
-                   telemetry.addLine("middle");
-                    stop(1000);
-                } else if (elementLocation == BluePropLocation.CLOSE) {
-                    stop(1000);
-                    propInRange = true;
+                    telemetry.addLine("middle");
+                    telemetry.update();
                 } else {
 
-                    stop(1000);
                 }
-            }
-            else{
+            } else {
+                webcam.setPipeline(RedPropDetectionPipeline);
                 RedPropDetectionPipeline.RedPropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
                 if (elementLocation == RedPropLocation.RIGHT) {
-                    encoderDrive(0.25, -25, 25, -25, 25);
-                    stop(1000);
+                    telemetry.addLine("right");
+                    telemetry.update();
                 } else if (elementLocation == RedPropLocation.LEFT) {
-                    encoderDrive(0.25, 25, -25, 25, -25);
-                    stop(1000);
+                    telemetry.addLine("left");
+                    telemetry.update();
                 } else if (elementLocation == RedPropLocation.MIDDLE) {
-                    encoderDrive(0.25, 25, 25, 25, 25);
-                    stop(1000);
-                } else if (elementLocation == RedPropLocation.CLOSE) {
-                    stop(1000);
-                    propInRange = true;
+                    telemetry.addLine("middle");
+                    telemetry.update();
                 } else {
-                    encoderDrive(0.25, -25, -25, -25, -25);
-                    stop(1000);
+                   
                 }
             }
 
-        }
+            while (opModeIsActive()) {
+                sleep(20);
+            }
 
-
-        if (propInRange == true) {
-            encoderDrive(0.25, -25, 25, -25, 25);
-            stop(2000);
 
         }
-
-
-
-
-        while (opModeIsActive()) {
-            sleep(20);
-        }
-
-
     }
 
 

@@ -33,11 +33,11 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
     //which are connected by the diagonals
     static final Rect leftROI = new Rect(
             new Point( 0, 0),
-            new Point(500, 700)
+            new Point(400, 700)
     );
     //middleROI is really small to make sure our robot is aligned with the robot
     static final Rect middleROI = new Rect(
-            new Point( 500, 0),
+            new Point( 400, 0),
             new Point(800, 700)
     );
     static final Rect rightROI = new Rect(
@@ -56,11 +56,11 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
         //HSV = hue(color), saturation(intensity), value (brightness)
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        //define HSV range to identify the color red
-        Scalar lowHSV = new Scalar (0, 100, 100);
-        Scalar highHSV = new Scalar(10, 255, 255);
+        //define HSV range to identify the color blue
+        Scalar lowHSV = new Scalar (110,50,50);
+        Scalar highHSV = new Scalar(130,255,255);
 
-        //applies a threshold (everything that is red will be white,
+        //applies a threshold (everything that is blue will be white,
         // everything else will be black)
         //returns a new mat with this threshold
         Core.inRange(mat,lowHSV, highHSV, mat);
@@ -101,12 +101,11 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
         else{
             elementLocation = BluePropLocation.UNKNOWN;
         }
-
+        telemetry.addData("element location: ", elementLocation );
         telemetry.addData("left percentage", Math.round(leftPercentage * 100) + "%");
         telemetry.addData("middle percentage", Math.round(middlePercentage * 100) + "%");
         telemetry.addData("right percentage", Math.round(rightPercentage * 100) + "%");
         telemetry.addData("total pole percentage", Math.round(polePercentage * 100) + "%");
-        telemetry.addData("Pole Location", elementLocation);
         //telemetry.addData("total pole percentage", polePercentage);
 
 

@@ -33,11 +33,10 @@ public class RedPropDetectionPipeline extends OpenCvPipeline {
     //which are connected by the diagonals
     static final Rect leftROI = new Rect(
             new Point( 0, 0),
-            new Point(500, 700)
+            new Point(400, 700)
     );
-    //middleROI is really small to make sure our robot is aligned with the robot
     static final Rect middleROI = new Rect(
-            new Point( 500, 0),
+            new Point( 400, 0),
             new Point(800, 700)
     );
     static final Rect rightROI = new Rect(
@@ -102,11 +101,11 @@ public class RedPropDetectionPipeline extends OpenCvPipeline {
             elementLocation = RedPropLocation.UNKNOWN;
         }
 
+        telemetry.addData("element location: ", elementLocation );
         telemetry.addData("left percentage", Math.round(leftPercentage * 100) + "%");
         telemetry.addData("middle percentage", Math.round(middlePercentage * 100) + "%");
         telemetry.addData("right percentage", Math.round(rightPercentage * 100) + "%");
         telemetry.addData("total pole percentage", Math.round(polePercentage * 100) + "%");
-        telemetry.addData("Pole Location", elementLocation);
         //telemetry.addData("total pole percentage", polePercentage);
 
 

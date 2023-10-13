@@ -35,7 +35,6 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
             new Point( 0, 0),
             new Point(400, 700)
     );
-    //middleROI is really small to make sure our robot is aligned with the robot
     static final Rect middleROI = new Rect(
             new Point( 400, 0),
             new Point(800, 700)

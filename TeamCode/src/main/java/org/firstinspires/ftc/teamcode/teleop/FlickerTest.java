@@ -66,6 +66,14 @@ public class FlickerTest extends LinearOpMode {
         }
 
     }
+    public void showEncoderCounts(int fleft, int fright, int bleft, int bright, int slide){
+        telemetry.addData("F Left: ", Integer.toString(fleft));
+        telemetry.addData("F Right: ", Integer.toString(fright));
+        telemetry.addData("B Left: ", Integer.toString(bleft));
+        telemetry.addData("B Right: ", Integer.toString(bright));
+        telemetry.addData("slide: ", Integer.toString(slide));
+    }
+
 
 }
 

@@ -96,7 +96,7 @@ public class OpenCV extends LinearOpMode{
                 webcam.setPipeline(BluePropDetectionPipeline);
                 BluePropDetectionPipeline.BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
                 if (elementLocation == BluePropLocation.RIGHT) {
-                    telemetry.addLine("right");
+
                     telemetry.update();
                 } else if (elementLocation == BluePropLocation.LEFT) {
                     telemetry.addLine("left");
@@ -189,7 +189,9 @@ public class OpenCV extends LinearOpMode{
 
         sleep(time);
    }
-//    public void moveRobot(int time) {
+
+//
+//     public void moveRobot(int time){
 //        robot.fLeftWheel.setPower(1);
 //        robot.fRightWheel.setPower(1);
 //        robot.bLeftWheel.setPower(1);

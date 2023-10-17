@@ -24,16 +24,16 @@ public class FleaFlickerMap extends Project{
     @Override
     public void init(HardwareMap hwMap) {
         // Get motors from hardware map
-        fLeftWheel = hwMap.dcMotor.get("fleft");
-        fRightWheel = hwMap.dcMotor.get("fright");
-        bLeftWheel = hwMap.dcMotor.get("bleft");
-        bRightWheel = hwMap.dcMotor.get("bright");
+        fLeftWheel = hwMap.dcMotor.get("FrontLeft");
+        fRightWheel = hwMap.dcMotor.get("FrontRight");
+        bLeftWheel = hwMap.dcMotor.get("BackLeft");
+        bRightWheel = hwMap.dcMotor.get("BackRight");
         lift = hwMap.dcMotor.get("lift");
-        gate = hwMap.servo.get("door");
-        clawR = hwMap.servo.get("clawR");
-        clawL = hwMap.servo.get("clawL");
-        intakeR = hwMap.servo.get("intakeR");
-        intakeL = hwMap.servo.get("intakeL");
+//        gate = hwMap.servo.get("door");
+//        clawR = hwMap.servo.get("clawR");
+//        clawL = hwMap.servo.get("clawL");
+//        intakeR = hwMap.servo.get("intakeR");
+//        intakeL = hwMap.servo.get("intakeL");
 
 
 
@@ -50,7 +50,7 @@ public class FleaFlickerMap extends Project{
         fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set brakes
         fRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

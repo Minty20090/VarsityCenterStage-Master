@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
+import org.firstinspires.ftc.teamcode.auton.OpenCV;
 @Autonomous(name = "BasicAuto")
 
 public class BasicAuto extends LinearOpMode{
@@ -86,8 +88,8 @@ public class BasicAuto extends LinearOpMode{
         robot.bRightWheel.setPower(0);
 
     }
-    public static void forward (int power, int time){
-       /*
+    public void forward (double power, int time){
+
         robot.fLeftWheel.setPower(power);
         robot.fRightWheel.setPower(power);
         robot.bLeftWheel.setPower(power);
@@ -98,6 +100,37 @@ public class BasicAuto extends LinearOpMode{
         robot.bLeftWheel.setPower(0);
         robot.bRightWheel.setPower(0);
 
-        */
+
+    }
+    public void turn(int time, double direction){
+        robot.fLeftWheel.setPower(direction);
+        robot.fRightWheel.setPower(-direction);
+        robot.bLeftWheel.setPower(direction);
+        robot.bRightWheel.setPower(-direction);
+        sleep(time);
+    }
+    public void drop(){
+       // robot.lift.setPosition(0);
+       // robot.gate.setPosition(0);
+    }
+
+    public void spike(String location) {
+        if (location == "Middle") {
+            System.out.println("bet");
+            forward(.8,1000);
+            //arm stuff
+        }
+        else if(location == "Right"){
+            forward(.8,1000);
+            turn(1,-.8);
+            //arm stuff
+        }
+        else if(location == "Left"){
+            forward(.8,1000);
+            turn(1,-.8);
+            //arm stuff
+        }
     }
 }
+
+

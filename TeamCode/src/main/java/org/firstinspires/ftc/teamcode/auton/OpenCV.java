@@ -5,19 +5,22 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
+import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.teamcode.auton.BasicAuto;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
 import java.util.ArrayList;
 
 @Autonomous
 public class OpenCV extends LinearOpMode{
-    // public HWMap robot = new HWMap();
+     public FleaFlickerMap robot = new FleaFlickerMap();
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -30,6 +33,7 @@ public class OpenCV extends LinearOpMode{
 
     // UNITS ARE METERS
     double tagsize = 0.166;
+    public String location = "Middle";
 
     RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
     BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
@@ -98,12 +102,15 @@ public class OpenCV extends LinearOpMode{
                 if (elementLocation == BluePropLocation.RIGHT) {
                     telemetry.addLine("right");
                     telemetry.update();
+                    location = "Right";
                 } else if (elementLocation == BluePropLocation.LEFT) {
                     telemetry.addLine("left");
                     telemetry.update();
+                    location = "Left";
                 } else if (elementLocation == BluePropLocation.MIDDLE) {
                     telemetry.addLine("middle");
                     telemetry.update();
+                    location = "Middle";
                 } else {
 
                 }
@@ -113,15 +120,19 @@ public class OpenCV extends LinearOpMode{
                 if (elementLocation == RedPropLocation.RIGHT) {
                     telemetry.addLine("right");
                     telemetry.update();
+                    location = "Right";
                 } else if (elementLocation == RedPropLocation.LEFT) {
                     telemetry.addLine("left");
                     telemetry.update();
+                    location = "Left";
                 } else if (elementLocation == RedPropLocation.MIDDLE) {
                     telemetry.addLine("middle");
                     telemetry.update();
+                    location = "Middle"
                 } else {
 
                 }
+
             }
 
             while (opModeIsActive()) {
@@ -132,7 +143,50 @@ public class OpenCV extends LinearOpMode{
         }
     }
 
+    public void forward (double power, int time){
 
+        robot.fLeftWheel.setPower(power);
+        robot.fRightWheel.setPower(power);
+        robot.bLeftWheel.setPower(power);
+        robot.bRightWheel.setPower(power);
+        sleep(time);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+
+
+    }
+    public void turn(int time, double direction){
+        robot.fLeftWheel.setPower(direction);
+        robot.fRightWheel.setPower(-direction);
+        robot.bLeftWheel.setPower(direction);
+        robot.bRightWheel.setPower(-direction);
+        sleep(time);
+    }
+    public void drop(){
+         robot.lift.setPosition(0);
+        robot.lift.setPower(.8);
+        robot.gate.setPosition(0);
+    }
+    public void spike(String location) {
+        if (location == "Middle") {
+            System.out.println("bet");
+            forward(.8,1000);
+            drop();
+
+        }
+        else if(location == "Right"){
+            forward(.8,1000);
+            turn(1,-.8);
+            drop();
+        }
+        else if(location == "Left"){
+            forward(.8,1000);
+            turn(1,-.8);
+            drop();
+        }
+    }
     //encoder method
     public void encoderDrive(double speed,
                              double frontLeftCounts, double frontRightCounts, double backLeftCounts, double backRightCounts) {
@@ -189,41 +243,5 @@ public class OpenCV extends LinearOpMode{
 
         sleep(time);
    }
-//    public void moveRobot(int time) {
-//        robot.fLeftWheel.setPower(1);
-//        robot.fRightWheel.setPower(1);
-//        robot.bLeftWheel.setPower(1);
-//        robot.bRightWheel.setPower(1);
-//        sleep(time);
-//        robot.fLeftWheel.setPower(0);
-//        robot.fRightWheel.setPower(0);
-//        robot.bLeftWheel.setPower(0);
-//        robot.bRightWheel.setPower(0);
-//    }
-//    public void turnRobot(String direction, int degrees) {
-//        if (direction == "right") {
-//            robot.fRightWheel.setPower(-.5);
-//            robot.bRightWheel.setPower(-.5);
-//            robot.fLeftWheel.setPower(.5);
-//            robot.bLeftWheel.setPower(.5);
-//            sleep(degrees/45*500);
-//            robot.fRightWheel.setPower(0);
-//            robot.fLeftWheel.setPower(0);
-//            robot.bRightWheel.setPower(0);
-//            robot.bLeftWheel.setPower(0);
-//        }
-//        if (direction == "left") {
-//            robot.fRightWheel.setPower(.5);
-//            robot.bRightWheel.setPower(.5);
-//            robot.fLeftWheel.setPower(-.5);
-//            robot.bLeftWheel.setPower(-.5);
-//            sleep(degrees/45*650);
-//            robot.fRightWheel.setPower(0);
-//            robot.fLeftWheel.setPower(0);
-//            robot.bRightWheel.setPower(0);
-//            robot.bLeftWheel.setPower(0);
-//        }
-//    }
-
 
 }

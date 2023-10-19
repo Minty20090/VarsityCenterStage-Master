@@ -42,11 +42,25 @@ public class FlickerTest extends LinearOpMode {
             double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
+            double fLeftTime, bLeftTime, fRightTime, bRightTime;
 
             robot.fLeftWheel.setPower(frontLeftPower*speed);
             robot.bLeftWheel.setPower(backLeftPower*speed);
             robot.fRightWheel.setPower(frontRightPower*speed);
             robot.bRightWheel.setPower(backRightPower*speed);
+
+            if (robot.fLeftWheel.getPower() != 0) {
+                
+            }
+            if (robot.fRightWheel.getPower() != 0) {
+
+            }
+            if (robot.bLeftWheel.getPower() != 0) {
+
+            }
+            if (robot.bRightWheel.getPower() != 0) {
+
+            }
 
             // Teleop Code goes here
 

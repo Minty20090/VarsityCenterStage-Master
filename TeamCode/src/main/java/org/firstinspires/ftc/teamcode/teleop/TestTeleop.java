@@ -44,6 +44,14 @@ public class TestTeleop extends LinearOpMode {
 
             // Teleop Code goes here
 
+            // show wheel encoder values in telemetry
+            telemetry.addData("fLeftWheel", robot.fLeftWheel.getCurrentPosition());
+            telemetry.addData("fRightWheel", robot.fRightWheel.getCurrentPosition());
+            telemetry.addData("bLeftWheel", robot.bLeftWheel.getCurrentPosition());
+            telemetry.addData("bRightWheel", robot.bRightWheel.getCurrentPosition());
+
+
+
             // ============================================
             //                     ICI
             // ============================================

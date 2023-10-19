@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 
-@TeleOp(name = "TestTeleop")
-public class TestTeleop extends LinearOpMode {
+@TeleOp(name = "encoderTest")
+public class encoderTest extends LinearOpMode {
     public HWMap robot = new HWMap();
 
 

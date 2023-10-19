@@ -133,7 +133,7 @@ public class OpenCV extends LinearOpMode{
                 } else if (elementLocation == RedPropLocation.MIDDLE) {
                     telemetry.addLine("middle");
                     telemetry.update();
-                    location = "Middle"
+                    location = "Middle";
 
                 } else {
 
@@ -270,10 +270,15 @@ public class OpenCV extends LinearOpMode{
 
 
     public void tiles(int tiles){
-        robot.fLeftWheel.setTargetPosition(3000);
-        robot.fRightWheel.setTargetPosition(3000);
-        robot.bLeftWheel.setTargetPosition(3000);
-        robot.bRightWheel.setTargetPosition(3000);
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+
+        robot.fLeftWheel.setTargetPosition(fleft + tiles * 3000);
+        robot.fRightWheel.setTargetPosition(fright+tiles * 3000);
+        robot.bLeftWheel.setTargetPosition(bleft+tiles * 3000);
+        robot.bRightWheel.setTargetPosition(bright+ tiles * 3000);
         robot.fLeftWheel.setPower(.8);
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);

@@ -93,8 +93,7 @@ public class OpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         while (!isStarted() && !isStopRequested()) {
-            //NEEDS TO BE FIXED
-            // DRIVE TO AND LINE UP WITH POLE
+
             runTime.reset();
             if (side == 1 || side == 2) {
                 webcam.setPipeline(BluePropDetectionPipeline);
@@ -161,26 +160,38 @@ public class OpenCV extends LinearOpMode{
 
 
 
-    public void forward (double power, int time){
 
-        robot.fLeftWheel.setPower(power);
-        robot.fRightWheel.setPower(power);
-        robot.bLeftWheel.setPower(power);
-        robot.bRightWheel.setPower(power);
-        sleep(time);
-        robot.fLeftWheel.setPower(0);
-        robot.fRightWheel.setPower(0);
-        robot.bLeftWheel.setPower(0);
-        robot.bRightWheel.setPower(0);
+    public void turn(int degrees, double direction){
+        int turnCoefficient = 3000;
+        String turn;
 
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+        if (direction < 0) {
+            turn = "left";
+        }
+        else {
+            turn = "right";
+        }
 
-    }
-    public void turn(int time, double direction){
-        robot.fLeftWheel.setPower(direction);
-        robot.fRightWheel.setPower(-direction);
-        robot.bLeftWheel.setPower(direction);
-        robot.bRightWheel.setPower(-direction);
-        sleep(time);
+        if (turn == "left") {
+            robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
+            robot.fRightWheel.setTargetPosition((int) (fright+degrees/90 * turnCoefficient));
+            robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
+            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));
+        }
+        if (turn == "right") {
+            robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
+            robot.fRightWheel.setTargetPosition((int) (fright+degrees/90 * turnCoefficient));
+            robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
+            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));
+        }
+        robot.fLeftWheel.setPower(.8);
+        robot.fRightWheel.setPower(.8);
+        robot.bLeftWheel.setPower(.8);
+        robot.bRightWheel.setPower(.8);
     }
     public void drop(){
          robot.lift.setTargetPosition(0);

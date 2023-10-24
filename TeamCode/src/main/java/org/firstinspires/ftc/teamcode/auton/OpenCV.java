@@ -153,6 +153,14 @@ public class OpenCV extends LinearOpMode{
                 if(side==2){
                     //Blue Stage
                     spikeB(location);
+                    tiles(-1);
+                    turn(90,.8);
+                    tiles(1);
+                    turn(90,-.8);
+                    tiles(2);
+                    turn(90,.8);
+                    tiles(3);
+
                 }
                 if(side==3){
                     //Red backstage
@@ -164,6 +172,13 @@ public class OpenCV extends LinearOpMode{
                 else {
                     //Red stage - Far
                     spikeR(location);
+                    tiles(-1);
+                    turn(90,-.8);
+                    tiles(1);
+                    turn(90,.8);
+                    tiles(2);
+                    turn(90,-.8);
+                    tiles(3);
                 }
 
 

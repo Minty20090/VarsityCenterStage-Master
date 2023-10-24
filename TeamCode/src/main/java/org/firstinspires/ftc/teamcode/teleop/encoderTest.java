@@ -17,14 +17,22 @@ public class encoderTest extends LinearOpMode {
         robot.init(hardwareMap);
 
 
-        double speed = .9;
+        double speed = .7;
 
         waitForStart();
         boolean isSpinning = false;
+        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         while (opModeIsActive()) {
 
-            double y = gamepad1.left_stick_y; // Remember, this is reversed!
+            double y = gamepad1.left_stick_y ; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
 
@@ -37,6 +45,7 @@ public class encoderTest extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
+
             robot.fLeftWheel.setPower(frontLeftPower*speed);
             robot.bLeftWheel.setPower(backLeftPower*speed);
             robot.fRightWheel.setPower(frontRightPower*speed);
@@ -44,14 +53,33 @@ public class encoderTest extends LinearOpMode {
 
             // Teleop Code goes here
 
-            telemetry.addData("F Left: ", robot.fLeftWheel.getCurrentPosition());
-            telemetry.addData("F Right: ", robot.fRightWheel.getCurrentPosition());
-            telemetry.addData("B Left: ", robot.bLeftWheel.getCurrentPosition());
-            telemetry.addData("B Right: ", robot.bRightWheel.getCurrentPosition());
-            telemetry.addData("slide: ", robot.slide.getCurrentPosition());
+            telemetry.addData("Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getCurrentPosition(), robot.fLeftWheel.getCurrentPosition(), robot.bRightWheel.getCurrentPosition(), robot.fRightWheel.getCurrentPosition());
             telemetry.update();
 
-
+            if (gamepad1.a) {
+                robot.fLeftWheel.setPower(.5);
+                robot.bLeftWheel.setPower(.5);
+                robot.fRightWheel.setPower(.5);
+                robot.bRightWheel.setPower(.5);
+            }
+            else if (gamepad1.b){
+                robot.fLeftWheel.setPower(-.5);
+                robot.bLeftWheel.setPower(.5);
+                robot.fRightWheel.setPower(-.5);
+                robot.bRightWheel.setPower(.5);
+            }
+            else if (gamepad1.x){
+                robot.fLeftWheel.setPower(.5);
+                robot.bLeftWheel.setPower(-.5);
+                robot.fRightWheel.setPower(.5);
+                robot.bRightWheel.setPower(-.5);
+            }
+            else{
+                robot.fLeftWheel.setPower(0);
+                robot.bLeftWheel.setPower(0);
+                robot.fRightWheel.setPower(0);
+                robot.bRightWheel.setPower(0);
+            }
 
         }
 

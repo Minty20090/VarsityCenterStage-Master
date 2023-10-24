@@ -146,6 +146,7 @@ public class OpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue backstage
                     spikeB(location);
+                    tiles(-.75);
                 }
                 if(side==2){
                     //Blue Stage
@@ -268,16 +269,16 @@ public class OpenCV extends LinearOpMode{
 
 
 
-    public void tiles(int tiles){
+    public void tiles(double tiles){
         int fleft = robot.fLeftWheel.getCurrentPosition();
         int bleft = robot.bLeftWheel.getCurrentPosition();
         int bright = robot.bRightWheel.getCurrentPosition();
         int fright = robot.fRightWheel.getCurrentPosition();
 
-        robot.fLeftWheel.setTargetPosition(fleft + tiles * 3000);
-        robot.fRightWheel.setTargetPosition(fright+tiles * 3000);
-        robot.bLeftWheel.setTargetPosition(bleft+tiles * 3000);
-        robot.bRightWheel.setTargetPosition(bright+ tiles * 3000);
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * 3000));
+        robot.fRightWheel.setTargetPosition((int)(fright+tiles * 3000));
+        robot.bLeftWheel.setTargetPosition((int)(bleft+tiles * 3000));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * 3000));
         robot.fLeftWheel.setPower(.8);
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);

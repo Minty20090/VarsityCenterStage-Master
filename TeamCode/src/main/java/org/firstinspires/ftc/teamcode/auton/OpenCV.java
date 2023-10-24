@@ -170,10 +170,10 @@ public class OpenCV extends LinearOpMode{
         int bright = robot.bRightWheel.getCurrentPosition();
         int fright = robot.fRightWheel.getCurrentPosition();
         if (direction < 0) {
-            turn = "left";
+            turn = "right";
         }
         else {
-            turn = "right";
+            turn = "left";
         }
 
         if (turn == "left") {
@@ -188,6 +188,7 @@ public class OpenCV extends LinearOpMode{
             robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
             robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));
         }
+
         robot.fLeftWheel.setPower(.8);
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
@@ -198,16 +199,16 @@ public class OpenCV extends LinearOpMode{
         robot.lift.setPower(.8);
         robot.gate.setPosition(0);
     }
-    public void spikeB(String location) {
+    public void spikeB(String location) { // blue
         if (location == "Middle") {
             System.out.println("bet");
             tiles(1);
             sleep(500);
             drop();
             tiles(1);
-            turn(1,-.8);
+            turn(90,-.8);
             tiles(3);
-            turn(750, -.8);
+            turn(45, -.8);
             tiles(2);
 
 
@@ -217,6 +218,7 @@ public class OpenCV extends LinearOpMode{
             turn(1,-.8);
             sleep(500);
             drop();
+            tiles(-1);
             turn(1,.8);
             tiles(1);
             turn(1,-.8);

@@ -49,6 +49,7 @@ public class encoderTest extends LinearOpMode {
             telemetry.addData("B Left: ", robot.bLeftWheel.getCurrentPosition());
             telemetry.addData("B Right: ", robot.bRightWheel.getCurrentPosition());
             telemetry.addData("slide: ", robot.slide.getCurrentPosition());
+            telemetry.update();
 
 
 

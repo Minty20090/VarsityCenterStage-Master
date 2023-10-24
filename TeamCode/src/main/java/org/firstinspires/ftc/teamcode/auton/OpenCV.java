@@ -143,20 +143,16 @@ public class OpenCV extends LinearOpMode{
 
             while (opModeIsActive()) {
                 sleep(20);
-                if(side==1) {
-                    //Blue backstage
-                    spikeB(location);
-                }
-                if(side==2){
-                    //Blue Stage
-                    spikeB(location);
+                if(side==1) {                                                 
+                    tiles(-1)
+
                 }
                 if(side==3){
                     //Red backstage
                     spikeR(location);
                 }
                 else {
-                    //Red stage
+                    //Red stage - Far
                     spikeR(location);
                 }
 

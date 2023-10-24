@@ -143,10 +143,20 @@ public class OpenCV extends LinearOpMode{
 
             while (opModeIsActive()) {
                 sleep(20);
-                if(side<=2) {
+                if(side==1) {
+                    //Blue backstage
                     spikeB(location);
                 }
+                if(side==2){
+                    //Blue Stage
+                    spikeB(location);
+                }
+                if(side==3){
+                    //Red backstage
+                    spikeR(location);
+                }
                 else {
+                    //Red stage
                     spikeR(location);
                 }
 
@@ -205,11 +215,7 @@ public class OpenCV extends LinearOpMode{
             tiles(1);
             sleep(500);
             drop();
-            tiles(1);
-            turn(90,-.8);
-            tiles(3);
-            turn(45, -.8);
-            tiles(2);
+
 
 
         }
@@ -218,24 +224,16 @@ public class OpenCV extends LinearOpMode{
             turn(1,-.8);
             sleep(500);
             drop();
-            tiles(-1);
             turn(1,.8);
-            tiles(1);
-            turn(1,-.8);
-            tiles(3);
-            turn(750, -.8);
-            tiles(2);
+
         }
         else if(location == "Left"){
            tiles(1);
             turn(1000,.8);
             sleep(500);
+            drop();
             turn(1,-.8);
-            tiles(1);
-            turn(1,-.8);
-            tiles(3);
-            turn(750,-.8);
-            tiles(2);
+
 
         }
     }
@@ -245,11 +243,7 @@ public class OpenCV extends LinearOpMode{
             tiles(1);
             sleep(500);
             drop();
-            tiles(1);
-            turn(1,.8);
-            tiles(3);
-            turn(750, .8);
-            tiles(2);
+
 
 
         }
@@ -259,11 +253,7 @@ public class OpenCV extends LinearOpMode{
             sleep(500);
             drop();
             turn(1,-.8);
-            tiles(1);
-            turn(1,.8);
-            tiles(3);
-            turn(750, .8);
-            tiles(2);
+
         }
         else if(location == "Left"){
             tiles(1);
@@ -271,11 +261,7 @@ public class OpenCV extends LinearOpMode{
             sleep(500);
             drop();
             turn(1,-.8);
-            tiles(1);
-            turn(1,-.8);
-            tiles(3);
-            turn(750,.8);
-            tiles(2);
+
         }
     }
 

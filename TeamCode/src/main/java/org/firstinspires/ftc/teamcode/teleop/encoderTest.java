@@ -64,14 +64,14 @@ public class encoderTest extends LinearOpMode {
             }
             else if (gamepad1.b){
                 robot.fLeftWheel.setPower(-.5);
-                robot.bLeftWheel.setPower(.5);
-                robot.fRightWheel.setPower(-.5);
+                robot.bLeftWheel.setPower(-.5);
+                robot.fRightWheel.setPower(.5);
                 robot.bRightWheel.setPower(.5);
             }
             else if (gamepad1.x){
                 robot.fLeftWheel.setPower(.5);
-                robot.bLeftWheel.setPower(-.5);
-                robot.fRightWheel.setPower(.5);
+                robot.bLeftWheel.setPower(.5);
+                robot.fRightWheel.setPower(-.5);
                 robot.bRightWheel.setPower(-.5);
             }
             else{

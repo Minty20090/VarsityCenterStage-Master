@@ -12,6 +12,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.firstinspires.ftc.teamcode.auton.AprilTagDetectionPipeline;
+import org.openftc.apriltag.AprilTagDetection;
+
 
 @Autonomous
 public class AdvancedAuto extends LinearOpMode{
@@ -289,6 +291,27 @@ public class AdvancedAuto extends LinearOpMode{
 
         }
     }
+
+    // Triangulate location of robot based on distances and angles of three april tags
+    // Returns an array of the form [x, y, theta]
+    // x and y are in meters, theta is in radians
+    public double[] triangulate(double[] tag1, double[] tag2, double[] tag3) {
+        // tag1, tag2, and tag3 are arrays of the form [distance, angle]
+        // distance is in meters, angle is in radians
+        double x1 = tag1[0] * Math.cos(tag1[1]);
+        double y1 = tag1[0] * Math.sin(tag1[1]);
+        double x2 = tag2[0] * Math.cos(tag2[1]);
+        double y2 = tag2[0] * Math.sin(tag2[1]);
+        double x3 = tag3[0] * Math.cos(tag3[1]);
+        double y3 = tag3[0] * Math.sin(tag3[1]);
+
+        double x = (x1 + x2 + x3) / 3;
+        double y = (y1 + y2 + y3) / 3;
+        double theta = Math.atan2(y, x);
+
+        return new double[] {x, y, theta};
+    }
+
 
 
 

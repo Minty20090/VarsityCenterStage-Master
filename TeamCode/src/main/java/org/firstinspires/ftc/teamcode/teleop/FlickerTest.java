@@ -53,21 +53,22 @@ public class FlickerTest extends LinearOpMode {
             // Teleop Code goes here
 
 
-//            if(gamepad1.a && !gateOpen){
-//                robot.gate.setPosition(1);
-//                gateOpen = true;
-//            }
-//            else if(gamepad1.a && gateOpen){
-//                robot.gate.setPosition(0);
-//                gateOpen = false;
-//            }
 
-            if(gamepad1.b && !clawsOpen){
+            if(gamepad1.a && !gateOpen){
+                robot.gate.setPosition(1);
+                gateOpen = true;
+            }
+            else if(gamepad1.b && gateOpen){
+                robot.gate.setPosition(0);
+                gateOpen = false;
+            }
+
+            if(gamepad1.x && !clawsOpen){
                 robot.clawL.setPosition(1);
                 robot.clawR.setPosition(1);
                 clawsOpen = true;
             }
-            else if(gamepad1.b && clawsOpen){
+            else if(gamepad1.y && clawsOpen){
                 robot.clawL.setPosition(0);
                 robot.clawR.setPosition(0);
                 clawsOpen = false;

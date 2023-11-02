@@ -226,8 +226,8 @@ public class OpenCV extends LinearOpMode{
         robot.bRightWheel.setPower(.8);
     }
     public void drop(){
-         robot.lift.setTargetPosition(0);
-        robot.lift.setPower(.8);
+        robot.outtakeLift.setTargetPosition(0);
+        robot.outtakeLift.setPower(.8);
         robot.gate.setPosition(0);
     }
     public void spikeB(String location) { // blue

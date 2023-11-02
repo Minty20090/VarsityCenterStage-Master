@@ -14,6 +14,10 @@ public class FlickerTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
+        robot.intakeLift.setTargetPosition(0);
+        robot.outtakeLift.setTargetPosition(0);
+        robot.intakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.outtakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.intakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.outtakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         double speed = .9;
@@ -60,12 +64,12 @@ public class FlickerTest extends LinearOpMode {
 
             if(gamepad1.b && !clawsOpen){
                 robot.clawL.setPosition(1);
-                robot.clawR.setPosition(0);
+                robot.clawR.setPosition(1);
                 clawsOpen = true;
             }
             else if(gamepad1.b && clawsOpen){
                 robot.clawL.setPosition(0);
-                robot.clawR.setPosition(1);
+                robot.clawR.setPosition(0);
                 clawsOpen = false;
             }
 

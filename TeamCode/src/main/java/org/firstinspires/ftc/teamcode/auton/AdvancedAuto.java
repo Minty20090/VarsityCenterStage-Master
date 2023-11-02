@@ -282,7 +282,7 @@ public class AdvancedAuto extends LinearOpMode{
     }
     public void backboard(String location){
         webcam.setPipeline(AprilTagDetectionPipeline);
-        if(location == "Left"&&tagOfInterest.id.==1){
+        if(location == "Left"&&tagOfInterest.id ==1){
             tiles(.5);
             //strafe a little to the left
             drop();

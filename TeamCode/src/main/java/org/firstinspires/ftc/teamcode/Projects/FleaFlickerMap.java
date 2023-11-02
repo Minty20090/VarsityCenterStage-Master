@@ -31,7 +31,7 @@ public class FleaFlickerMap extends Project{
         bRightWheel = hwMap.dcMotor.get("BackRight");
         outtakeLift = hwMap.dcMotor.get("outtakeMotor");
         intakeLift = hwMap.dcMotor.get("intakeMotor");
-//        gate = hwMap.servo.get("door");
+//        gate = hwMap.servo.get("gate");
         clawR = hwMap.servo.get("clawR");
         clawL = hwMap.servo.get("clawL");
 //        intakeR = hwMap.servo.get("intakeR");

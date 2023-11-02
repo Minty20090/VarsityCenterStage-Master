@@ -3,23 +3,15 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
-import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.teamcode.auton.AprilTagDetectionPipeline;
-
-import java.util.ArrayList;
 
 @Autonomous
 public class AdvancedAuto extends LinearOpMode{
@@ -34,7 +26,6 @@ public class AdvancedAuto extends LinearOpMode{
     double cx = 402.145;
     double cy = 221.506;
 
-    static final double FEET_PER_METER = 3.28084;
     // UNITS ARE METERS
     double tagsize = 0.166;
     public String location = "Middle";
@@ -289,72 +280,15 @@ public class AdvancedAuto extends LinearOpMode{
 
         }
     }
-    AprilTagDetection tagOfInterest = null;
-    int Left = 1;
-    int Middle = 2;
-    int Right = 3;
-
-    public void backboard(String location) {
-        AprilTagDetectionPipeline aprilTagDetectionPipeline;
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+    public void backboard(String location){
         webcam.setPipeline(AprilTagDetectionPipeline);
-
-
-        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
-
-        if (currentDetections.size() != 0) {
-            boolean tagFound = false;
-
-            for (AprilTagDetection tag : currentDetections)
-
-                if (tag.id == Left || tag.id == Middle || tag.id == Right) {
-                    tagOfInterest = tag;
-                    tagFound = true;
-                    break;
-                }
-
-            if (tagFound) {
-                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                tagToTelemetry(tagOfInterest);
-            } else {
-                telemetry.addLine("Don't see tag of interest :(");
-
-                if (tagOfInterest == null) {
-                    telemetry.addLine("(The tag has never been seen)");
-                } else {
-                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                    tagToTelemetry(tagOfInterest);
-                }
-            }
-
-        } else {
-            telemetry.addLine("Don't see tag of interest\nlol, get better:(");
-
-            if (tagOfInterest == null) {
-                telemetry.addLine("(The tag has never been seen in the history of this run, the records must be incomplete)");
-            } else {
-                telemetry.addLine("\nBut we thankfully HAVE seen the tag before; last seen at:");
-                tagToTelemetry(tagOfInterest);
-
-            }
+        if(location == "Left"&&tagOfInterest.id.==1){
+            tiles(.5);
+            //strafe a little to the left
+            drop();
 
         }
-        if(tagOfInterest == null || tagOfInterest.id == Left ) {
-
-
-
-
-
-
-
-
-        }
-
-        telemetry.update();
-        sleep(20);
     }
-
-
 
 
 
@@ -430,17 +364,5 @@ public class AdvancedAuto extends LinearOpMode{
 
         sleep(time);
    }
-    void tagToTelemetry(AprilTagDetection detection)
-    {
-        Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
-
-        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
-        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
-        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
-        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
-    }
 
 }

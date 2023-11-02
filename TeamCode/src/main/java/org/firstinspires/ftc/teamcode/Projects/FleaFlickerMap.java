@@ -11,7 +11,8 @@ public class FleaFlickerMap extends Project{
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
-    public DcMotor lift = null;
+    public DcMotor outtakeLift = null;
+    public DcMotor intakeLift = null;
     public Servo gate = null;
     public Servo clawR = null;
     public Servo clawL = null;
@@ -28,10 +29,11 @@ public class FleaFlickerMap extends Project{
         fRightWheel = hwMap.dcMotor.get("FrontRight");
         bLeftWheel = hwMap.dcMotor.get("BackLeft");
         bRightWheel = hwMap.dcMotor.get("BackRight");
-        lift = hwMap.dcMotor.get("lift");
-//        gate = hwMap.servo.get("door");
-//        clawR = hwMap.servo.get("clawR");
-//        clawL = hwMap.servo.get("clawL");
+        outtakeLift = hwMap.dcMotor.get("outtakeMotor");
+        intakeLift = hwMap.dcMotor.get("intakeMotor");
+//        gate = hwMap.servo.get("gate");
+        clawR = hwMap.servo.get("clawR");
+        clawL = hwMap.servo.get("clawL");
 //        intakeR = hwMap.servo.get("intakeR");
 //        intakeL = hwMap.servo.get("intakeL");
 
@@ -43,21 +45,24 @@ public class FleaFlickerMap extends Project{
         fLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         bRightWheel.setDirection(DcMotor.Direction.FORWARD);
         bLeftWheel.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
+        outtakeLift.setDirection(DcMotor.Direction.FORWARD);
+        intakeLift.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
         fRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        outtakeLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Set brakes
         fRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Get webcam from hardware map
         camera = hwMap.get(WebcamName.class, "camera");
@@ -71,6 +76,7 @@ public class FleaFlickerMap extends Project{
         fLeftWheel.setPower(0);
         bRightWheel.setPower(0);
         bLeftWheel.setPower(0);
-        lift.setPower(0);
+        outtakeLift.setPower(0);
+        intakeLift.setPower(0);
     }
 }

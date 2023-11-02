@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
 
@@ -13,14 +14,16 @@ public class FlickerTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-
+        robot.intakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.outtakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         double speed = .9;
 
         waitForStart();
         boolean isSpinning = false;
         boolean gateOpen = false;
         boolean clawsOpen = false;
-        double intakePosition = 0;
+        int intakePosition = 0;
+        int outtakePosition = 0;
 
         while (opModeIsActive()) {
 
@@ -46,14 +49,14 @@ public class FlickerTest extends LinearOpMode {
             // Teleop Code goes here
 
 
-            if(gamepad1.a && !gateOpen){
-                robot.gate.setPosition(1);
-                gateOpen = true;
-            }
-            else if(gamepad1.a && gateOpen){
-                robot.gate.setPosition(0);
-                gateOpen = false;
-            }
+//            if(gamepad1.a && !gateOpen){
+//                robot.gate.setPosition(1);
+//                gateOpen = true;
+//            }
+//            else if(gamepad1.a && gateOpen){
+//                robot.gate.setPosition(0);
+//                gateOpen = false;
+//            }
 
             if(gamepad1.b && !clawsOpen){
                 robot.clawL.setPosition(1);
@@ -67,29 +70,33 @@ public class FlickerTest extends LinearOpMode {
             }
 
             if(gamepad1.right_trigger > 0){
-                intakePosition += 0.1;
+                intakePosition += 10;
+                robot.intakeLift.setPower(.5);
+                robot.intakeLift.setTargetPosition(intakePosition);
             }
             else if(gamepad1.left_trigger > 0){
-                intakePosition -= 0.1;
+                robot.intakeLift.setPower(.5);
+                intakePosition -= 10;
+                robot.intakeLift.setTargetPosition(intakePosition);
             }
 
-            robot.intakeR.setPosition(intakePosition);
-            robot.intakeL.setPosition(intakePosition);
-
-            if(gamepad1.right_bumper) {
-                robot.lift.setTargetPosition(3000);
-                robot.lift.setPower(1);
-                telemetry.addData("encoder",robot.lift.getCurrentPosition() );
+            if(gamepad1.right_bumper){
+                outtakePosition += 10;
+                robot.outtakeLift.setPower(.5);
+                robot.outtakeLift.setTargetPosition(intakePosition);
+                telemetry.addData("outtake encoder: ",robot.outtakeLift.getCurrentPosition() );
                 telemetry.update();
-
-            } else if (gamepad1.left_bumper){
-                robot.lift.setTargetPosition(3000);
-                robot.lift.setPower(-1);
-                telemetry.addData("encoder",robot.lift.getCurrentPosition() );
-                telemetry.update();
-            } else{
-                robot.lift.setPower(0);
             }
+            else if(gamepad1.left_bumper){
+
+                robot.outtakeLift.setPower(.5);
+                outtakePosition -= 10;
+                robot.outtakeLift.setTargetPosition(intakePosition);
+                telemetry.addData("outtake encoder: ",robot.outtakeLift.getCurrentPosition() );
+                telemetry.update();
+            }
+
+
 
         }
 

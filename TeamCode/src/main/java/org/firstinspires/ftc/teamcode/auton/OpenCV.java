@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 @Autonomous
 public class OpenCV extends LinearOpMode{
      public FleaFlickerMap robot = new FleaFlickerMap();
+
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -44,8 +46,27 @@ public class OpenCV extends LinearOpMode{
 
     @Override
     public void runOpMode() {
-        // robot.init(hardwareMap);
-        RedPropDetectionPipeline propDetectionPipeline;
+        robot.init(hardwareMap);
+        robot.intakeLift.setTargetPosition(0);
+        robot.outtakeLift.setTargetPosition(0);
+        robot.fRightWheel.setTargetPosition(0);
+        robot.fLeftWheel.setTargetPosition(0);
+        robot.bRightWheel.setTargetPosition(0);
+        robot.bLeftWheel.setTargetPosition(0);
+        robot.intakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.outtakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.intakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.outtakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         // Side c = Side.rBlue;
         int side = 1;
         if (gamepad1.right_bumper == true) {
@@ -116,7 +137,9 @@ public class OpenCV extends LinearOpMode{
 
 
                 } else {
-
+                    telemetry.addLine("not detected");
+                    telemetry.update();
+                    location = "Middle";
                 }
             } else {
                 webcam.setPipeline(RedPropDetectionPipeline);
@@ -189,11 +212,7 @@ public class OpenCV extends LinearOpMode{
     }
 
 
-
-
-
     public void turn(int degrees, double direction){
-        int turnCoefficient = 3000;
         String turn;
 
         int fleft = robot.fLeftWheel.getCurrentPosition();
@@ -208,16 +227,16 @@ public class OpenCV extends LinearOpMode{
         }
 
         if (turn == "left") {
-            robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
-            robot.fRightWheel.setTargetPosition((int) (fright+degrees/90 * turnCoefficient));
-            robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
-            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));
+            robot.fLeftWheel.setTargetPosition((fleft));
+            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 564)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 351)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * 201));
         }
         if (turn == "right") {
-            robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
-            robot.fRightWheel.setTargetPosition((int) (fright+degrees/90 * turnCoefficient));
-            robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
-            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * -11)));
+            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * -562)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 300)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (degrees/90 * -233)));
         }
 
         robot.fLeftWheel.setPower(.8);
@@ -225,9 +244,27 @@ public class OpenCV extends LinearOpMode{
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
     }
+
+
+    public void tiles(double tiles){
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * 480));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 480));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 600));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * 600));
+        robot.fLeftWheel.setPower(.8);
+        robot.fRightWheel.setPower(.8);
+        robot.bLeftWheel.setPower(.8);
+        robot.bRightWheel.setPower(.8);
+    }
+
     public void drop(){
         robot.outtakeLift.setTargetPosition(0);
-        robot.outtakeLift.setPower(.8);
+        robot.outtakeLift.setPower(.5);
         robot.gate.setPosition(0);
     }
     public void spikeB(String location) { // blue
@@ -236,23 +273,22 @@ public class OpenCV extends LinearOpMode{
             tiles(1);
             sleep(500);
             drop();
-
-
-
+            sleep(2000);
         }
         else if(location == "Right"){
             tiles(1);
             turn(1,-.8);
             sleep(500);
             drop();
+            sleep(2000);
             turn(1,.8);
-
         }
         else if(location == "Left"){
            tiles(1);
             turn(1000,.8);
             sleep(500);
             drop();
+            sleep(2000);
             turn(1,-.8);
 
 
@@ -288,22 +324,6 @@ public class OpenCV extends LinearOpMode{
 
 
 
-
-    public void tiles(double tiles){
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * 3000));
-        robot.fRightWheel.setTargetPosition((int)(fright+tiles * 3000));
-        robot.bLeftWheel.setTargetPosition((int)(bleft+tiles * 3000));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * 3000));
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-    }
     //encoder method
     public void encoderDrive(double speed,
                              double frontLeftCounts, double frontRightCounts, double backLeftCounts, double backRightCounts) {

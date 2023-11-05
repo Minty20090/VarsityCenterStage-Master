@@ -229,7 +229,7 @@ public class OpenCV extends LinearOpMode{
         if (turn == "left") {
             robot.fLeftWheel.setTargetPosition((fleft));
             robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 564)));
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 351)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * -351)));
             robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * 201));
         }
         if (turn == "right") {

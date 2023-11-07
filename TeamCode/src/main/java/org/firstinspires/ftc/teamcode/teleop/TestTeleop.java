@@ -15,12 +15,19 @@ public class TestTeleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
+        robot.lift.setTargetPosition(0);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.init(hardwareMap);
 
 
         double speed = .9;
 
         waitForStart();
         boolean isSpinning = false;
+        int intakePosition = 0;
+        boolean gateOpen = false;
+        boolean clawsOpen = false;
 
         while (opModeIsActive()) {
 
@@ -67,6 +74,35 @@ public class TestTeleop extends LinearOpMode {
             } else if (gamepad1.y) {
                 double currentPosition = robot.wrist.getPosition();
                 robot.wrist.setPosition(currentPosition - 5.00);
+            }
+            if(gamepad1.right_trigger > 0){
+                intakePosition += 10;
+                robot.lift.setPower(.5);
+                robot.lift.setTargetPosition(intakePosition);
+            }
+            else if(gamepad1.left_trigger > 0){
+                robot.lift.setPower(.5);
+                intakePosition -= 10;
+                robot.lift.setTargetPosition(intakePosition);
+            }
+            if(gamepad1.a && !gateOpen){
+                robot.wrist.setPosition(1);
+                gateOpen = true;
+            }
+            else if(gamepad1.b && gateOpen){
+                robot.wrist.setPosition(0);
+                gateOpen = false;
+            }
+
+            if(gamepad1.x && !clawsOpen){
+                robot.stick.setPosition(1);
+
+                clawsOpen = true;
+            }
+            else if(gamepad1.y && clawsOpen){
+                robot.stick.setPosition(0);
+
+                clawsOpen = false;
             }
 
 

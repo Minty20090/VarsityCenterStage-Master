@@ -11,13 +11,14 @@ import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLoca
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.firstinspires.ftc.teamcode.auton.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 
 
 @Autonomous
 public class AdvancedAuto extends LinearOpMode{
-    public FleaFlickerMap robot = new FleaFlickerMap();
+    public HWMap robot = new HWMap();
    OpenCvCamera webcam;
    // Lens intrinsics
    // UNITS ARE PIXELS
@@ -225,7 +226,7 @@ public class AdvancedAuto extends LinearOpMode{
    public void drop(){
         robot.lift.setTargetPosition(0);
        robot.lift.setPower(.8);
-       robot.gate.setPosition(0);
+       robot.stick.setPosition(0);
    }
    public void spikeB(String location) { // blue
        if (location == "Middle") {
@@ -282,6 +283,7 @@ public class AdvancedAuto extends LinearOpMode{
 
        }
    }
+    AprilTagDetection tagOfInterest = null;
    public void backboard(String location){
        webcam.setPipeline(AprilTagDetectionPipeline);
        if(location == "Left"&&tagOfInterest.id ==1){

@@ -3,19 +3,15 @@ package org.firstinspires.ftc.teamcode.Projects;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
-public class HWMap extends Project{
+public class HWMapBasic extends Project{
     public DcMotor fLeftWheel = null;
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
-    public DcMotor lift = null;
-    public Servo wrist = null;
-    public Servo stick = null;
-    //public Servo wrist = null;
-    //public DcMotor wrist = null;
 
 
     public WebcamName camera = null;
@@ -28,9 +24,6 @@ public class HWMap extends Project{
         fRightWheel = hwMap.dcMotor.get("FrontRight");
         bLeftWheel = hwMap.dcMotor.get("BackLeft");
         bRightWheel = hwMap.dcMotor.get("BackRight");
-        lift = hwMap.dcMotor.get("lift");
-        wrist = hwMap.servo.get("Wrist");
-        stick = hwMap.servo.get("Stick");
 //        lClaw = hwMap.servo.get("lClaw");
 //        oClaw = hwMap.servo.get("oClaw");
         //wrist = hwMap.servo.get("wrist");
@@ -43,7 +36,6 @@ public class HWMap extends Project{
         fLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         bRightWheel.setDirection(DcMotor.Direction.FORWARD);
         bLeftWheel.setDirection(DcMotor.Direction.REVERSE);
-        lift.setDirection(DcMotor.Direction.FORWARD);
         //wrist.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
@@ -51,7 +43,6 @@ public class HWMap extends Project{
         fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set brakes

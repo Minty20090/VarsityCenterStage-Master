@@ -262,4 +262,12 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
     }
+    void tagToArray(AprilTagDetection detection){
+        Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+
+        double[] tagData = new double[2];
+        tagData[0] = detection.pose.x*FEET_PER_METER;
+        tagData[1] = rot.firstAngle;
+
+    }
     }

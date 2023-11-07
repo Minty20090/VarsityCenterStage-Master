@@ -52,7 +52,11 @@ public class FlickerTest extends LinearOpMode {
 
             // Teleop Code goes here
 
-
+//             Controls
+//             a/b - open/close outtake gate
+//             x/y - open/close claws
+//             right/left trigger - move intake arm up/down
+//             right/left bumper - move lift up/down
 
             if(gamepad1.a && !gateOpen){
                 robot.gate.setPosition(1);

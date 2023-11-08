@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
+import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
 public class BasicOpenCV extends LinearOpMode{
-     public FleaFlickerMap robot = new FleaFlickerMap();
+     public HWMapBasic robot = new HWMapBasic();
 
     OpenCvCamera webcam;
     // Lens intrinsics
@@ -63,25 +63,26 @@ public class BasicOpenCV extends LinearOpMode{
             } else if (side == 4) {
                 side = 1;
             }
+            switch (side) {
+                case 1:
+                    telemetry.addLine("rBlue");
+                    telemetry.update();
+                    break;
+                case 2:
+                    telemetry.addLine("lBlue");
+                    telemetry.update();
+                    break;
+                case 3:
+                    telemetry.addLine("rRed");
+                    telemetry.update();
+                    break;
+                case 4:
+                    telemetry.addLine("lRed");
+                    telemetry.update();
+                    break;
+            }
         }
-        switch (side) {
-            case 1:
-                telemetry.addLine("rBlue");
-                telemetry.update();
-                break;
-            case 2:
-                telemetry.addLine("lBlue");
-                telemetry.update();
-                break;
-            case 3:
-                telemetry.addLine("rRed");
-                telemetry.update();
-                break;
-            case 4:
-                telemetry.addLine("lRed");
-                telemetry.update();
-                break;
-        }
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
@@ -90,7 +91,7 @@ public class BasicOpenCV extends LinearOpMode{
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                webcam.startStreaming(1280, 700, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
             }
 
             @Override
@@ -146,57 +147,94 @@ public class BasicOpenCV extends LinearOpMode{
                     location = "Middle";
 
                 } else {
-
+                    location = "Middle";
                 }
 
             }
 
 
             while (opModeIsActive()) {
-                sleep(20);
-                if(side==1) {
-                    //Blue backstage
-                    spikeB(location);
-                    tiles(-.75);
-                    turn(90,.8);
-                    tiles(2);
-                }
-                if(side==2){
-                    //Blue Stage
-                    spikeB(location);
-                    tiles(-1);
-                    turn(90,.8);
-                    tiles(1);
-                    turn(90,-.8);
-                    tiles(2);
-                    turn(90,.8);
-                    tiles(3);
-
-                }
-                if(side==3){
-                    //Red backstage
-                    spikeR(location);
-                    tiles(-.75);
-                    turn(90,-.8);
-                    tiles(2);
-                }
-                else {
-                    //Red stage - Far
-                    spikeR(location);
-                    tiles(-1);
-                    turn(90,-.8);
-                    tiles(1);
-                    turn(90,.8);
-                    tiles(2);
-                    turn(90,-.8);
-                    tiles(3);
-                }
-
-
+                tiles(1);
+            // START COMMETNED OUT SECTION
+//                sleep(20);
+//                if(side==1) {
+//                    //Blue backstage
+//                    spikeB(location);
+////                    sleep(5000);
+////                    tiles(-.75);
+////                    sleep(5000);
+////                    turn(90,.8);
+////                    sleep(5000);
+////                    tiles(2);
+//                }
+//                if(side==2){
+//                    //Blue Stage
+//                    spikeB(location);
+////                    sleep(5000);
+////                    tiles(-1);
+////                    sleep(5000);
+////                    turn(90,.8);
+////                    sleep(5000);
+////                    tiles(1);
+////                    sleep(5000);
+////                    turn(90,-.8);
+////                    sleep(5000);
+////                    tiles(2);
+////                    sleep(5000);
+////                    turn(90,.8);
+////                    sleep(5000);
+////                    tiles(3);
+//
+//                }
+//                if(side==3){
+//                    //Red backstage
+//                    spikeR(location);
+////                    sleep(5000);
+////                    tiles(-.75);
+////                    sleep(5000);
+////                    turn(90,-.8);
+////                    sleep(5000);
+////                    tiles(2);
+//                }
+//                else {
+//                    //Red stage - Far
+//                    spikeR(location);
+////                    tiles(-1);
+////                    sleep(5000);
+////                    turn(90,-.8);
+////                    sleep(5000);
+////                    tiles(1);
+////                    sleep(5000);
+////                    turn(90,.8);
+////                    sleep(5000);
+////                    tiles(2);
+////                    sleep(5000);
+////                    turn(90,-.8);
+////                    sleep(5000);
+////                    tiles(3);
+//                }
+//
+// END COMMETNED OUT SECTION
             }
 
 
         }
+    }
+
+    public void tiles(double tiles){
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -600));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -600));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -600));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
+        robot.fLeftWheel.setPower(.8);
+        robot.fRightWheel.setPower(.8);
+        robot.bLeftWheel.setPower(.8);
+        robot.bRightWheel.setPower(.8);
     }
 
 
@@ -234,50 +272,31 @@ public class BasicOpenCV extends LinearOpMode{
     }
 
 
-    public void tiles(double tiles){
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * 480));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 480));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 600));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * 600));
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-    }
-
     public void drop(){
-        robot.outtakeLift.setTargetPosition(0);
-        robot.outtakeLift.setPower(.5);
-        robot.gate.setPosition(0);
     }
     public void spikeB(String location) { // blue
         if (location == "Middle") {
             System.out.println("bet");
             tiles(1);
-            sleep(500);
+            sleep(4000);
             drop();
-            sleep(2000);
+            sleep(4000);
         }
         else if(location == "Right"){
             tiles(1);
-            turn(1,-.8);
-            sleep(500);
-            drop();
-            sleep(2000);
-            turn(1,.8);
+//            turn(1,-.8);
+//            sleep(2000);
+//            drop();
+//            sleep(2000);
+//            turn(1,.8);
         }
         else if(location == "Left"){
            tiles(1);
-            turn(1000,.8);
-            sleep(500);
-            drop();
-            sleep(2000);
-            turn(1,-.8);
+//            turn(1000,.8);
+//            sleep(2000);
+//            drop();
+//            sleep(2000);
+//            turn(1,-.8);
 
 
         }
@@ -285,28 +304,26 @@ public class BasicOpenCV extends LinearOpMode{
     public void spikeR(String location) {
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1);
-            sleep(500);
-            drop();
+//            tiles(1);
+//            sleep(5000);
+//            drop();
 
 
 
         }
         else if(location == "Right"){
             tiles(1);
-            turn(1,.8);
-            sleep(500);
-            drop();
-            turn(1,-.8);
+//            sleep(2000);
+//            turn(1,.8);
+//            sleep(2000);
+//            drop();
+//            sleep(2000);
+//            turn(1,-.8);
 
         }
         else if(location == "Left"){
             tiles(1);
-            turn(1,.8);
-            sleep(500);
-            drop();
-            turn(1,-.8);
-
+//
         }
     }
 

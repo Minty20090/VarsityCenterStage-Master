@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Projects.HWMap;
+import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
+import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 
 @TeleOp(name = "BasicTestTeleop")
 public class BasicTestTeleop extends LinearOpMode {
-    public HWMap robot = new HWMap();
+    public HWMapBasic robot = new HWMapBasic();
 
 
     @Override

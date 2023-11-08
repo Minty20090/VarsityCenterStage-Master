@@ -155,6 +155,7 @@ public class BasicOpenCV extends LinearOpMode{
 
             while (opModeIsActive()) {
                 tiles(1);
+
             // START COMMETNED OUT SECTION
 //                sleep(20);
 //                if(side==1) {

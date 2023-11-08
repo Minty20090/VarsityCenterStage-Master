@@ -44,8 +44,9 @@ public class EncoderCountTests extends LinearOpMode {
             robot.fRightWheel.setPower(frontRightPower*speed);
             robot.bRightWheel.setPower(backRightPower*speed);
             telemetry.addData("Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getCurrentPosition(), robot.fLeftWheel.getCurrentPosition(), robot.bRightWheel.getCurrentPosition(), robot.fRightWheel.getCurrentPosition());
+            telemetry.addData("Target Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getTargetPosition(), robot.fLeftWheel.getTargetPosition(), robot.bRightWheel.getTargetPosition(), robot.fRightWheel.getTargetPosition());
             telemetry.update();
-            
+
             if (gamepad1.a) {
                 tiles(1);
             }

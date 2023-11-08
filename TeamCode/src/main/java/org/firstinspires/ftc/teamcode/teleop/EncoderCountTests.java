@@ -78,6 +78,7 @@ public class EncoderCountTests extends LinearOpMode {
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
+        sleep(3000);
     }
 
 
@@ -112,6 +113,7 @@ public class EncoderCountTests extends LinearOpMode {
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
+        sleep(3000);
     }
 
 }

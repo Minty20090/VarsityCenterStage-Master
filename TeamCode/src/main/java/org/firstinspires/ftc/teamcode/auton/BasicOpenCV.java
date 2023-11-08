@@ -157,68 +157,97 @@ public class BasicOpenCV extends LinearOpMode{
                 tiles(1);
 
             // START COMMETNED OUT SECTION
-//                sleep(20);
-//                if(side==1) {
-//                    //Blue backstage
-//                    spikeB(location);
-////                    sleep(5000);
-////                    tiles(-.75);
-////                    sleep(5000);
-////                    turn(90,.8);
-////                    sleep(5000);
-////                    tiles(2);
-//                }
-//                if(side==2){
-//                    //Blue Stage
-//                    spikeB(location);
-////                    sleep(5000);
-////                    tiles(-1);
-////                    sleep(5000);
-////                    turn(90,.8);
-////                    sleep(5000);
-////                    tiles(1);
-////                    sleep(5000);
-////                    turn(90,-.8);
-////                    sleep(5000);
-////                    tiles(2);
-////                    sleep(5000);
-////                    turn(90,.8);
-////                    sleep(5000);
-////                    tiles(3);
-//
-//                }
-//                if(side==3){
-//                    //Red backstage
-//                    spikeR(location);
-////                    sleep(5000);
-////                    tiles(-.75);
-////                    sleep(5000);
-////                    turn(90,-.8);
-////                    sleep(5000);
-////                    tiles(2);
-//                }
-//                else {
-//                    //Red stage - Far
-//                    spikeR(location);
-////                    tiles(-1);
-////                    sleep(5000);
-////                    turn(90,-.8);
-////                    sleep(5000);
-////                    tiles(1);
-////                    sleep(5000);
-////                    turn(90,.8);
-////                    sleep(5000);
-////                    tiles(2);
-////                    sleep(5000);
-////                    turn(90,-.8);
-////                    sleep(5000);
-////                    tiles(3);
-//                }
-//
+                sleep(20);
+                if(side==1) {
+                    //Blue backstage
+                    spikeB(location);
+                    tiles(-.75);
+                    turn(90,.8);
+                    tiles(2);
+                }
+                if(side==2){
+                    //Blue Stage
+                    spikeB(location);
+                    tiles(-1);
+                    turn(90,.8);
+                    tiles(1);
+                    turn(90,-.8);
+                    tiles(2);
+                    turn(90,.8);
+                    tiles(3);
+
+                }
+                if(side==3){
+                    //Red backstage
+                    spikeR(location);
+                    tiles(-.75);
+                    turn(90,-.8);
+                    tiles(2);
+                }
+                else {
+                    //Red stage - Far
+                    spikeR(location);
+                    tiles(-1);
+                    turn(90,-.8);
+                    tiles(1);
+                    turn(90,.8);
+                    tiles(2);
+                    turn(90,-.8);
+                    tiles(3);
+                }
+
 // END COMMETNED OUT SECTION
             }
 
 
+        }
+    }
+    public void drop(){
+    }
+    public void spikeB(String location) { // blue
+        if (location == "Middle") {
+            System.out.println("bet");
+            tiles(1);
+            drop();
+        }
+        else if(location == "Right"){
+            tiles(1);
+            turn(1,-.8);
+            drop();
+            turn(1,.8);
+        }
+        else if(location == "Left"){
+            tiles(1);
+            turn(1000,.8);
+            drop();
+            turn(1,-.8);
+
+
+        }
+    }
+    public void spikeR(String location) {
+        if (location == "Middle") {
+            System.out.println("bet");
+            tiles(1);
+            sleep(5000);
+            drop();
+
+
+
+        }
+        else if(location == "Right"){
+            tiles(1);
+            sleep(2000);
+            turn(1,.8);
+            sleep(2000);
+            drop();
+            sleep(2000);
+            turn(1,-.8);
+
+        }
+        else if(location == "Left"){
+            tiles(1);
+//
         }
     }
 
@@ -236,6 +265,7 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
+        sleep(3000);
     }
 
 
@@ -270,63 +300,11 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
+        sleep(3000);
     }
 
 
-    public void drop(){
-    }
-    public void spikeB(String location) { // blue
-        if (location == "Middle") {
-            System.out.println("bet");
-            tiles(1);
-            sleep(4000);
-            drop();
-            sleep(4000);
-        }
-        else if(location == "Right"){
-            tiles(1);
-//            turn(1,-.8);
-//            sleep(2000);
-//            drop();
-//            sleep(2000);
-//            turn(1,.8);
-        }
-        else if(location == "Left"){
-           tiles(1);
-//            turn(1000,.8);
-//            sleep(2000);
-//            drop();
-//            sleep(2000);
-//            turn(1,-.8);
 
-
-        }
-    }
-    public void spikeR(String location) {
-        if (location == "Middle") {
-            System.out.println("bet");
-//            tiles(1);
-//            sleep(5000);
-//            drop();
-
-
-
-        }
-        else if(location == "Right"){
-            tiles(1);
-//            sleep(2000);
-//            turn(1,.8);
-//            sleep(2000);
-//            drop();
-//            sleep(2000);
-//            turn(1,-.8);
-
-        }
-        else if(location == "Left"){
-            tiles(1);
-//
-        }
-    }
 
 
 

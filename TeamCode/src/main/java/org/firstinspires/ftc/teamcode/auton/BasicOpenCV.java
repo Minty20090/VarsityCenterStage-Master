@@ -165,11 +165,17 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue backstage
                     spikeB(location);
+                    sleep(2000);
+                    turn(90,.8);
+                    sleep(2000);
                     noLiftB();
                 }
                 if(side==2){
                     //Blue Stage
                     spikeB(location);
+                    sleep(2000);
+                    turn(90,.8);
+                    sleep(2000);
                     noLiftB();
                     tiles(2);
 
@@ -177,12 +183,18 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==3){
                     //Red backstage
                     spikeR(location);
+                    sleep(2000);
+                    turn(90,-.8);
+                    sleep(2000);
                     noLiftR();
 
                 }
                 else {
                     //Red stage - Far
                     spikeR(location);
+                    sleep(2000);
+                    turn(90,-.8);
+                    sleep(2000);
                     noLiftR();
                     tiles(2);
                 }
@@ -198,20 +210,36 @@ public class BasicOpenCV extends LinearOpMode{
     public void spikeB(String location) { // blue
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1);
-            drop();
+            tiles(1.2);
+            sleep(2000);
+            tiles(-1.2);
+
         }
         else if(location == "Right"){
             tiles(1);
+            sleep(2000);
             turn(1,-.8);
-            drop();
+            sleep(2000);
+            tiles(.1);
+            sleep(2000);
+            tiles(-.1);
+            sleep(2000);
             turn(1,.8);
+            sleep(2000);
+            tiles(-1);
         }
         else if(location == "Left"){
             tiles(1);
-            turn(1000,.8);
-            drop();
+            sleep(2000);
+            turn(90,.8);
+            sleep(2000);
+            tiles(.1);
+            sleep(2000);
+            tiles(-.1);
+            sleep(2000);
             turn(1,-.8);
+            sleep(2000);
+            tiles(-1);
 
 
         }
@@ -219,9 +247,11 @@ public class BasicOpenCV extends LinearOpMode{
     public void spikeR(String location) {
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1);
+            tiles(1.2);
+            sleep(2000);
+            tiles(-1.2);
             sleep(5000);
-            drop();
+
 
 
 
@@ -230,27 +260,45 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(1);
             sleep(2000);
             turn(1,.8);
+            tiles(.1);
+            sleep(2000);
+            tiles(-.1);
             sleep(2000);
             drop();
             sleep(2000);
             turn(1,-.8);
+            sleep(2000);
+            tiles(-1);
 
         }
         else if(location == "Left"){
             tiles(1);
+            sleep(2000);
+            turn(90,.8);
+            tiles(.1);
+            sleep(2000);
+            tiles(-.1);
+            sleep(2000);
+            turn(1,-.8);
+            sleep(2000);
+            tiles(-1);
 //
         }
     }
     public void noLiftR(){
         //spike
         tiles(-1);
+        sleep(2000);
         turn(90,.8);
+        sleep(2000);
         tiles(2);
     }
     public void noLiftB(){
         //spike
         tiles(-1);
+        sleep(2000);
         turn(90,-.8);
+        sleep(2000);
         tiles(2);
     }
 

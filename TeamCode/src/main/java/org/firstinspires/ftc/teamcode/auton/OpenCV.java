@@ -323,18 +323,7 @@ public class OpenCV extends LinearOpMode{
     }
 
 
-    public void noLiftR(){
-        //spike
-        tiles(-1);
-        turn(90,.8);
-        tiles(4);
-    }
-    public void noLiftB(){
-        //spike
-        tiles(-1);
-        turn(90,-.8);
-        tiles(4);
-    }
+
 
     //encoder method
     public void encoderDrive(double speed,

@@ -161,39 +161,26 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue backstage
                     spikeB(location);
-                    tiles(-.75);
-                    turn(90,.8);
-                    tiles(2);
+                    noLiftB();
                 }
                 if(side==2){
                     //Blue Stage
                     spikeB(location);
-                    tiles(-1);
-                    turn(90,.8);
-                    tiles(1);
-                    turn(90,-.8);
+                    noLiftB();
                     tiles(2);
-                    turn(90,.8);
-                    tiles(3);
 
                 }
                 if(side==3){
                     //Red backstage
                     spikeR(location);
-                    tiles(-.75);
-                    turn(90,-.8);
-                    tiles(2);
+                    noLiftR();
+
                 }
                 else {
                     //Red stage - Far
                     spikeR(location);
-                    tiles(-1);
-                    turn(90,-.8);
-                    tiles(1);
-                    turn(90,.8);
+                    noLiftR();
                     tiles(2);
-                    turn(90,-.8);
-                    tiles(3);
                 }
 
 // END COMMETNED OUT SECTION
@@ -249,6 +236,18 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(1);
 //
         }
+    }
+    public void noLiftR(){
+        //spike
+        tiles(-1);
+        turn(90,.8);
+        tiles(2);
+    }
+    public void noLiftB(){
+        //spike
+        tiles(-1);
+        turn(90,-.8);
+        tiles(2);
     }
 
     public void tiles(double tiles){

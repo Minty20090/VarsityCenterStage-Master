@@ -19,9 +19,7 @@ public class TestTeleop extends LinearOpMode {
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.init(hardwareMap);
-
-
-        double speed = .9;
+        double speed = .7;
 
         waitForStart();
         boolean isSpinning = false;

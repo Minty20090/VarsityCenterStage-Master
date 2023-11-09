@@ -267,7 +267,7 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
 
         double[] tagData = new double[2];
         tagData[0] = detection.pose.x*FEET_PER_METER;
-        tagData[1] = rot.firstAngle;
+        tagData[1] = rot.firstAngle*(180/Math.PI);
 
     }
     }

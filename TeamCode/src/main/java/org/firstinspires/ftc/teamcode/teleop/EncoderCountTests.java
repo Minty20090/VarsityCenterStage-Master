@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 
-@TeleOp(name = "BasicTestTeleop")
+@TeleOp(name = "EncoderCountTests")
 public class EncoderCountTests extends LinearOpMode {
     public HWMapBasic robot = new HWMapBasic();
 
@@ -13,42 +14,40 @@ public class EncoderCountTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
+        robot.fRightWheel.setTargetPosition(0);
+        robot.fLeftWheel.setTargetPosition(0);
+        robot.bRightWheel.setTargetPosition(0);
+        robot.bLeftWheel.setTargetPosition(0);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-
-        double speed = .9;
 
         waitForStart();
-        boolean isSpinning = false;
-        int intakePosition = 0;
-        boolean gateOpen = false;
-        boolean clawsOpen = false;
+
 
         while (opModeIsActive()) {
 
-            double y = gamepad1.left_stick_y; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
-
-            // Denominator is the largest motor power (absolute value) or 1
-            // This ensures all the powers maintain the same ratio, but only when
-            // at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontRightPower = (y - x - rx) / denominator;
-            double backRightPower = (y + x - rx) / denominator;
-
-            robot.fLeftWheel.setPower(frontLeftPower*speed);
-            robot.bLeftWheel.setPower(backLeftPower*speed);
-            robot.fRightWheel.setPower(frontRightPower*speed);
-            robot.bRightWheel.setPower(backRightPower*speed);
             telemetry.addData("Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getCurrentPosition(), robot.fLeftWheel.getCurrentPosition(), robot.bRightWheel.getCurrentPosition(), robot.fRightWheel.getCurrentPosition());
+            telemetry.addData("Motor Power:", String.valueOf(robot.bLeftWheel.getPower()), String.valueOf(robot.fLeftWheel.getPower()), String.valueOf(robot.bRightWheel.getPower()), String.valueOf(robot.fRightWheel.getPower()));
             telemetry.addData("Target Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getTargetPosition(), robot.fLeftWheel.getTargetPosition(), robot.bRightWheel.getTargetPosition(), robot.fRightWheel.getTargetPosition());
-            telemetry.update();
+            telemetry.addData("IsBusy:", String.valueOf(robot.bLeftWheel.isBusy()), robot.fLeftWheel.isBusy(), robot.bRightWheel.isBusy(), robot.fRightWheel.isBusy());
 
+            if (robot.bLeftWheel.getMode() == DcMotor.RunMode.RUN_TO_POSITION) {
+                telemetry.addData("right mode", true);
+            }
+            telemetry.update();
             if (gamepad1.a) {
                 tiles(1);
+
+
+
             }
             if (gamepad1.b) {
                 turn(90, -1);
@@ -69,16 +68,15 @@ public class EncoderCountTests extends LinearOpMode {
         int bleft = robot.bLeftWheel.getCurrentPosition();
         int bright = robot.bRightWheel.getCurrentPosition();
         int fright = robot.fRightWheel.getCurrentPosition();
-
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
         robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -600));
         robot.fRightWheel.setTargetPosition((int)(fright + tiles * -600));
         robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -600));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-        sleep(3000);
+
     }
 
 

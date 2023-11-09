@@ -56,32 +56,7 @@ public class BasicOpenCV extends LinearOpMode{
 
 
         // Side c = Side.rBlue;
-        int side = 1;
-        if (gamepad1.right_bumper == true) {
-            if (side < 4) {
-                side++;
-            } else if (side == 4) {
-                side = 1;
-            }
-            switch (side) {
-                case 1:
-                    telemetry.addLine("rBlue");
-                    telemetry.update();
-                    break;
-                case 2:
-                    telemetry.addLine("lBlue");
-                    telemetry.update();
-                    break;
-                case 3:
-                    telemetry.addLine("rRed");
-                    telemetry.update();
-                    break;
-                case 4:
-                    telemetry.addLine("lRed");
-                    telemetry.update();
-                    break;
-            }
-        }
+
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -103,6 +78,32 @@ public class BasicOpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         while (!isStarted() && !isStopRequested()) {
+            int side = 1;
+            if (gamepad1.right_bumper == true) {
+                if (side < 4) {
+                    side++;
+                } else if (side == 4) {
+                    side = 1;
+                }
+                switch (side) {
+                    case 1:
+                        telemetry.addLine("rBlue");
+                        telemetry.update();
+                        break;
+                    case 2:
+                        telemetry.addLine("lBlue");
+                        telemetry.update();
+                        break;
+                    case 3:
+                        telemetry.addLine("rRed");
+                        telemetry.update();
+                        break;
+                    case 4:
+                        telemetry.addLine("lRed");
+                        telemetry.update();
+                        break;
+                }
+            }
 
             runTime.reset();
             if (side == 1 || side == 2) {
@@ -154,7 +155,10 @@ public class BasicOpenCV extends LinearOpMode{
 
 
             while (opModeIsActive()) {
-                tiles(1);
+                robot.fLeftWheel.setPower(.8);
+                robot.fRightWheel.setPower(.8);
+                robot.bLeftWheel.setPower(.8);
+                robot.bRightWheel.setPower(.8);
 
             // START COMMETNED OUT SECTION
                 sleep(20);

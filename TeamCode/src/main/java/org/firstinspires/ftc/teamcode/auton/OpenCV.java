@@ -277,19 +277,19 @@ public class OpenCV extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1);
-            turn(1,-.8);
+            turn(90,-.8);
             sleep(500);
             drop();
             sleep(2000);
-            turn(1,.8);
+            turn(90,.8);
         }
         else if(location == "Left"){
            tiles(1);
-            turn(1000,.8);
+            turn(90,.8);
             sleep(500);
             drop();
             sleep(2000);
-            turn(1,-.8);
+            turn(90,-.8);
 
 
         }
@@ -306,23 +306,35 @@ public class OpenCV extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1);
-            turn(1,.8);
+            turn(90,.8);
             sleep(500);
             drop();
-            turn(1,-.8);
+            turn(90,-.8);
 
         }
         else if(location == "Left"){
             tiles(1);
-            turn(1,.8);
+            turn(90,.8);
             sleep(500);
             drop();
-            turn(1,-.8);
+            turn(90,-.8);
 
         }
     }
 
 
+    public void noLiftR(){
+        //spike
+        tiles(-1);
+        turn(90,.8);
+        tiles(4);
+    }
+    public void noLiftB(){
+        //spike
+        tiles(-1);
+        turn(90,-.8);
+        tiles(4);
+    }
 
     //encoder method
     public void encoderDrive(double speed,

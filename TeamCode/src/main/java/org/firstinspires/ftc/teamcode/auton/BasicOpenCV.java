@@ -168,7 +168,7 @@ public class BasicOpenCV extends LinearOpMode{
                     sleep(2000);
                     turn(90,.8);
                     sleep(2000);
-                    noLiftB();
+                    tiles(2);
                 }
                 if(side==2){
                     //Blue Stage
@@ -176,8 +176,7 @@ public class BasicOpenCV extends LinearOpMode{
                     sleep(2000);
                     turn(90,.8);
                     sleep(2000);
-                    noLiftB();
-                    tiles(2);
+                    tiles(4);
 
                 }
                 if(side==3){
@@ -186,7 +185,7 @@ public class BasicOpenCV extends LinearOpMode{
                     sleep(2000);
                     turn(90,-.8);
                     sleep(2000);
-                    noLiftR();
+                    tiles(2);
 
                 }
                 else {
@@ -195,8 +194,7 @@ public class BasicOpenCV extends LinearOpMode{
                     sleep(2000);
                     turn(90,-.8);
                     sleep(2000);
-                    noLiftR();
-                    tiles(2);
+                    tiles(4);
                 }
 
 // END COMMETNED OUT SECTION
@@ -252,9 +250,6 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(-1.3);
             sleep(2000);
 
-
-
-
         }
         else if(location == "Right"){
             tiles(1);
@@ -308,7 +303,10 @@ public class BasicOpenCV extends LinearOpMode{
         robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -550));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
         sleep(2000);
-        correction(tiles);
+        if (tiles > 0) {
+            correction(tiles);
+        }
+
 
     }
     public void correction( double tiles) {

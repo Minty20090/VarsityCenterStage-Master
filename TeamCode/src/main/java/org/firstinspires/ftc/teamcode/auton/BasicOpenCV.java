@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -16,7 +17,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class BasicOpenCV extends LinearOpMode{
      public HWMapBasic robot = new HWMapBasic();
-
+    Gamepad currentGamepad1 = new Gamepad();
+    Gamepad previousGamepad1 = new Gamepad();
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -58,7 +60,7 @@ public class BasicOpenCV extends LinearOpMode{
         // Side c = Side.rBlue;
 
 
-
+        int side = 1;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
@@ -78,31 +80,27 @@ public class BasicOpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         while (!isStarted() && !isStopRequested()) {
-            int side = 1;
-            if (gamepad1.right_bumper == true) {
-                if (side < 4) {
-                    side++;
-                } else if (side == 4) {
-                    side = 1;
-                }
-                switch (side) {
-                    case 1:
-                        telemetry.addLine("rBlue");
-                        telemetry.update();
-                        break;
-                    case 2:
-                        telemetry.addLine("lBlue");
-                        telemetry.update();
-                        break;
-                    case 3:
-                        telemetry.addLine("rRed");
-                        telemetry.update();
-                        break;
-                    case 4:
-                        telemetry.addLine("lRed");
-                        telemetry.update();
-                        break;
-                }
+
+
+            if (gamepad1.a) {
+                telemetry.addLine("rBlue");
+                telemetry.update();
+                side = 1;
+            }
+            if (gamepad1.b) {
+                telemetry.addLine("lBlue");
+                telemetry.update();
+                side = 2;
+            }
+            if (gamepad1.x) {
+                telemetry.addLine("rRed");
+                telemetry.update();
+                side = 3;
+            }
+            if (gamepad1.y) {
+                telemetry.addLine("lRed");
+                telemetry.update();
+                side = 4;
             }
 
             runTime.reset();
@@ -110,25 +108,25 @@ public class BasicOpenCV extends LinearOpMode{
                 webcam.setPipeline(BluePropDetectionPipeline);
                 BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
                 if (elementLocation == BluePropLocation.RIGHT) {
-                    telemetry.addLine("right");
-                    telemetry.update();
+//                    telemetry.addLine("right");
+//                    telemetry.update();
                     location = "Right";
 
 
                 } else if (elementLocation == BluePropLocation.LEFT) {
-                    telemetry.addLine("left");
-                    telemetry.update();
+//                    telemetry.addLine("left");
+//                    telemetry.update();
                     location = "Left";
 
                 } else if (elementLocation == BluePropLocation.MIDDLE) {
-                    telemetry.addLine("middle");
-                    telemetry.update();
+//                    telemetry.addLine("middle");
+//                    telemetry.update();
                     location = "Middle";
 
 
                 } else {
-                    telemetry.addLine("not detected");
-                    telemetry.update();
+//                    telemetry.addLine("not detected");
+//                    telemetry.update();
                     location = "Middle";
                 }
             } else {
@@ -148,6 +146,8 @@ public class BasicOpenCV extends LinearOpMode{
                     location = "Middle";
 
                 } else {
+                    telemetry.addLine("not detected");
+                    telemetry.update();
                     location = "Middle";
                 }
 
@@ -165,35 +165,32 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue backstage
                     spikeB(location);
-                    sleep(2000);
                     turn(90,.8);
-                    sleep(2000);
-                    tiles(2);
+                    sleep(1000);
+                    tiles(6);
                 }
                 if(side==2){
                     //Blue Stage
                     spikeB(location);
-                    sleep(2000);
                     turn(90,.8);
-                    sleep(2000);
-                    tiles(4);
+                    sleep(1000);
+                    tiles(3);
 
                 }
                 if(side==3){
                     //Red backstage
                     spikeR(location);
-                    sleep(2000);
                     turn(90,-.8);
-                    sleep(2000);
-                    tiles(2);
+                    sleep(1000);
+                    tiles(6);
 
                 }
                 else {
                     //Red stage - Far
                     spikeR(location);
-                    sleep(2000);
+                    sleep(1000);
                     turn(90,-.8);
-                    sleep(2000);
+                    sleep(1000);
                     tiles(4);
                 }
 
@@ -209,35 +206,24 @@ public class BasicOpenCV extends LinearOpMode{
         if (location == "Middle") {
             System.out.println("bet");
             tiles(1.3);
-            sleep(2000);
             tiles(-1.2);
 
         }
         else if(location == "Right"){
-            tiles(1);
-            sleep(2000);
+            tiles(1.3);
             turn(90,-.8);
-            sleep(2000);
-            tiles(.1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
+            tiles(.2);
+            tiles(-.2);
             turn(90,.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(-1.3);
         }
         else if(location == "Left"){
-            tiles(1);
-            sleep(2000);
+            tiles(1.3);
             turn(90,.8);
-            sleep(2000);
-            tiles(.1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
+            tiles(.2);
+            tiles(-.2);
             turn(90,-.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(-1.3);
 
 
         }
@@ -246,37 +232,26 @@ public class BasicOpenCV extends LinearOpMode{
         if (location == "Middle") {
             System.out.println("bet");
             tiles(1.3);
-            sleep(2000);
             tiles(-1.3);
-            sleep(2000);
 
         }
         else if(location == "Right"){
-            tiles(1);
-            sleep(2000);
+            tiles(1.3);
             turn(90,.8);
-            tiles(.1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
+            tiles(.4);
+            tiles(-.4);
             drop();
-            sleep(2000);
             turn(90,-.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(-1.3);
 
         }
         else if(location == "Left"){
-            tiles(1);
-            sleep(2000);
+            tiles(1.3);
             turn(90,.8);
-            tiles(.1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
+            tiles(.4);
+            tiles(-.4);
             turn(90,-.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(-1.3);
 //
         }
     }
@@ -358,7 +333,7 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
-        sleep(3000);
+        sleep(2000);
     }
 
 

@@ -32,16 +32,17 @@ public class BluePropDetectionPipeline extends OpenCvPipeline {
     //rectangles are made from defining two opposite vertices of a triangle,
     //which are connected by the diagonals
     static final Rect leftROI = new Rect(
-            new Point( 0, 0),
-            new Point(400, 700)
+            new Point( 800, 0),
+            new Point(1280, 700)
     );
     static final Rect middleROI = new Rect(
             new Point( 400, 0),
             new Point(800, 700)
     );
     static final Rect rightROI = new Rect(
-            new Point( 800, 0),
-            new Point(1280, 700)
+            new Point( 0, 0),
+            new Point(400, 700)
+
     );
 
 

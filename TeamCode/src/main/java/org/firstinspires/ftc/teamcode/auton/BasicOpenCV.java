@@ -235,7 +235,7 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(-1.3);
 
         }
-        else if(location == "Right"){
+        else if(location == "Left"){
             tiles(1.3);
             turn(90,.8);
             tiles(.4);
@@ -245,7 +245,7 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(-1.3);
 
         }
-        else if(location == "Left"){
+        else if(location == "Right"){
             tiles(1.3);
             turn(90,.8);
             tiles(.4);

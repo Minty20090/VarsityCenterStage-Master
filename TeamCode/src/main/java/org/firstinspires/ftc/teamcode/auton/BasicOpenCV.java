@@ -108,25 +108,25 @@ public class BasicOpenCV extends LinearOpMode{
                 webcam.setPipeline(BluePropDetectionPipeline);
                 BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
                 if (elementLocation == BluePropLocation.RIGHT) {
-//                    telemetry.addLine("right");
-//                    telemetry.update();
+                    telemetry.addLine("right");
+                    telemetry.update();
                     location = "Right";
 
 
                 } else if (elementLocation == BluePropLocation.LEFT) {
-//                    telemetry.addLine("left");
-//                    telemetry.update();
+                    telemetry.addLine("left");
+                    telemetry.update();
                     location = "Left";
 
                 } else if (elementLocation == BluePropLocation.MIDDLE) {
-//                    telemetry.addLine("middle");
-//                    telemetry.update();
+                    telemetry.addLine("middle");
+                    telemetry.update();
                     location = "Middle";
 
 
                 } else {
-//                    telemetry.addLine("not detected");
-//                    telemetry.update();
+                    telemetry.addLine("not detected");
+                    telemetry.update();
                     location = "Middle";
                 }
             } else {
@@ -168,6 +168,7 @@ public class BasicOpenCV extends LinearOpMode{
                     turn(90,.8);
                     sleep(1000);
                     tiles(6);
+                    break;
                 }
                 if(side==2){
                     //Blue Stage
@@ -175,14 +176,16 @@ public class BasicOpenCV extends LinearOpMode{
                     turn(90,.8);
                     sleep(1000);
                     tiles(3);
+                    break;
 
                 }
-                if(side==3){
+                if(side == 3){
                     //Red backstage
                     spikeR(location);
                     turn(90,-.8);
                     sleep(1000);
                     tiles(6);
+                    break;
 
                 }
                 if(side == 4) {
@@ -192,7 +195,9 @@ public class BasicOpenCV extends LinearOpMode{
                     turn(90,-.8);
                     sleep(1000);
                     tiles(4);
+                    break;
                 }
+                break;
 
 // END COMMETNED OUT SECTION
             }
@@ -235,7 +240,7 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(-1.3);
 
         }
-        else if(location == "Left"){
+        else if(location == "Right"){
             tiles(1.3);
             turn(90,.8);
             tiles(.4);
@@ -245,7 +250,7 @@ public class BasicOpenCV extends LinearOpMode{
             tiles(-1.3);
 
         }
-        else if(location == "Right"){
+        else if(location == "Left"){
             tiles(1.3);
             turn(90,.8);
             tiles(.4);

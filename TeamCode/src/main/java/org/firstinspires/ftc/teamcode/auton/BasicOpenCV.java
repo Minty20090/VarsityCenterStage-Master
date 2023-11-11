@@ -185,7 +185,7 @@ public class BasicOpenCV extends LinearOpMode{
                     tiles(6);
 
                 }
-                else {
+                if(side == 4) {
                     //Red stage - Far
                     spikeR(location);
                     sleep(1000);

@@ -17,8 +17,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class BasicOpenCV extends LinearOpMode{
      public HWMapBasic robot = new HWMapBasic();
-    Gamepad currentGamepad1 = new Gamepad();
-    Gamepad previousGamepad1 = new Gamepad();
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS

@@ -12,7 +12,7 @@ public class HWMapBasic extends Project{
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
-    public Servo gate = null;
+
 
     public WebcamName camera = null;
 
@@ -24,7 +24,7 @@ public class HWMapBasic extends Project{
         fRightWheel = hwMap.dcMotor.get("FrontRight");
         bLeftWheel = hwMap.dcMotor.get("BackLeft");
         bRightWheel = hwMap.dcMotor.get("BackRight");
-        gate = hwMap.servo.get("gate");
+//        lClaw = hwMap.servo.get("lClaw");
 //        oClaw = hwMap.servo.get("oClaw");
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
@@ -59,7 +59,6 @@ public class HWMapBasic extends Project{
         Stop();
     }
     public void Stop(){
-        gate.setPosition(0);
         fRightWheel.setPower(0);
         fLeftWheel.setPower(0);
         bRightWheel.setPower(0);

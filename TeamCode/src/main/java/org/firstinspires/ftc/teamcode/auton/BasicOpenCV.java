@@ -211,8 +211,10 @@ public class BasicOpenCV extends LinearOpMode{
         if (location == "Middle") {
             System.out.println("bet");
             tiles(1.2);
+            robot.gate.setPosition(1);
             sleep(2000);
             tiles(-1.2);
+            robot.gate.setPosition(0);
 
         }
         else if(location == "Right"){
@@ -221,9 +223,11 @@ public class BasicOpenCV extends LinearOpMode{
             turn(1,-.8);
             sleep(2000);
             tiles(.1);
+            robot.gate.setPosition(1);
             sleep(2000);
             tiles(-.1);
             sleep(2000);
+            robot.gate.setPosition(0);
             turn(1,.8);
             sleep(2000);
             tiles(-1);
@@ -234,9 +238,11 @@ public class BasicOpenCV extends LinearOpMode{
             turn(90,.8);
             sleep(2000);
             tiles(.1);
+            robot.gate.setPosition(1);
             sleep(2000);
             tiles(-.1);
             sleep(2000);
+            robot.gate.setPosition(0);
             turn(1,-.8);
             sleep(2000);
             tiles(-1);
@@ -249,7 +255,10 @@ public class BasicOpenCV extends LinearOpMode{
             System.out.println("bet");
             tiles(1.2);
             sleep(2000);
+            robot.gate.setPosition(1);
+            sleep(500);
             tiles(-1.2);
+            robot.gate.setPosition(0);
             sleep(5000);
 
 
@@ -259,10 +268,12 @@ public class BasicOpenCV extends LinearOpMode{
         else if(location == "Right"){
             tiles(1);
             sleep(2000);
+            robot.gate.setPosition(1);
             turn(1,.8);
             tiles(.1);
             sleep(2000);
             tiles(-.1);
+            robot.gate.setPosition(0);
             sleep(2000);
             drop();
             sleep(2000);
@@ -273,12 +284,16 @@ public class BasicOpenCV extends LinearOpMode{
         }
         else if(location == "Left"){
             tiles(1);
+
             sleep(2000);
             turn(90,.8);
             tiles(.1);
             sleep(2000);
+            robot.gate.setPosition(1);
+            sleep(500);
             tiles(-.1);
             sleep(2000);
+            robot.gate.setPosition(0);
             turn(1,-.8);
             sleep(2000);
             tiles(-1);

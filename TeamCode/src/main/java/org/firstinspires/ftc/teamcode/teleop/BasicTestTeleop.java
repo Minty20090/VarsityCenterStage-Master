@@ -46,6 +46,12 @@ public class BasicTestTeleop extends LinearOpMode {
             robot.fRightWheel.setPower(frontRightPower*speed);
             robot.bRightWheel.setPower(backRightPower*speed);
 
+            if (gamepad1.a) {
+                robot.gate.setPosition(1);
+            }
+            if (gamepad1.b) {
+                robot.gate.setPosition(0);
+            }
 
 
         }

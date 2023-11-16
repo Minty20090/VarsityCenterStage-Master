@@ -204,6 +204,7 @@ public class BasicOpenCV extends LinearOpMode{
         }
     }
     public void drop(){
+        robot.gate.setPosition(1);
     }
     public void spikeB(String location) { // blue
         if (location == "Middle") {

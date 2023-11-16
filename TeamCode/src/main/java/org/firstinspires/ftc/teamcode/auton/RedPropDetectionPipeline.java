@@ -32,16 +32,17 @@ public class RedPropDetectionPipeline extends OpenCvPipeline {
     //rectangles are made from defining two opposite vertices of a triangle,
     //which are connected by the diagonals
     static final Rect leftROI = new Rect(
-            new Point( 0, 0),
-            new Point(400, 700)
+            new Point( 800, 0),
+            new Point(1280, 700)
     );
     static final Rect middleROI = new Rect(
             new Point( 400, 0),
             new Point(800, 700)
     );
     static final Rect rightROI = new Rect(
-            new Point( 800, 0),
-            new Point(1280, 700)
+            new Point( 0, 0),
+            new Point(400, 700)
+
     );
 
 
@@ -56,9 +57,8 @@ public class RedPropDetectionPipeline extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         //define HSV range to identify the color red
-        Scalar lowHSV = new Scalar (0, 70, 50);
-        Scalar highHSV = new Scalar(10, 255, 255);
-
+        Scalar lowHSV = new Scalar (0,50,50);
+        Scalar highHSV = new Scalar(10,255,255);
         //applies a threshold (everything that is red will be white,
         // everything else will be black)
         //returns a new mat with this threshold

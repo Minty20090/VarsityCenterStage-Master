@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -16,7 +17,6 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class BasicOpenCV extends LinearOpMode{
      public HWMapBasic robot = new HWMapBasic();
-
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -58,7 +58,7 @@ public class BasicOpenCV extends LinearOpMode{
         // Side c = Side.rBlue;
 
 
-
+        int side = 1;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
@@ -78,31 +78,27 @@ public class BasicOpenCV extends LinearOpMode{
         telemetry.setMsTransmissionInterval(50);
 
         while (!isStarted() && !isStopRequested()) {
-            int side = 1;
-            if (gamepad1.right_bumper == true) {
-                if (side < 4) {
-                    side++;
-                } else if (side == 4) {
-                    side = 1;
-                }
-                switch (side) {
-                    case 1:
-                        telemetry.addLine("rBlue");
-                        telemetry.update();
-                        break;
-                    case 2:
-                        telemetry.addLine("lBlue");
-                        telemetry.update();
-                        break;
-                    case 3:
-                        telemetry.addLine("rRed");
-                        telemetry.update();
-                        break;
-                    case 4:
-                        telemetry.addLine("lRed");
-                        telemetry.update();
-                        break;
-                }
+
+
+            if (gamepad1.a) {
+                telemetry.addLine("rBlue");
+                telemetry.update();
+                side = 1;
+            }
+            if (gamepad1.b) {
+                telemetry.addLine("lBlue");
+                telemetry.update();
+                side = 2;
+            }
+            if (gamepad1.x) {
+                telemetry.addLine("rRed");
+                telemetry.update();
+                side = 3;
+            }
+            if (gamepad1.y) {
+                telemetry.addLine("lRed");
+                telemetry.update();
+                side = 4;
             }
 
             runTime.reset();
@@ -148,6 +144,8 @@ public class BasicOpenCV extends LinearOpMode{
                     location = "Middle";
 
                 } else {
+                    telemetry.addLine("not detected");
+                    telemetry.update();
                     location = "Middle";
                 }
 
@@ -165,39 +163,39 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue backstage
                     spikeB(location);
-                    sleep(2000);
                     turn(90,.8);
-                    sleep(2000);
-                    noLiftB();
+                    sleep(1000);
+                    tiles(6);
+                    break;
                 }
                 if(side==2){
                     //Blue Stage
                     spikeB(location);
-                    sleep(2000);
                     turn(90,.8);
-                    sleep(2000);
-                    noLiftB();
-                    tiles(2);
+                    sleep(1000);
+                    tiles(3);
+                    break;
 
                 }
-                if(side==3){
+                if(side == 3){
                     //Red backstage
                     spikeR(location);
-                    sleep(2000);
                     turn(90,-.8);
-                    sleep(2000);
-                    noLiftR();
+                    sleep(1000);
+                    tiles(6);
+                    break;
 
                 }
-                else {
+                if(side == 4) {
                     //Red stage - Far
                     spikeR(location);
-                    sleep(2000);
+                    sleep(1000);
                     turn(90,-.8);
-                    sleep(2000);
-                    noLiftR();
-                    tiles(2);
+                    sleep(1000);
+                    tiles(4);
+                    break;
                 }
+                break;
 
 // END COMMETNED OUT SECTION
             }
@@ -206,46 +204,30 @@ public class BasicOpenCV extends LinearOpMode{
         }
     }
     public void drop(){
+        robot.gate.setPosition(1);
     }
     public void spikeB(String location) { // blue
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.2);
-            robot.gate.setPosition(1);
-            sleep(2000);
+            tiles(1.3);
             tiles(-1.2);
-            robot.gate.setPosition(0);
 
         }
         else if(location == "Right"){
-            tiles(1);
-            sleep(2000);
-            turn(1,-.8);
-            sleep(2000);
-            tiles(.1);
-            robot.gate.setPosition(1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
-            robot.gate.setPosition(0);
-            turn(1,.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(1.3);
+            turn(90,-.8);
+            tiles(.2);
+            tiles(-.2);
+            turn(90,.8);
+            tiles(-1.3);
         }
         else if(location == "Left"){
-            tiles(1);
-            sleep(2000);
+            tiles(1.3);
             turn(90,.8);
-            sleep(2000);
-            tiles(.1);
-            robot.gate.setPosition(1);
-            sleep(2000);
-            tiles(-.1);
-            sleep(2000);
-            robot.gate.setPosition(0);
-            turn(1,-.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(.2);
+            tiles(-.2);
+            turn(90,-.8);
+            tiles(-1.3);
 
 
         }
@@ -253,85 +235,72 @@ public class BasicOpenCV extends LinearOpMode{
     public void spikeR(String location) {
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.2);
-            sleep(2000);
-            robot.gate.setPosition(1);
-            sleep(500);
-            tiles(-1.2);
-            robot.gate.setPosition(0);
-            sleep(5000);
-
-
-
+            tiles(1.3);
+            tiles(-1.3);
 
         }
         else if(location == "Right"){
-            tiles(1);
-            sleep(2000);
-            robot.gate.setPosition(1);
-            turn(1,.8);
-            tiles(.1);
-            sleep(2000);
-            tiles(-.1);
-            robot.gate.setPosition(0);
-            sleep(2000);
+            tiles(1.3);
+            turn(90,.8);
+            tiles(.4);
+            tiles(-.4);
             drop();
-            sleep(2000);
-            turn(1,-.8);
-            sleep(2000);
-            tiles(-1);
+            turn(90,-.8);
+            tiles(-1.3);
 
         }
         else if(location == "Left"){
-            tiles(1);
-
-            sleep(2000);
+            tiles(1.3);
             turn(90,.8);
-            tiles(.1);
-            sleep(2000);
-            robot.gate.setPosition(1);
-            sleep(500);
-            tiles(-.1);
-            sleep(2000);
-            robot.gate.setPosition(0);
-            turn(1,-.8);
-            sleep(2000);
-            tiles(-1);
+            tiles(.4);
+            tiles(-.4);
+            turn(90,-.8);
+            tiles(-1.3);
 //
         }
     }
     public void noLiftR(){
         //spike
-        tiles(-1);
-        sleep(2000);
-        turn(90,.8);
-        sleep(2000);
-        tiles(2);
+        tiles(4.5);
     }
     public void noLiftB(){
         //spike
-        tiles(-1);
-        sleep(2000);
-        turn(90,-.8);
-        sleep(2000);
-        tiles(2);
-    }
+        tiles(4.5);
 
+    }
     public void tiles(double tiles){
         int fleft = robot.fLeftWheel.getCurrentPosition();
         int bleft = robot.bLeftWheel.getCurrentPosition();
         int bright = robot.bRightWheel.getCurrentPosition();
         int fright = robot.fRightWheel.getCurrentPosition();
-
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -600));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -600));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -600));
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -450));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -500));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -550));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-        sleep(3000);
+        sleep(2000);
+        if (tiles > 0) {
+            correction(tiles);
+        }
+
+
+    }
+    public void correction( double tiles) {
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -70));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 70));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 70));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -70));
     }
 
 
@@ -350,27 +319,26 @@ public class BasicOpenCV extends LinearOpMode{
         }
 
         if (turn == "left") {
-            robot.fLeftWheel.setTargetPosition((fleft));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 564)));
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * -351)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * 201));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 632)));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * 365)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * -565));
+            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * -259)));
+
         }
         if (turn == "right") {
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * -11)));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * -562)));
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 300)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (degrees/90 * -233)));
+
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * -528)));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * -329)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (degrees/90 * 567)));
+            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 264)));
         }
 
         robot.fLeftWheel.setPower(.8);
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
         robot.bRightWheel.setPower(.8);
-        sleep(3000);
+        sleep(2000);
     }
-
-
-
 
 
 

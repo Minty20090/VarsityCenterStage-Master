@@ -52,6 +52,12 @@ public class BasicTestTeleop extends LinearOpMode {
                 robot.gate.setPosition(0);
             }
 
+            if (gamepad1.a) {
+                robot.gate.setPosition(1);
+            }
+            if (gamepad1.b) {
+                robot.gate.setPosition(0);
+            }
 
 
         }

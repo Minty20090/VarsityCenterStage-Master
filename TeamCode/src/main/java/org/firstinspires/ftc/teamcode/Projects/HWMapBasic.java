@@ -64,6 +64,7 @@ public class HWMapBasic extends Project{
         fLeftWheel.setPower(0);
         bRightWheel.setPower(0);
         bLeftWheel.setPower(0);
+        gate.setPosition(0);
 //        slide.setPower(0);
         //wrist.setPower(0);
     }

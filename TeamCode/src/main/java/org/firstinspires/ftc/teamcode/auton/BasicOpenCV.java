@@ -53,7 +53,7 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+        robot.gate.setPosition(0);
 
         // Side c = Side.rBlue;
 
@@ -161,28 +161,28 @@ public class BasicOpenCV extends LinearOpMode{
             // START COMMETNED OUT SECTION
                 sleep(20);
                 if(side==1) {
-                    //Blue backstage
+                    //Blue stage
                     spikeB(location);
-                    turn(90,.8);
+                    turn(86,.8);
                     sleep(1000);
-                    tiles(6);
+                    tiles(3.5);
                     break;
                 }
                 if(side==2){
-                    //Blue Stage
+                    //Blue back tage
                     spikeB(location);
-                    turn(90,.8);
+                    turn(86,.8);
                     sleep(1000);
-                    tiles(3);
+                    tiles(2);
                     break;
 
                 }
                 if(side == 3){
                     //Red backstage
                     spikeR(location);
-                    turn(90,-.8);
+                    turn(86,-.8);
                     sleep(1000);
-                    tiles(6);
+                    tiles(2);
                     break;
 
                 }
@@ -190,9 +190,9 @@ public class BasicOpenCV extends LinearOpMode{
                     //Red stage - Far
                     spikeR(location);
                     sleep(1000);
-                    turn(90,-.8);
+                    turn(86,-.8);
                     sleep(1000);
-                    tiles(4);
+                    tiles(3.5);
                     break;
                 }
                 break;
@@ -205,29 +205,33 @@ public class BasicOpenCV extends LinearOpMode{
     }
     public void drop(){
         robot.gate.setPosition(1);
+        sleep(1000);
     }
     public void spikeB(String location) { // blue
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.3);
-            tiles(-1.2);
+            tiles(1.2);
+            drop();
+            tiles(-1.1);
 
         }
         else if(location == "Right"){
-            tiles(1.3);
+            tiles(1.1);
             turn(90,-.8);
-            tiles(.2);
-            tiles(-.2);
+            tiles(.15);
+            drop();
+            tiles(-.15);
             turn(90,.8);
-            tiles(-1.3);
+            tiles(-1);
         }
         else if(location == "Left"){
-            tiles(1.3);
+            tiles(1.1);
             turn(90,.8);
-            tiles(.2);
-            tiles(-.2);
+            tiles(.15);
+            drop();
+            tiles(-.15);
             turn(90,-.8);
-            tiles(-1.3);
+            tiles(-1);
 
 
         }
@@ -235,27 +239,29 @@ public class BasicOpenCV extends LinearOpMode{
     public void spikeR(String location) {
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.3);
-            tiles(-1.3);
+            tiles(1.2);
+            drop();
+            tiles(-1.1);
 
         }
         else if(location == "Right"){
-            tiles(1.3);
+            tiles(1.1);
             turn(90,.8);
-            tiles(.4);
-            tiles(-.4);
+            tiles(.1);
             drop();
+            tiles(-.1);
             turn(90,-.8);
-            tiles(-1.3);
+            tiles(-1);
 
         }
         else if(location == "Left"){
-            tiles(1.3);
+            tiles(1.1);
             turn(90,.8);
-            tiles(.4);
-            tiles(-.4);
+            tiles(.1);
+            drop();
+            tiles(-.1);
             turn(90,-.8);
-            tiles(-1.3);
+            tiles(-1);
 //
         }
     }
@@ -277,10 +283,10 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setPower(.5);
         robot.bLeftWheel.setPower(.5);
         robot.bRightWheel.setPower(.5);
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -450));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -500));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -550));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -580));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -580));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -580));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -580));
         sleep(2000);
         if (tiles > 0) {
             correction(tiles);
@@ -319,18 +325,18 @@ public class BasicOpenCV extends LinearOpMode{
         }
 
         if (turn == "left") {
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 632)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * 365)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * -565));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * -259)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees/90 * 287)));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees/90 * 369)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (int) (degrees/90 * -279)));
+            robot.fRightWheel.setTargetPosition((int) (fright + (int) (degrees/90 * -367)));
 
         }
         if (turn == "right") {
 
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * -528)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * -329)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (degrees/90 * 567)));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 264)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees/90 * -290)));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees/90 * -390)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (int)(degrees/90 * 285)));
+            robot.fRightWheel.setTargetPosition((int) (fright + (int)(degrees/90 * 340)));
         }
 
         robot.fLeftWheel.setPower(.8);

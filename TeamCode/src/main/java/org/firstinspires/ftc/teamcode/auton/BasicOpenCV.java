@@ -165,7 +165,7 @@ public class BasicOpenCV extends LinearOpMode{
                     spikeB(location);
                     turn(86,.8);
                     sleep(1000);
-                    tiles(3.5);
+                    tiles(3);
                     break;
                 }
                 if(side==2){
@@ -192,7 +192,7 @@ public class BasicOpenCV extends LinearOpMode{
                     sleep(1000);
                     turn(86,-.8);
                     sleep(1000);
-                    tiles(3.5);
+                    tiles(3);
                     break;
                 }
                 break;

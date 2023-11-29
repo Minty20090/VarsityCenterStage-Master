@@ -163,7 +163,7 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue stage
                     spikeB(location);
-                    turn(86,.8);
+                    turn(95,.8);
                     sleep(1000);
                     tiles(3);
                     break;
@@ -171,7 +171,7 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==2){
                     //Blue back tage
                     spikeB(location);
-                    turn(86,.8);
+                    turn(95,.8);
                     sleep(1000);
                     tiles(2);
                     break;
@@ -180,7 +180,7 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side == 3){
                     //Red backstage
                     spikeR(location);
-                    turn(86,-.8);
+                    turn(95,-.8);
                     sleep(1000);
                     tiles(2);
                     break;
@@ -190,7 +190,7 @@ public class BasicOpenCV extends LinearOpMode{
                     //Red stage - Far
                     spikeR(location);
                     sleep(1000);
-                    turn(86,-.8);
+                    turn(95,-.8);
                     sleep(1000);
                     tiles(3);
                     break;
@@ -217,20 +217,20 @@ public class BasicOpenCV extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1.1);
-            turn(90,-.8);
-            tiles(.15);
+            turn(95,-.8);
+            tiles(.25);
             drop();
-            tiles(-.15);
-            turn(90,.8);
+            tiles(-.27);
+            turn(95,.8);
             tiles(-1);
         }
         else if(location == "Left"){
             tiles(1.1);
-            turn(90,.8);
-            tiles(.15);
+            turn(95,.8);
+            tiles(.25);
             drop();
-            tiles(-.15);
-            turn(90,-.8);
+            tiles(-.27);
+            turn(95,-.8);
             tiles(-1);
 
 
@@ -246,21 +246,21 @@ public class BasicOpenCV extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1.1);
-            turn(90,.8);
-            tiles(.1);
+            turn(95,-.8);
+            tiles(.25);
             drop();
-            tiles(-.1);
-            turn(90,-.8);
+            tiles(-.27);
+            turn(95,.8);
             tiles(-1);
 
         }
         else if(location == "Left"){
             tiles(1.1);
-            turn(90,.8);
-            tiles(.1);
+            turn(95,.8);
+            tiles(.25);
             drop();
-            tiles(-.1);
-            turn(90,-.8);
+            tiles(-.27);
+            turn(95,-.8);
             tiles(-1);
 //
         }
@@ -325,18 +325,18 @@ public class BasicOpenCV extends LinearOpMode{
         }
 
         if (turn == "left") {
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees/90) * 287));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees/90) * 369));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (int) (degrees/90) * -279));
-            robot.fRightWheel.setTargetPosition((int) (fright + (int) (degrees/90) * -367));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees) * (int) (287/90)));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees) * (int) (369/90)));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (int) (degrees * (int) (-279/90))));
+            robot.fRightWheel.setTargetPosition((int) (fright + (int) (degrees * (int) (-367/90))));
 
         }
         if (turn == "right") {
 
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees/90 * -290)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees/90 * -390)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (int)(degrees/90 * 285)));
-            robot.fRightWheel.setTargetPosition((int) (fright + (int)(degrees/90 * 340)));
+            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees * (int)(-290/90))));
+            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees * (int)(-390/90))));
+            robot.bRightWheel.setTargetPosition((int) (bright+ (int)(degrees * (int)(285/90))));
+            robot.fRightWheel.setTargetPosition((int) (fright + (int)(degrees * (int)(340/90))));
         }
 
         robot.fLeftWheel.setPower(.8);

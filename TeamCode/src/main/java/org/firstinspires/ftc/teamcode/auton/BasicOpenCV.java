@@ -162,37 +162,42 @@ public class BasicOpenCV extends LinearOpMode{
                 sleep(20);
                 if(side==1) {
                     //Blue stage
+
                     spikeB(location);
-                    turn(95,.8);
+                    robot.gate.setPosition(0);
+                    turn(105,.8);
                     sleep(1000);
-                    tiles(3);
+                    tiles(3.5);
                     break;
                 }
                 if(side==2){
                     //Blue back tage
                     spikeB(location);
-                    turn(95,.8);
+                    robot.gate.setPosition(0);
+                    turn(100,.8);
                     sleep(1000);
-                    tiles(2);
+                    tiles(1.5);
                     break;
 
                 }
                 if(side == 3){
                     //Red backstage
                     spikeR(location);
-                    turn(95,-.8);
+                    robot.gate.setPosition(0);
+                    turn(100,-.8);
                     sleep(1000);
-                    tiles(2);
+                    tiles(1.5);
                     break;
 
                 }
                 if(side == 4) {
                     //Red stage - Far
                     spikeR(location);
+                    robot.gate.setPosition(0);
                     sleep(1000);
-                    turn(95,-.8);
+                    turn(105,-.8);
                     sleep(1000);
-                    tiles(3);
+                    tiles(3.5);
                     break;
                 }
                 break;
@@ -218,18 +223,18 @@ public class BasicOpenCV extends LinearOpMode{
         else if(location == "Right"){
             tiles(1.1);
             turn(95,-.8);
-            tiles(.25);
+            tiles(.2);
             drop();
-            tiles(-.27);
+            tiles(-.25);
             turn(95,.8);
             tiles(-1);
         }
         else if(location == "Left"){
             tiles(1.1);
             turn(95,.8);
-            tiles(.25);
+            tiles(.2);
             drop();
-            tiles(-.27);
+            tiles(-.25);
             turn(95,-.8);
             tiles(-1);
 
@@ -246,10 +251,10 @@ public class BasicOpenCV extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1.1);
-            turn(95,-.8);
-            tiles(.25);
+            turn(100,-.8);
+            tiles(.2);
             drop();
-            tiles(-.27);
+            tiles(-.25);
             turn(95,.8);
             tiles(-1);
 
@@ -257,9 +262,9 @@ public class BasicOpenCV extends LinearOpMode{
         else if(location == "Left"){
             tiles(1.1);
             turn(95,.8);
-            tiles(.25);
+            tiles(.2);
             drop();
-            tiles(-.27);
+            tiles(-.25);
             turn(95,-.8);
             tiles(-1);
 //
@@ -307,6 +312,7 @@ public class BasicOpenCV extends LinearOpMode{
         robot.fRightWheel.setTargetPosition((int)(fright + tiles * 70));
         robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 70));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -70));
+        sleep(500);
     }
 
 

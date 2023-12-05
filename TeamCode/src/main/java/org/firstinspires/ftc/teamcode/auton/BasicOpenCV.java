@@ -163,41 +163,41 @@ public class BasicOpenCV extends LinearOpMode{
                 if(side==1) {
                     //Blue stage
 
-                    spikeB(location);
+                    spikeB(location,side);
                     robot.gate.setPosition(0);
-                    turn(105,.8);
-                    sleep(1000);
-                    tiles(3.5);
+//                    turn(105,.8);
+//                    sleep(1000);
+//                    tiles(3.5);
                     break;
                 }
                 if(side==2){
                     //Blue back tage
-                    spikeB(location);
+                    spikeB(location,side);
                     robot.gate.setPosition(0);
-                    turn(100,.8);
-                    sleep(1000);
-                    tiles(1.5);
+//                    turn(100,.8);
+//                    sleep(1000);
+//                    tiles(1.5);
                     break;
 
                 }
                 if(side == 3){
                     //Red backstage
-                    spikeR(location);
-                    robot.gate.setPosition(0);
-                    turn(100,-.8);
-                    sleep(1000);
-                    tiles(1.5);
+                    spikeR(location,side);
+//                    robot.gate.setPosition(0);
+//                    turn(100,-.8);
+//                    sleep(1000);
+//                    tiles(1.5);
                     break;
 
                 }
                 if(side == 4) {
                     //Red stage - Far
-                    spikeR(location);
+                    spikeR(location,side);
                     robot.gate.setPosition(0);
-                    sleep(1000);
-                    turn(105,-.8);
-                    sleep(1000);
-                    tiles(3.5);
+//                    sleep(1000);
+//                    turn(105,-.8);
+//                    sleep(1000);
+//                    tiles(3.5);
                     break;
                 }
                 break;
@@ -212,74 +212,65 @@ public class BasicOpenCV extends LinearOpMode{
         robot.gate.setPosition(1);
         sleep(1000);
     }
-    public void spikeB(String location) { // blue
+    public void spikeB(String location, int side) { // blue
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.2);
+            tiles(1.2,side);
             drop();
-            tiles(-1.1);
+            tiles(-1.1,side);
 
         }
         else if(location == "Right"){
-            tiles(1.1);
+            tiles(1.1,side);
             turn(95,-.8);
-            tiles(.2);
+            tiles(.2,side);
             drop();
-            tiles(-.25);
+            tiles(-.25,side);
             turn(95,.8);
-            tiles(-1);
+            tiles(-1,side);
         }
         else if(location == "Left"){
-            tiles(1.1);
+            tiles(1.1,side);
             turn(95,.8);
-            tiles(.2);
+            tiles(.2,side);
             drop();
-            tiles(-.25);
+            tiles(-.25,side);
             turn(95,-.8);
-            tiles(-1);
+            tiles(-1,side);
 
 
         }
     }
-    public void spikeR(String location) {
+    public void spikeR(String location, int side) {
         if (location == "Middle") {
             System.out.println("bet");
-            tiles(1.2);
+            tiles(1.2,side);
             drop();
-            tiles(-1.1);
+            tiles(-1.1,side);
 
         }
         else if(location == "Right"){
-            tiles(1.1);
+            tiles(1.1,side);
             turn(100,-.8);
-            tiles(.2);
+            tiles(.2,side);
             drop();
-            tiles(-.25);
+            tiles(-.25,side);
             turn(95,.8);
-            tiles(-1);
+            tiles(-1,side);
 
         }
         else if(location == "Left"){
-            tiles(1.1);
+            tiles(1.1,side);
             turn(95,.8);
-            tiles(.2);
+            tiles(.2,side);
             drop();
-            tiles(-.25);
+            tiles(-.25,side);
             turn(95,-.8);
-            tiles(-1);
+            tiles(-1,side);
 //
         }
     }
-    public void noLiftR(){
-        //spike
-        tiles(4.5);
-    }
-    public void noLiftB(){
-        //spike
-        tiles(4.5);
-
-    }
-    public void tiles(double tiles){
+    public void tiles(double tiles, int side){
         int fleft = robot.fLeftWheel.getCurrentPosition();
         int bleft = robot.bLeftWheel.getCurrentPosition();
         int bright = robot.bRightWheel.getCurrentPosition();
@@ -293,9 +284,9 @@ public class BasicOpenCV extends LinearOpMode{
         robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -580));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -580));
         sleep(2000);
-        if (tiles > 0) {
-            correction(tiles);
-        }
+//        if (tiles > 0 && (side == 3 || side == 4)) {
+//            correction(tiles);
+//        }
 
 
     }

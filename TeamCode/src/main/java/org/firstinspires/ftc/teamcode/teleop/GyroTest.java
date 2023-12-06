@@ -27,10 +27,14 @@ public class GyroTest extends LinearOpMode {
 
 
         while (opModeIsActive()) {
+
+            // NEGATIVE IS LEFT
+            // POSITIVE IS RIGHT
             if(gamepad1.a==true){
-                turn(90);
-                sleep(3000);
                 turnTo(-90);
+            }
+            if (gamepad1.b) {
+                turnTo(90);
             }
 
         }
@@ -58,7 +62,7 @@ public class GyroTest extends LinearOpMode {
 
     }
 
-    public void turn(double degrees){
+    public void turnRight(double degrees){
 
         resetAngle();
 
@@ -67,6 +71,21 @@ public class GyroTest extends LinearOpMode {
         while(opModeIsActive()&&Math.abs(error)>2){
             double motorPower = (error < 0?-0.3:0.3);
            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
+            error = degrees - getAngle();
+            telemetry.addData("error", error);
+            telemetry.update();
+        }
+        setALLPower(0);
+    }
+    public void turnLeft(double degrees){
+
+        resetAngle();
+
+        double error = degrees;
+
+        while(opModeIsActive()&&Math.abs(error)>2){
+            double motorPower = (error < 0?-0.3:0.3);
+            setMotorPower(motorPower, -motorPower,motorPower, -motorPower);
             error = degrees - getAngle();
             telemetry.addData("error", error);
             telemetry.update();
@@ -86,7 +105,13 @@ public class GyroTest extends LinearOpMode {
         else if(error<-180){
             error+=360;
         }
-        turn(error);
+        if (error > 0) {
+            turnRight(error);
+        }
+        if (error < 0) {
+            turnLeft(error);
+        }
+
     }
     public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {
         robot.fRightWheel.setPower(frmotorPower);

@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.Projects;
 
+import android.widget.Button;
+
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -15,6 +20,8 @@ public class HWMapBasic extends Project{
     public Servo gate = null;
 
 
+
+
     public WebcamName camera = null;
 
 
@@ -26,6 +33,8 @@ public class HWMapBasic extends Project{
         bLeftWheel = hwMap.dcMotor.get("BackLeft");
         bRightWheel = hwMap.dcMotor.get("BackRight");
         gate = hwMap.servo.get("gate");
+
+
 //        oClaw = hwMap.servo.get("oClaw");
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");

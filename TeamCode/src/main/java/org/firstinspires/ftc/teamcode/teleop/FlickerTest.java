@@ -3,23 +3,24 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
 
 import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
 
 @TeleOp(name = "ExtremitiesTest")
 public class FlickerTest extends LinearOpMode {
-    public FleaFlickerMap robot = new FleaFlickerMap();
+    public HWMap robot = new HWMap();
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        robot.intakeLift.setTargetPosition(0);
-        robot.outtakeLift.setTargetPosition(0);
-        robot.intakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.outtakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.intakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.outtakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setTargetPosition(0);
+        robot.flip.setTargetPosition(0);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.flip.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.flip.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         double speed = .9;
 
         waitForStart();
@@ -59,49 +60,49 @@ public class FlickerTest extends LinearOpMode {
 //             right/left bumper - move lift up/down
 
             if(gamepad1.a && !gateOpen){
-                robot.gate.setPosition(1);
+                robot.clawR.setPosition(1);
                 gateOpen = true;
             }
             else if(gamepad1.b && gateOpen){
-                robot.gate.setPosition(0);
+                robot.clawR.setPosition(0);
                 gateOpen = false;
             }
 
             if(gamepad1.x && !clawsOpen){
                 robot.clawL.setPosition(1);
-                robot.clawR.setPosition(1);
+                //robot.clawR.setPosition(1);
                 clawsOpen = true;
             }
             else if(gamepad1.y && clawsOpen){
                 robot.clawL.setPosition(0);
-                robot.clawR.setPosition(0);
+                //robot.clawR.setPosition(0);
                 clawsOpen = false;
             }
 
             if(gamepad1.right_trigger > 0){
                 intakePosition += 10;
-                robot.intakeLift.setPower(.5);
-                robot.intakeLift.setTargetPosition(intakePosition);
+                robot.lift.setPower(.5);
+                robot.lift.setTargetPosition(intakePosition);
             }
             else if(gamepad1.left_trigger > 0){
-                robot.intakeLift.setPower(.5);
+                robot.lift.setPower(.5);
                 intakePosition -= 10;
-                robot.intakeLift.setTargetPosition(intakePosition);
+                robot.lift.setTargetPosition(intakePosition);
             }
 
             if(gamepad1.right_bumper){
                 outtakePosition += 10;
-                robot.outtakeLift.setPower(.5);
-                robot.outtakeLift.setTargetPosition(intakePosition);
-                telemetry.addData("outtake encoder: ",robot.outtakeLift.getCurrentPosition() );
+                robot.flip.setPower(.5);
+                robot.flip.setTargetPosition(intakePosition);
+                telemetry.addData("outtake encoder: ",robot.flip.getCurrentPosition() );
                 telemetry.update();
             }
             else if(gamepad1.left_bumper){
 
-                robot.outtakeLift.setPower(.5);
+                robot.flip.setPower(.5);
                 outtakePosition -= 10;
-                robot.outtakeLift.setTargetPosition(intakePosition);
-                telemetry.addData("outtake encoder: ",robot.outtakeLift.getCurrentPosition() );
+                robot.flip.setTargetPosition(intakePosition);
+                telemetry.addData("outtake encoder: ",robot.flip.getCurrentPosition() );
                 telemetry.update();
             }
 

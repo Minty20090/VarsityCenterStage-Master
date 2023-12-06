@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
@@ -14,6 +16,7 @@ public class BasicTestTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         robot.init(hardwareMap);
 
 
@@ -51,6 +54,7 @@ public class BasicTestTeleop extends LinearOpMode {
             else if(gamepad1.left_bumper==true){
                 robot.gate.setPosition(0);
             }
+
 
             if (gamepad1.a) {
                 robot.gate.setPosition(1);

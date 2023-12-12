@@ -18,6 +18,8 @@ public class HWMap extends Project{
     public Servo clawR = null;
     public Servo clawL = null;
     public DcMotor ext = null;
+    public DcMotor pivot = null;
+
     //public Servo wrist = null;
     //public DcMotor wrist = null;
     public BNO055IMU imu;
@@ -51,6 +53,7 @@ public class HWMap extends Project{
         ext.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         flip.setDirection(DcMotor.Direction.FORWARD);
+        pivot.setDirection(DcMotor.Direction.FORWARD);
         //wrist.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
@@ -97,6 +100,7 @@ public class HWMap extends Project{
         ext.setPower(0);
         flip.setPower(0);
         lift.setPower(0);
+
 //        slide.setPower(0);
         //wrist.setPower(0);
     }

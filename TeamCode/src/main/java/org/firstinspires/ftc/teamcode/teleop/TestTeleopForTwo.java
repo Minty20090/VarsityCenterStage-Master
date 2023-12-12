@@ -57,9 +57,7 @@ public class TestTeleopForTwo extends LinearOpMode {
 
 
 
-            // ============================================
-            //                     ICI
-            // ============================================
+
             if (gamepad1.a) {
                 // robot.stick.setPosition(0);
             } else if (gamepad1.b) {

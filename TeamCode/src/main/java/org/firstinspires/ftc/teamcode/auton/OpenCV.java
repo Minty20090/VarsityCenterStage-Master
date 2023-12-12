@@ -165,6 +165,7 @@ public class OpenCV extends LinearOpMode{
 
 
             while (opModeIsActive()) {
+
                 sleep(20);
                 if(side==1) {
                     //Blue backstage

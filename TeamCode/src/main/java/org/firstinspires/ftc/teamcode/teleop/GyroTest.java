@@ -4,6 +4,7 @@ import android.graphics.drawable.GradientDrawable;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -18,11 +19,18 @@ public class GyroTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private Orientation lastAngles = new Orientation();
     private double currAngle = 0.0;
-
+    int liftPosition = 0;
+    int jointPosition = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
+        robot.lift.setTargetPosition(0);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.ext.setTargetPosition(0);
+        robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -36,6 +44,34 @@ public class GyroTest extends LinearOpMode {
             if (gamepad1.b) {
                 turnTo(90);
             }
+            if(gamepad1.y){
+                liftPosition = robot.lift.getTargetPosition() + 10;
+                robot.lift.setPower(.5);
+                robot.lift.setTargetPosition(liftPosition);
+
+            }
+            else if(gamepad1.a){
+                robot.lift.setPower(.5);
+                liftPosition = robot.lift.getTargetPosition() - 10;
+                robot.lift.setTargetPosition(liftPosition);
+
+            }
+
+            if(gamepad1.dpad_up){
+                jointPosition = robot.ext.getCurrentPosition() + 10;
+                robot.ext.setPower(.5);
+                robot.ext.setTargetPosition(jointPosition);
+
+            }
+            else if(gamepad1.dpad_down){
+                robot.ext.setPower(.5);
+                jointPosition = robot.ext.getCurrentPosition() - 10;
+                robot.ext.setTargetPosition(jointPosition);
+
+            }
+            telemetry.addData("lift:", robot.ext.getCurrentPosition());
+            telemetry.addData("joint:", robot.lift.getCurrentPosition());
+            telemetry.update();
 
         }
 

@@ -18,12 +18,16 @@ public class TestTeleop extends LinearOpMode {
         robot.lift.setTargetPosition(0);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.ext.setTargetPosition(0);
+        robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.init(hardwareMap);
         double speed = .7;
 
         waitForStart();
         boolean isSpinning = false;
-        int intakePosition = 0;
+        int liftPosition = 0;
+        int jointPosition = 0;
         boolean gateOpen = false;
         boolean clawsOpen = false;
 
@@ -57,52 +61,64 @@ public class TestTeleop extends LinearOpMode {
 
 
 
-            // ============================================
-            //                     ICI
-            // ============================================
+
             if (gamepad1.a) {
-               // robot.stick.setPosition(0);
+                // robot.stick.setPosition(0);
             } else if (gamepad1.b) {
                 //robot.stick.setPosition(1);
             }
-            
+
             if (gamepad1.x) {
-              //  double currentPosition = robot.wrist.getPosition();
-               // robot.wrist.setPosition(currentPosition + 5.00);
+                //  double currentPosition = robot.wrist.getPosition();
+                // robot.wrist.setPosition(currentPosition + 5.00);
             } else if (gamepad1.y) {
-               // double currentPosition = robot.wrist.getPosition();
+                // double currentPosition = robot.wrist.getPosition();
                 //robot.wrist.setPosition(currentPosition - 5.00);
             }
             if(gamepad1.right_trigger > 0){
-                intakePosition += 10;
-                robot.lift.setPower(.5);
-                robot.lift.setTargetPosition(intakePosition);
+                robot.clawR.setPosition(0);
             }
             else if(gamepad1.left_trigger > 0){
+                robot.clawL.setPosition(0);
+            }
+            if(gamepad1.left_bumper){
+                robot.clawL.setPosition(1);
+            }
+            if(gamepad1.right_bumper){
+                robot.clawR.setPosition(1);
+            }
+
+            if(gamepad1.y){
+                liftPosition = robot.lift.getTargetPosition() + 10;
                 robot.lift.setPower(.5);
-                intakePosition -= 10;
-                robot.lift.setTargetPosition(intakePosition);
+                robot.lift.setTargetPosition(liftPosition);
+
             }
-            if(gamepad1.a && !gateOpen){
-                //robot.wrist.setPosition(1);
-                gateOpen = true;
-            }
-            else if(gamepad1.b && gateOpen){
-                //robot.wrist.setPosition(0);
-                gateOpen = false;
+            else if(gamepad1.a){
+                robot.lift.setPower(.5);
+                liftPosition = robot.lift.getTargetPosition() - 10;
+                robot.lift.setTargetPosition(liftPosition);
+
             }
 
-            if(gamepad1.x && !clawsOpen){
-                //robot.stick.setPosition(1);
+            if(gamepad1.dpad_up){
+                jointPosition = robot.ext.getCurrentPosition() + 10;
+                robot.ext.setPower(.5);
+                robot.ext.setTargetPosition(jointPosition);
 
-                clawsOpen = true;
             }
-            else if(gamepad1.y && clawsOpen){
-                //robot.stick.setPosition(0);
+            else if(gamepad1.dpad_down){
+                robot.ext.setPower(.5);
+                jointPosition = robot.ext.getCurrentPosition() - 10;
+                robot.ext.setTargetPosition(jointPosition);
 
-                clawsOpen = false;
             }
-
+            if (gamepad1.x) {
+                robot.lift.setPower(.5);
+                robot.lift.setTargetPosition(0);
+                robot.ext.setTargetPosition(0);
+                robot.ext.setPower(.5);
+            }
 
 
 

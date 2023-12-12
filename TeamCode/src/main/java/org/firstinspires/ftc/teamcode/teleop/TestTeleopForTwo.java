@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Projects.HWMap;
 @TeleOp(name = "TestTeleopForTwo")
 public class TestTeleopForTwo extends LinearOpMode {
     public HWMap robot = new HWMap();
-
+    int p = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -83,28 +83,35 @@ public class TestTeleopForTwo extends LinearOpMode {
                 intakePosition -= 10;
                 robot.lift.setTargetPosition(intakePosition);
             }
-            if(gamepad2.a && !gateOpen){
+            if(gamepad2.x && !gateOpen){
                 //robot.wrist.setPosition(1);
                 robot.clawL.setPosition(1);
                 gateOpen = true;
             }
-            else if(gamepad2.b && gateOpen){
+            else if(gamepad2.x && gateOpen){
                 robot.clawL.setPosition(0);
                 gateOpen = false;
             }
 
-            if(gamepad2.x && !clawsOpen){
+            if(gamepad2.b && !clawsOpen){
                 robot.clawR.setPosition(1);
 
                 clawsOpen = true;
             }
-            else if(gamepad2.y && clawsOpen){
+            else if(gamepad2.b && clawsOpen){
                 robot.clawL.setPosition(0);
 
                 clawsOpen = false;
             }
 
-            //if(gamepad2.)
+            if(gamepad2.y==true){
+               // robot.ext.setPower(.8);
+                robot.ext.setTargetPosition(p+10);
+            }
+            if(gamepad2.a==true){
+               // robot.ext.setPower(.8);
+                robot.ext.setTargetPosition(p-10);
+            }
 
 
 

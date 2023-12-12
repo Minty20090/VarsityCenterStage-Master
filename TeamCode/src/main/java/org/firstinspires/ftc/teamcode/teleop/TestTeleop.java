@@ -61,17 +61,17 @@ public class TestTeleop extends LinearOpMode {
             //                     ICI
             // ============================================
             if (gamepad1.a) {
-                robot.stick.setPosition(0);
+               // robot.stick.setPosition(0);
             } else if (gamepad1.b) {
-                robot.stick.setPosition(1);
+                //robot.stick.setPosition(1);
             }
             
             if (gamepad1.x) {
-                double currentPosition = robot.wrist.getPosition();
-                robot.wrist.setPosition(currentPosition + 5.00);
+              //  double currentPosition = robot.wrist.getPosition();
+               // robot.wrist.setPosition(currentPosition + 5.00);
             } else if (gamepad1.y) {
-                double currentPosition = robot.wrist.getPosition();
-                robot.wrist.setPosition(currentPosition - 5.00);
+               // double currentPosition = robot.wrist.getPosition();
+                //robot.wrist.setPosition(currentPosition - 5.00);
             }
             if(gamepad1.right_trigger > 0){
                 intakePosition += 10;
@@ -84,21 +84,21 @@ public class TestTeleop extends LinearOpMode {
                 robot.lift.setTargetPosition(intakePosition);
             }
             if(gamepad1.a && !gateOpen){
-                robot.wrist.setPosition(1);
+                //robot.wrist.setPosition(1);
                 gateOpen = true;
             }
             else if(gamepad1.b && gateOpen){
-                robot.wrist.setPosition(0);
+                //robot.wrist.setPosition(0);
                 gateOpen = false;
             }
 
             if(gamepad1.x && !clawsOpen){
-                robot.stick.setPosition(1);
+                //robot.stick.setPosition(1);
 
                 clawsOpen = true;
             }
             else if(gamepad1.y && clawsOpen){
-                robot.stick.setPosition(0);
+                //robot.stick.setPosition(0);
 
                 clawsOpen = false;
             }

@@ -38,35 +38,37 @@ public class GyroTest extends LinearOpMode {
 
             // NEGATIVE IS LEFT
             // POSITIVE IS RIGHT
-            if(gamepad1.a==true){
+            if(gamepad1.x==true){
                 turnTo(-90);
             }
             if (gamepad1.b) {
                 turnTo(90);
             }
             if(gamepad1.y){
-                liftPosition = robot.lift.getTargetPosition() + 10;
+                liftPosition = robot.lift.getTargetPosition() + 1;
                 robot.lift.setPower(.5);
                 robot.lift.setTargetPosition(liftPosition);
-
             }
             else if(gamepad1.a){
                 robot.lift.setPower(.5);
-                liftPosition = robot.lift.getTargetPosition() - 10;
+                liftPosition = robot.lift.getTargetPosition() - 1;
                 robot.lift.setTargetPosition(liftPosition);
 
             }
 
             if(gamepad1.dpad_up){
-                jointPosition = robot.ext.getCurrentPosition() + 10;
+                jointPosition = robot.ext.getCurrentPosition() + 1;
                 robot.ext.setPower(.5);
                 robot.ext.setTargetPosition(jointPosition);
+
 
             }
             else if(gamepad1.dpad_down){
                 robot.ext.setPower(.5);
-                jointPosition = robot.ext.getCurrentPosition() - 10;
+                jointPosition = robot.ext.getCurrentPosition() - 1;
                 robot.ext.setTargetPosition(jointPosition);
+
+
 
             }
             telemetry.addData("lift:", robot.ext.getCurrentPosition());
@@ -113,21 +115,21 @@ public class GyroTest extends LinearOpMode {
         }
         setALLPower(0);
     }
-    public void turnLeft(double degrees){
-
-        resetAngle();
-
-        double error = degrees;
-
-        while(opModeIsActive()&&Math.abs(error)>2){
-            double motorPower = (error < 0?-0.3:0.3);
-            setMotorPower(motorPower, -motorPower,motorPower, -motorPower);
-            error = degrees - getAngle();
-            telemetry.addData("error", error);
-            telemetry.update();
-        }
-        setALLPower(0);
-    }
+//    public void turnLeft(double degrees){
+//
+//        resetAngle();
+//
+//        double error = degrees;
+//
+//        while(opModeIsActive()&&Math.abs(error)>2){
+//            double motorPower = (error < 0?-0.3:0.3);
+//            setMotorPower(motorPower, -motorPower,motorPower, -motorPower);
+//            error = degrees - getAngle();
+//            telemetry.addData("error", error);
+//            telemetry.update();
+//        }
+//        setALLPower(0);
+//    }
 
     public void turnTo(double degrees){
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -141,12 +143,12 @@ public class GyroTest extends LinearOpMode {
         else if(error<-180){
             error+=360;
         }
-        if (error > 0) {
+//        if (error > 0) {
             turnRight(error);
-        }
-        if (error < 0) {
-            turnLeft(error);
-        }
+//        }
+//        if (error < 0) {
+//            turnLeft(error);
+//        }
 
     }
     public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {

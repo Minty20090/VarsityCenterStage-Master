@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 @Autonomous
 public class OpenCV extends LinearOpMode{
-     public FleaFlickerMap robot = new FleaFlickerMap();
+     public HWMap robot = new HWMap();
 
     OpenCvCamera webcam;
     // Lens intrinsics
@@ -47,20 +47,20 @@ public class OpenCV extends LinearOpMode{
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.intakeLift.setTargetPosition(0);
-        robot.outtakeLift.setTargetPosition(0);
+        robot.lift.setTargetPosition(0);
+        robot.ext.setTargetPosition(0);
         robot.fRightWheel.setTargetPosition(0);
         robot.fLeftWheel.setTargetPosition(0);
         robot.bRightWheel.setTargetPosition(0);
         robot.bLeftWheel.setTargetPosition(0);
-        robot.intakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.outtakeLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.intakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.outtakeLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -165,7 +165,13 @@ public class OpenCV extends LinearOpMode{
 
 
             while (opModeIsActive()) {
-
+                robot.lift.setPower(.5);
+                sleep(1000);
+                robot.lift.setPower(0);
+                sleep(2000);
+                robot.lift.setPower(-.5);
+                sleep(999);
+                robot.lift.setPower(0);
                 sleep(20);
                 if(side==1) {
                     //Blue backstage
@@ -264,9 +270,10 @@ public class OpenCV extends LinearOpMode{
     }
 
     public void drop(){
-        robot.outtakeLift.setTargetPosition(0);
-        robot.outtakeLift.setPower(.5);
-        robot.gate.setPosition(0);
+       robot.clawR.setPosition(1);
+       robot.lift.setTargetPosition(500);
+       robot.clawR.setPosition(0);
+
     }
     public void spikeB(String location) { // blue
         if (location == "Middle") {

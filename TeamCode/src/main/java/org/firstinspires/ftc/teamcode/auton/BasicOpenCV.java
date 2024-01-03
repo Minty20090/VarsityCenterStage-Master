@@ -153,7 +153,9 @@ public class BasicOpenCV extends LinearOpMode{
 
 
             while (opModeIsActive()) {
-
+                //robot.lift.setPower(.5);
+              //  sleep(1000);
+               // robot.lift.setPower(0);
                 robot.fLeftWheel.setPower(.8);
                 robot.fRightWheel.setPower(.8);
                 robot.bLeftWheel.setPower(.8);

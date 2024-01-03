@@ -58,6 +58,7 @@ public class HWMap extends Project{
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ext.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

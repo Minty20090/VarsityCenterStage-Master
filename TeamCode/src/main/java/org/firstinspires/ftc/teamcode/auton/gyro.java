@@ -76,12 +76,25 @@ public class gyro extends LinearOpMode{
 
         // Side c = Side.rBlue;
         int side = 1;
-        if (gamepad1.right_bumper == true) {
-            if (side < 4) {
-                side++;
-            } else if (side == 4) {
-                side = 1;
-            }
+        if (gamepad1.a) {
+            telemetry.addLine("rBlue");
+            telemetry.update();
+            side = 1;
+        }
+        if (gamepad1.b) {
+            telemetry.addLine("lBlue");
+            telemetry.update();
+            side = 2;
+        }
+        if (gamepad1.x) {
+            telemetry.addLine("rRed");
+            telemetry.update();
+            side = 3;
+        }
+        if (gamepad1.y) {
+            telemetry.addLine("lRed");
+            telemetry.update();
+            side = 4;
         }
         switch (side) {
             case 1:

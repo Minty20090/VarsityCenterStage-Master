@@ -262,10 +262,10 @@ public class gyro extends LinearOpMode{
         int bright = robot.bRightWheel.getCurrentPosition();
         int fright = robot.fRightWheel.getCurrentPosition();
 
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * 480));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 480));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 600));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * 600));
+        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -480));
+        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -480));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -600));
+        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
         robot.fLeftWheel.setPower(.8);
         robot.fRightWheel.setPower(.8);
         robot.bLeftWheel.setPower(.8);
@@ -313,9 +313,6 @@ public class gyro extends LinearOpMode{
             tiles(1);
             sleep(500);
             drop();
-
-
-
 
         }
         else if(location == "Right"){

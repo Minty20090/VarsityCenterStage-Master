@@ -66,13 +66,13 @@ public class TestTeleop extends LinearOpMode {
                 robot.clawR.setPosition(1);
             }
             else if(gamepad1.left_trigger > 0){
-                robot.clawL.setPosition(.25);
+                robot.clawL.setPosition(.4);
             }
             if(gamepad1.left_bumper){
                 robot.clawL.setPosition(1);
             }
             if(gamepad1.right_bumper){
-                robot.clawR.setPosition(.25);
+                robot.clawR.setPosition(.4);
             }
 
             if(gamepad1.y){

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
-public class HWMap extends Project{
+public class NoEncoders extends Project{
     public DcMotor fLeftWheel = null;
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
@@ -36,7 +36,7 @@ public class HWMap extends Project{
         ext = hwMap.dcMotor.get("slide");
         lift = hwMap.dcMotor.get("lift");
         //stick = hwMap.servo.get("Stick");
-       clawL = hwMap.servo.get("clawL");
+        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
@@ -73,7 +73,7 @@ public class HWMap extends Project{
         //wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Get webcam from hardware map
-       camera = hwMap.get(WebcamName.class, "webcam");
+        camera = hwMap.get(WebcamName.class, "webcam");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -99,6 +99,4 @@ public class HWMap extends Project{
 //        slide.setPower(0);
         //wrist.setPower(0);
     }
-
 }
-

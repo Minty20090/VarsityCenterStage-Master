@@ -110,13 +110,13 @@ public class teleopnodrive extends LinearOpMode {
 //                robot.lift.setPower(0);
 //            }
 
-            if(gamepad1.dpad_up){
+            if(gamepad1.dpad_left){
                 jointPosition = robot.ext.getCurrentPosition() + 10;
                 robot.ext.setPower(.5);
                 robot.ext.setTargetPosition(jointPosition);
 
             }
-            else if(gamepad1.dpad_down){
+            else if(gamepad1.dpad_right){
                 robot.ext.setPower(.5);
                 jointPosition = robot.ext.getCurrentPosition() - 10;
                 robot.ext.setTargetPosition(jointPosition);

@@ -5,11 +5,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 
 @TeleOp(name = "encoderTest")
 public class encoderTest extends LinearOpMode {
-    public HWMapBasic robot = new HWMapBasic();
+    public HWMap robot = new HWMap();
 
 
     @Override

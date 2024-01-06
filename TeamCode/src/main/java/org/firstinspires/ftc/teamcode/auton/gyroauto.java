@@ -424,16 +424,16 @@ public class gyroauto extends LinearOpMode{
     }
     public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {
         if(frmotorPower!=0) {
-            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int)frmotorPower*10);
+            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int)(frmotorPower*4)*8);
         }
         if(frmotorPower!=0) {
-            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int)flmotorPower*10);
+            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int)(flmotorPower*4)*8);
         }
         if(frmotorPower!=0) {
-            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int)brmotorPower*10);
+            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int)(brmotorPower*4)*8);
         }
         if(frmotorPower!=0) {
-            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int)blmotorPower*10);
+            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int)(blmotorPower*4)*8);
         }
 
     }

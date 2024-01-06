@@ -23,6 +23,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 @Autonomous
 public class gyroauto extends LinearOpMode{
     public HWMap robot = new HWMap();
+    int noU = 1000;
     OpenCvCamera webcam;
     // Lens intrinsics
     // UNITS ARE PIXELS
@@ -49,18 +50,25 @@ public class gyroauto extends LinearOpMode{
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+//        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.fRightWheel.setTargetPosition(0);
         robot.fLeftWheel.setTargetPosition(0);
         robot.bRightWheel.setTargetPosition(0);
         robot.bLeftWheel.setTargetPosition(0);
+        robot.lift.setTargetPosition(0);
         robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         // Side c = Side.rBlue;
@@ -161,16 +169,19 @@ public class gyroauto extends LinearOpMode{
 
 
             while (opModeIsActive()) {
+
                 //robot.lift.setPower(.5);
                 //  sleep(1000);
                 // robot.lift.setPower(0);
                 robot.lift.setTargetPosition(200);
-                sleep(1000);
+                noU = WaitTillTargetReached(50, true);
+                sleep(500);
                 robot.lift.setTargetPosition(0);
+                noU = WaitTillTargetReached(50, true);
                 sleep(20);
 
                 // START COMMETNED OUT SECTION
-                sleep(20);
+              //  sleep(20);
                 if(side==1) {
                     //Blue stage
 
@@ -186,7 +197,7 @@ public class gyroauto extends LinearOpMode{
                     break;
                 }
                 if(side==2){
-                    //Blue back tage
+                    //Blue back stage
                     spikeB(location);
                     sleep(500);
                     tiles(-.9);
@@ -299,10 +310,10 @@ public class gyroauto extends LinearOpMode{
         robot.fRightWheel.setTargetPosition((int)(fright + tiles * -480));
         robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -600));
         robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
     }
     public void correction( double tiles) {
         int fleft = robot.fLeftWheel.getCurrentPosition();
@@ -343,24 +354,24 @@ public class gyroauto extends LinearOpMode{
 
     }
 
-    public void turnRight(double degrees){
-
-        resetAngle();
-
-        double error = degrees;
-
-        while(opModeIsActive()&&Math.abs(error)>2){
-            double motorPower = (error < 0?-0.3:0.3);
-            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
-            error = degrees - getAngle();
-            telemetry.addData("error", error);
-            telemetry.update();
-        }
-        robot.fRightWheel.setPower(0);
-        robot.fLeftWheel.setPower(0);
-        robot.bRightWheel.setPower(0);
-        robot.bLeftWheel.setPower(0);
-    }
+//    public void turnRight(double degrees){
+//
+//        resetAngle();
+//
+//        double error = degrees;
+//
+//        while(opModeIsActive()&&Math.abs(error)>2){
+//            double motorPower = (error < 0?-0.3:0.3);
+//            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
+//            error = degrees - getAngle();
+//            telemetry.addData("error", error);
+//            telemetry.update();
+//        }
+//        robot.fRightWheel.setPower(0);
+//        robot.fLeftWheel.setPower(0);
+//        robot.bRightWheel.setPower(0);
+//        robot.bLeftWheel.setPower(0);
+//    }
     //
     public void turn(double degrees){
 
@@ -412,14 +423,19 @@ public class gyroauto extends LinearOpMode{
 
     }
     public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {
-        robot.fRightWheel.setPower(frmotorPower);
-        robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition()+10);
-        robot.fLeftWheel.setPower(flmotorPower);
-        robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition()+10);
-        robot.bRightWheel.setPower(brmotorPower);
-        robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition()+10);
-        robot.bLeftWheel.setPower(blmotorPower);
-        robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition()+10);
+        if(frmotorPower!=0) {
+            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int)frmotorPower*10);
+        }
+        if(frmotorPower!=0) {
+            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int)flmotorPower*10);
+        }
+        if(frmotorPower!=0) {
+            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int)brmotorPower*10);
+        }
+        if(frmotorPower!=0) {
+            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int)blmotorPower*10);
+        }
+
     }
     public void setALLPower(double power) {
         robot.fRightWheel.setPower(power);
@@ -485,6 +501,35 @@ public class gyroauto extends LinearOpMode{
     public void stop(int time) {
 
         sleep(time);
+    }
+    int WaitTillTargetReached(int tolerance,boolean lock){
+        int leftDifference = Math.abs(robot.lift.getTargetPosition() - robot.lift.getCurrentPosition());
+        // int rightDifference = Math.abs(robot.rightLift.getTargetPosition() - robot.rightLift.getCurrentPosition());
+
+        while(leftDifference > tolerance )
+
+        {
+            leftDifference = Math.abs(robot.lift.getTargetPosition() - robot.lift.getCurrentPosition());
+            //rightDifference = Math.abs(robot.rightLift.getTargetPosition() - robot.rightLift.getCurrentPosition());
+
+            robot.lift.setPower(0.5);
+            //robot.rightLift.setPower(0.5);
+            sleep(1);
+        }
+        int a = robot.lift.getCurrentPosition();
+        // int c = robot.rightLift.getCurrentPosition();
+        int position = (a );
+
+
+        if(!lock)
+        {
+            robot.lift.setPower(0);
+
+        }
+        return(position);
+    }
+    private void cycle() {
+
     }
 
 }

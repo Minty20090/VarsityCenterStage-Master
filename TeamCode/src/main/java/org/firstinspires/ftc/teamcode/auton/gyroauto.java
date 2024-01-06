@@ -186,54 +186,54 @@ public class gyroauto extends LinearOpMode{
                     //Blue stage
 
                     spikeB(location);
-                    sleep(500);
-                    tiles(-.9);
-                    sleep(500);
-                    robot.lift.setTargetPosition(0);
-                    sleep(500);
-                    turn(-90);
-                    sleep(500);
-                    tiles(2);
+//                    sleep(500);
+//                    tiles(-.9);
+//                    sleep(500);
+//                    robot.lift.setTargetPosition(0);
+//                    sleep(500);
+//                    turn(-90);
+//                    sleep(500);
+//                    tiles(2);
                     break;
                 }
                 if(side==2){
                     //Blue back stage
                     spikeB(location);
-                    sleep(500);
-                    tiles(-.9);
-                    sleep(500);
-                    robot.lift.setTargetPosition(0);
-                    sleep(500);
-                    turn(-90);
-                    sleep(500);
-                    tiles(3.5);
+//                    sleep(500);
+//                    tiles(-.9);
+//                    sleep(500);
+//                    robot.lift.setTargetPosition(0);
+//                    sleep(500);
+//                    turn(-90);
+//                    sleep(500);
+//                    tiles(3.5);
                     break;
 
                 }
                 if(side == 3){
                     //Red backstage
                     spikeR(location);
-                    sleep(500);
-                    tiles(-.9);
-                    sleep(500);
-                    robot.lift.setTargetPosition(0);
-                    sleep(500);
-                    turn(90);
-                    sleep(500);
-                    tiles(2);
+//                    sleep(500);
+//                    tiles(-.9);
+//                    sleep(500);
+//                    robot.lift.setTargetPosition(0);
+//                    sleep(500);
+//                    turn(90);
+//                    sleep(500);
+//                    tiles(2);
                     break;
 
                 }
                 if(side == 4) {
                     spikeR(location);
-                    sleep(500);
-                    tiles(-.9);
-                    sleep(500);
-                    robot.lift.setTargetPosition(0);
-                    sleep(500);
-                    turn(90);
-                    sleep(500);
-                    tiles(3);
+//                    sleep(500);
+//                    tiles(-.9);
+//                    sleep(500);
+//                    robot.lift.setTargetPosition(0);
+//                    sleep(500);
+//                    turn(90);
+//                    sleep(500);
+//                    tiles(3);
                     break;
                 }
                 break;

@@ -4,7 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @TeleOp(name = "ManualLift")
 public class ManualLift extends LinearOpMode {
@@ -26,8 +30,26 @@ public class ManualLift extends LinearOpMode {
         int noU = 1000;
         boolean gateOpen = false;
         boolean clawsOpen = false;
-
+        
         while (opModeIsActive()) {
+            OpenCvCamera webcam;
+            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+
+
+            webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+                @Override
+                public void onOpened() {
+                    webcam.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+                }
+
+                @Override
+                public void onError(int errorCode) {
+
+                }
+            });
+
+
 
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
@@ -53,36 +75,56 @@ public class ManualLift extends LinearOpMode {
                 robot.clawR.setPosition(1);
             }
             if(gamepad1.right_bumper){
-                robot.clawR.setPosition(.25);
+                robot.clawR.setPosition(.8);
             }
             if(gamepad1.left_trigger > 0){
-                robot.clawL.setPosition(1);
+                robot.clawL.setPosition(.4);
             }
             if(gamepad1.left_bumper){
-                robot.clawL.setPosition(.25);
+                robot.clawL.setPosition(.7);
+
             }
 
             if(gamepad1.dpad_up){
-                jointPosition = robot.ext.getCurrentPosition() + 10;
+                jointPosition = robot.ext.getCurrentPosition() + 50;
                 robot.ext.setPower(.5);
                 robot.ext.setTargetPosition(jointPosition);
 
             }
             else if(gamepad1.dpad_down){
                 robot.ext.setPower(.5);
-                jointPosition = robot.ext.getCurrentPosition() - 10;
+                jointPosition = robot.ext.getCurrentPosition() - 50;
                 robot.ext.setTargetPosition(jointPosition);
 
             }
-            if(gamepad1.a){
-                robot.lift.setPower(-.5);
+//            if(gamepad1.a){
+//                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
+//            }
+//            else if(gamepad1.y){
+//                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
+//            }
+
+            if(gamepad1.x ){
+                robot.lift.setPower(-.2);
+            }
+
+            else if(gamepad1.b ){
+                int liftCurrentPos = robot.lift.getCurrentPosition();
+                if (liftCurrentPos < 200){
+                    robot.lift.setPower(.2);
+                }
+
             }
             else if(gamepad1.y){
-                robot.lift.setPower(.5);
+                robot.lift.setPower(2);
+
             }
+
             else {
                 robot.lift.setPower(0);
             }
+            telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
+            telemetry.update();
 
 
         }

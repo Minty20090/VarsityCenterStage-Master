@@ -24,10 +24,11 @@ public class teleOP extends LinearOpMode {
         //robot.init(hardwareMap);
         double speed = .7;
 
+
         waitForStart();
         boolean isSpinning = false;
         int liftPosition = 0;
-        int noU = 1000;
+        int noU = 360;
         int jointPosition = 0;
         boolean gateOpen = false;
         boolean clawsOpen = false;
@@ -59,7 +60,7 @@ public class teleOP extends LinearOpMode {
             // Teleop Code goes here
 
             // show wheel encoder values in telemetry
-            double y = gamepad1.left_stick_y; // Remember, this is reversed!
+            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
 
@@ -86,7 +87,9 @@ public class teleOP extends LinearOpMode {
             telemetry.addData("bRightWheel", robot.bRightWheel.getCurrentPosition());
 
 
+            while(robot.lift.isBusy()&&!isStopRequested()){
 
+            }
 
             // if (gamepad1.a) {
             // robot.stick.setPosition(0);
@@ -98,15 +101,16 @@ public class teleOP extends LinearOpMode {
             if(gamepad1.right_trigger > 0){
                 robot.clawR.setPosition(1);
             }
-            else if(gamepad1.left_trigger > 0){
-                robot.clawL.setPosition(.6);
-            }
-            if(gamepad1.left_bumper){
-                robot.clawL.setPosition(0);
-            }
             if(gamepad1.right_bumper){
                 robot.clawR.setPosition(.5);
             }
+            else if(gamepad1.left_trigger > 0){
+                robot.clawL.setPosition(1);
+            }
+            if(gamepad1.left_bumper){
+                robot.clawL.setPosition(.5);
+            }
+
 
 //            if(gamepad1.y){
 //                liftPosition = robot.lift.getTargetPosition() + 1;
@@ -157,26 +161,29 @@ public class teleOP extends LinearOpMode {
 
 
 
-                noU = noU - 5;
+                noU = noU - 1;
 
                 //robot.rightLift.setPower(-.4);
-                robot.lift.setPower(-.4);
+
                 //robot.rightLift.setTargetPosition(noU);
                 robot.lift.setTargetPosition(noU);
+                robot.lift.setPower(.3);
+                sleep(500);
             }
-            else if (gamepad1.dpad_up == true&&noU<700) {
+            else if (gamepad1.dpad_up == true&&noU<360) {
 
                 //robot.lift.setPower(-1);
                 //robot.lift.setTargetPosition(liftstart);
 
 
-                noU = noU+5;
+                noU = noU+1;
 
                 // robot.rightLift.setPower(.4);
-                robot.lift.setPower(.4);
+
                 // robot.rightLift.setTargetPosition(noU);
                 robot.lift.setTargetPosition(noU);
-
+                robot.lift.setPower(.3);
+                sleep(500);
 
 
             }

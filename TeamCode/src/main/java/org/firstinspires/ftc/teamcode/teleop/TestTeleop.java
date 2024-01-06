@@ -100,14 +100,14 @@ public class TestTeleop extends LinearOpMode {
 //            }
 
             if(gamepad1.dpad_left){
-                jointPosition = robot.ext.getCurrentPosition() + 10;
+                jointPosition = robot.ext.getCurrentPosition() + 50;
                 robot.ext.setPower(.5);
                 robot.ext.setTargetPosition(jointPosition);
 
             }
             else if(gamepad1.dpad_right){
                 robot.ext.setPower(.5);
-                jointPosition = robot.ext.getCurrentPosition() - 10;
+                jointPosition = robot.ext.getCurrentPosition() - 50;
                 robot.ext.setTargetPosition(jointPosition);
 
             }

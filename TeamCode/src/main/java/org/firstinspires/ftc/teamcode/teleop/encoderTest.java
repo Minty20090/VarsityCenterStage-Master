@@ -54,7 +54,8 @@ public class encoderTest extends LinearOpMode {
 
             // Teleop Code goes here
 
-            telemetry.addData("Counts:", "BL=%d FL=%d BR=%d FR=%d", robot.bLeftWheel.getCurrentPosition(), robot.fLeftWheel.getCurrentPosition(), robot.bRightWheel.getCurrentPosition(), robot.fRightWheel.getCurrentPosition());
+            telemetry.addData("Counts:", "BL=%d FL=%d BR=%d FR=%d Lift=%d", robot.bLeftWheel.getCurrentPosition(), robot.fLeftWheel.getCurrentPosition(), robot.bRightWheel.getCurrentPosition(), robot.fRightWheel.getCurrentPosition(), robot.lift.getCurrentPosition()   );
+
             telemetry.update();
 
             if (gamepad1.a) {

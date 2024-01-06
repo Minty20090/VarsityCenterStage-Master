@@ -21,7 +21,6 @@ public class TestTeleop extends LinearOpMode {
         robot.ext.setTargetPosition(0);
         robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.init(hardwareMap);
         double speed = .7;
 
         waitForStart();
@@ -34,7 +33,7 @@ public class TestTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            double y = gamepad1.left_stick_y; // Remember, this is reversed!
+            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
 

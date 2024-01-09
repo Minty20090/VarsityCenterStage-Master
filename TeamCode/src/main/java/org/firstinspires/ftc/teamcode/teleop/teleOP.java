@@ -102,13 +102,13 @@ public class teleOP extends LinearOpMode {
                 robot.clawR.setPosition(1);
             }
             if(gamepad1.right_bumper){
-                robot.clawR.setPosition(.5);
+                robot.clawR.setPosition(.5); //open
             }
             else if(gamepad1.left_trigger > 0){
                 robot.clawL.setPosition(1);
             }
             if(gamepad1.left_bumper){
-                robot.clawL.setPosition(.5);
+                robot.clawL.setPosition(.5);// closes
             }
 
 

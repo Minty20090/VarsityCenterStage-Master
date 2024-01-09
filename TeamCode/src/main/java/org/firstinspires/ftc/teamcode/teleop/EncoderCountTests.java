@@ -14,18 +14,18 @@ public class EncoderCountTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        robot.fRightWheel.setTargetPosition(0);
-        robot.fLeftWheel.setTargetPosition(0);
-        robot.bRightWheel.setTargetPosition(0);
-        robot.bLeftWheel.setTargetPosition(0);
-        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.fRightWheel.setTargetPosition(0);
+//        robot.fLeftWheel.setTargetPosition(0);
+//        robot.bRightWheel.setTargetPosition(0);
+//        robot.bLeftWheel.setTargetPosition(0);
+//        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -45,13 +45,13 @@ public class EncoderCountTests extends LinearOpMode {
             telemetry.update();
             if (gamepad1.a) {
                 tiles(1);
-                correction(1);
 
 
 
             }
             if (gamepad1.b) {
-                turn(90, -1);
+                tiles(.5);
+
             }
             if (gamepad1.x) {
                 turn(90, 1);
@@ -73,10 +73,15 @@ public class EncoderCountTests extends LinearOpMode {
         robot.fRightWheel.setPower(.5);
         robot.bLeftWheel.setPower(.5);
         robot.bRightWheel.setPower(.5);
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -450));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -500));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -550));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
+        sleep((int)(1000 * tiles));
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+//        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -450));
+//        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -500));
+//        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -550));
+//        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -600));
         sleep(2000);
 
     }

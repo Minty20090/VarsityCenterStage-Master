@@ -160,11 +160,11 @@ public class gyro extends LinearOpMode{
                 //robot.lift.setPower(.5);
                 //  sleep(1000);
                 // robot.lift.setPower(0);
-                robot.lift.setTargetPosition(200);
-                noU = WaitTillTargetReached(50, true);
-                sleep(500);
+                robot.clawR.setPosition(1);
+                robot.clawL.setPosition(0);
+                robot.lift.setTargetPosition(100);
+                sleep(1000);
                 robot.lift.setTargetPosition(0);
-                noU = WaitTillTargetReached(50, true);
                 sleep(20);
 
                 // START COMMETNED OUT SECTION
@@ -232,8 +232,8 @@ public class gyro extends LinearOpMode{
         }
     }
     public void drop(){
-        robot.clawR.setPosition(.4);
-        robot.lift.setTargetPosition(200);
+        robot.clawR.setPosition(0);
+        robot.lift.setTargetPosition(100);
         robot.clawR.setPosition(1);
     }
     public void spikeB(String location) { // blue
@@ -297,7 +297,7 @@ public class gyro extends LinearOpMode{
         robot.fRightWheel.setPower(.5);
         robot.bLeftWheel.setPower(.5);
         robot.bRightWheel.setPower(.5);
-        sleep((int) (700*tiles));
+        sleep((int) (900*tiles));
         robot.fLeftWheel.setPower(0);
         robot.fRightWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
@@ -420,57 +420,6 @@ public class gyro extends LinearOpMode{
 
 
     //encoder method
-    public void encoderDrive(double speed,
-                             double frontLeftCounts, double frontRightCounts, double backLeftCounts, double backRightCounts) {
-        int newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-//
-//            // Determine new target position, and pass to motor controller
-//            newFrontLeftTarget = robot.fLeftWheel.getCurrentPosition() + (int) (frontLeftCounts);
-//            newFrontRightTarget = robot.fRightWheel.getCurrentPosition() + (int) (frontRightCounts);
-//            newBackLeftTarget = robot.bLeftWheel.getCurrentPosition() + (int) (backLeftCounts);
-//            newBackRightTarget = robot.bRightWheel.getCurrentPosition() + (int) (backRightCounts);
-//            robot.fLeftWheel.setTargetPosition(newFrontLeftTarget);
-//            robot.fRightWheel.setTargetPosition(newFrontRightTarget);
-//            robot.bLeftWheel.setTargetPosition(newBackLeftTarget);
-//            robot.bRightWheel.setTargetPosition(newBackRightTarget);
-//
-//            // Turn On RUN_TO_POSITION
-//            robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            robot.fLeftWheel.setPower(Math.abs(speed));
-//            robot.fRightWheel.setPower(Math.abs(speed));
-//            robot.bLeftWheel.setPower(Math.abs(speed));
-//            robot.bRightWheel.setPower(Math.abs(speed));
-//
-//            // keep looping while we are still active, and there is time left, and both motors are running.
-//            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//            // always end the motion as soon as possible.
-//            // However, if you require that BOTH motors have finished their moves before the robot continues
-//            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//            while (opModeIsActive() &&
-//                    (robot.fLeftWheel.isBusy() && robot.fRightWheel.isBusy() && robot.bLeftWheel.isBusy() && robot.bRightWheel.isBusy())) {
-//
-//                // Display it for the driver.
-//                telemetry.addData("Path1", "Running to %7d :%7d", newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
-//                telemetry.addData("Path2", "Running at %7d :%7d");
-//
-//                telemetry.update();
-//            }
-//
-//            // Stop all motion;
-//
-//
-//            // Turn off RUN_TO_POSITION
-
-        }
-    }
     public void stop(int time) {
 
         sleep(time);

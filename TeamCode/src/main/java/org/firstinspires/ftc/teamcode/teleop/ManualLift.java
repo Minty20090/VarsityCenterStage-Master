@@ -75,13 +75,13 @@ public class ManualLift extends LinearOpMode {
                 robot.clawR.setPosition(1);
             }
             if(gamepad1.right_bumper){
-                robot.clawR.setPosition(.8);
+                robot.clawR.setPosition(0);
             }
             if(gamepad1.left_trigger > 0){
-                robot.clawL.setPosition(.4);
+                robot.clawL.setPosition(0);
             }
             if(gamepad1.left_bumper){
-                robot.clawL.setPosition(.7);
+                robot.clawL.setPosition(1);
 
             }
 

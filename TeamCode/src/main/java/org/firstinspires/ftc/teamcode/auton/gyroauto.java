@@ -173,11 +173,11 @@ public class gyroauto extends LinearOpMode{
                 //robot.lift.setPower(.5);
                 //  sleep(1000);
                 // robot.lift.setPower(0);
-                robot.lift.setTargetPosition(200);
-                noU = WaitTillTargetReached(50, true);
+                robot.lift.setTargetPosition(50);
+                noU = WaitTillTargetReached(10, true);
                 sleep(500);
                 robot.lift.setTargetPosition(0);
-                noU = WaitTillTargetReached(50, true);
+                noU = WaitTillTargetReached(20, true);
                 sleep(20);
 
                 // START COMMETNED OUT SECTION

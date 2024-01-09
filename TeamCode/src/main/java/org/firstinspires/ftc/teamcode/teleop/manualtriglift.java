@@ -4,14 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@TeleOp(name = "ManualLift")
-public class ManualLift extends LinearOpMode {
+@TeleOp(name = "manualtriglift")
+public class manualtriglift extends LinearOpMode {
     public HWMap robot = new HWMap();
 
 
@@ -97,28 +93,18 @@ public class ManualLift extends LinearOpMode {
                 robot.ext.setTargetPosition(jointPosition);
 
             }
-//            if(gamepad1.a){
-//                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
-//            }
-//            else if(gamepad1.y){
-//                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
-//            }
-
-            if(gamepad1.x ){
-                robot.lift.setPower(-.2);
+            if(gamepad1.a){
+                robot.lift.setPower(-.2*(Math.sin(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
             }
-
-            else if(gamepad1.b ){
-                int liftCurrentPos = robot.lift.getCurrentPosition();
-                if (liftCurrentPos < 200){
-                    robot.lift.setPower(.2);
-                }
-
+            else if(gamepad1.y){
+                robot.lift.setPower(.2*(Math.cos(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
             }
             else {
                 robot.lift.setPower(0);
             }
+
             telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
+            telemetry.addData("power: %d",robot.lift.getPower());
             telemetry.update();
 
 

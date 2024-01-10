@@ -44,7 +44,7 @@ public class GyroTest extends LinearOpMode {
 
             // NEGATIVE IS LEFT
             // POSITIVE IS RIGHT
-            if(gamepad1.x==true){
+            if (gamepad1.x == true) {
                 turn(90);
 
             }
@@ -55,18 +55,19 @@ public class GyroTest extends LinearOpMode {
         }
 
     }
-    public void resetAngle(){
+
+    public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currAngle = 0;
     }
-    public double getAngle(){
+
+    public double getAngle() {
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
 
-        if(deltaAngle > 180){
+        if (deltaAngle > 180) {
             deltaAngle -= 360;
-        }
-        else if(deltaAngle <= -180){
+        } else if (deltaAngle <= -180) {
             deltaAngle += 360;
         }
 
@@ -77,15 +78,34 @@ public class GyroTest extends LinearOpMode {
 
     }
 
-    public void turnRight(double degrees){
+    //    public void turnRight(double degrees){
+//
+//        resetAngle();
+//
+//        double error = degrees;
+//
+//        while(opModeIsActive()&&Math.abs(error)>2){
+//            double motorPower = (error < 0?-0.3:0.3);
+//            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
+//            error = degrees - getAngle();
+//            telemetry.addData("error", error);
+//            telemetry.update();
+//        }
+//        robot.fRightWheel.setPower(0);
+//        robot.fLeftWheel.setPower(0);
+//        robot.bRightWheel.setPower(0);
+//        robot.bLeftWheel.setPower(0);
+//    }
+    //
+    public void turn(double degrees) {
 
         resetAngle();
 
         double error = degrees;
 
-        while(opModeIsActive()&&Math.abs(error)>2){
-            double motorPower = (error < 0?-0.3:0.3);
-           setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
+        while (opModeIsActive() && Math.abs(error) > 2) {
+            double motorPower = (error < 0 ? -0.3 : 0.3);
+            setALLPower(motorPower);
             error = degrees - getAngle();
             telemetry.addData("error", error);
             telemetry.update();
@@ -96,37 +116,17 @@ public class GyroTest extends LinearOpMode {
         robot.bLeftWheel.setPower(0);
     }
     //
-    public void turn(double degrees){
 
-        resetAngle();
-
-        double error = degrees;
-
-        while(opModeIsActive()&&Math.abs(error)>2){
-            double motorPower = (error < 0?-0.3:0.3);
-            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
-            error = degrees - getAngle();
-            telemetry.addData("error", error);
-            telemetry.update();
-        }
-        robot.fRightWheel.setPower(0);
-        robot.fLeftWheel.setPower(0);
-        robot.bRightWheel.setPower(0);
-        robot.bLeftWheel.setPower(0);
-    }
-    //
-
-    public void turnTo(double degrees){
+    public void turnTo(double degrees) {
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
         double error = degrees - orientation.firstAngle;
 
-        if(error>180){
-            error -=360;
-        }
-        else if(error<-180){
-            error+=360;
+        if (error > 180) {
+            error -= 360;
+        } else if (error < -180) {
+            error += 360;
         }
         //
 //        if (error > 0) {
@@ -145,12 +145,23 @@ public class GyroTest extends LinearOpMode {
         //
 
     }
-    public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {
-        robot.fRightWheel.setPower(frmotorPower);
-        robot.fLeftWheel.setPower(flmotorPower);
-        robot.bRightWheel.setPower(brmotorPower);
-        robot.bLeftWheel.setPower(blmotorPower);
+
+    public void setMotorPower(double frmotorPower, double flmotorPower, double brmotorPower, double blmotorPower) {
+        if (frmotorPower != 0) {
+            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int) (frmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int) (flmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int) (brmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int) (blmotorPower * 4) * 8);
+        }
+
     }
+
     public void setALLPower(double power) {
         robot.fRightWheel.setPower(power);
         robot.fLeftWheel.setPower(power);
@@ -158,34 +169,4 @@ public class GyroTest extends LinearOpMode {
         robot.bLeftWheel.setPower(power);
     }
 }
-
-//    public void turnLeft(double turnAngle, double timeoutS) {
-//        sleep(500);
-//        //double angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-//        double speed=.5;
-//        double oldDegreesLeft=turnAngle;
-//        double scaledSpeed=speed;
-//        double targetHeading=angles.firstAngle+turnAngle;
-//        double oldAngle=angles.firstAngle;
-//        if(targetHeading<-180) {targetHeading+=360;}
-//        if(targetHeading>180){targetHeading-=360;}
-//        double degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))+(int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
-//        runtime.reset();
-//        while(opModeIsActive() &&
-//                runtime.seconds() < timeoutS &&
-//                degreesLeft>1&&
-//                oldDegreesLeft-degreesLeft>=0) { //check to see if we overshot target
-//            scaledSpeed=degreesLeft/(100+degreesLeft)*speed;
-//            if(scaledSpeed>1){scaledSpeed=.1;}
-//            robot.bLeftWheel.setPower(scaledSpeed*1.3); //extra power to back wheels
-//            robot.bRightWheel.setPower(-1*scaledSpeed*1.3); //due to extra weight
-//            robot.fLeftWheel.setPower(scaledSpeed);
-//            robot.fRightWheel.setPower(-1*scaledSpeed);
-//            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-//            oldDegreesLeft=degreesLeft;
-//            degreesLeft = ((int)(Math.signum(angles.firstAngle-targetHeading)+1)/2)*(360-Math.abs(angles.firstAngle-targetHeading))+(int)(Math.signum(targetHeading-angles.firstAngle)+1)/2*Math.abs(angles.firstAngle-targetHeading);
-//            if(Math.abs(angles.firstAngle-oldAngle)<1){speed*=1.1;}. //bump up speed to wheels in case robot stalls before reaching target
-//            oldAngle=angles.firstAngle;
-//        }
-
 

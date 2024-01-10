@@ -75,13 +75,13 @@ public class ManualLift extends LinearOpMode {
                 robot.clawR.setPosition(1);
             }
             if(gamepad1.right_bumper){
-                robot.clawR.setPosition(0);
+                robot.clawR.setPosition(0); //open
             }
             if(gamepad1.left_trigger > 0){
                 robot.clawL.setPosition(0);
             }
             if(gamepad1.left_bumper){
-                robot.clawL.setPosition(1);
+                robot.clawL.setPosition(1);//open
 
             }
 
@@ -103,7 +103,9 @@ public class ManualLift extends LinearOpMode {
 //            else if(gamepad1.y){
 //                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
 //            }
-
+            if(gamepad1.a ){
+                tiles(1);
+            }
             if(gamepad1.x ){
                 robot.lift.setPower(-.2);
             }
@@ -124,6 +126,23 @@ public class ManualLift extends LinearOpMode {
 
         }
 
+
+    }
+    public void tiles(double tiles){
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
+        sleep((int) (800*tiles));
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
     }
 }
 

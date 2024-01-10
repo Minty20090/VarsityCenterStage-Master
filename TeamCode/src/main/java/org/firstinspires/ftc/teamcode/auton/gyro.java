@@ -157,21 +157,17 @@ public class gyro extends LinearOpMode{
 
             while (opModeIsActive()) {
 
-                //robot.lift.setPower(.5);
-                //  sleep(1000);
-                // robot.lift.setPower(0);
+
                 robot.clawR.setPosition(1);
                 robot.clawL.setPosition(0);
+                robot.lift.setPower(.5);
                 robot.lift.setTargetPosition(100);
                 sleep(1000);
                 robot.lift.setTargetPosition(0);
                 sleep(20);
 
-                // START COMMETNED OUT SECTION
-                //  sleep(20);
                 if(side==1) {
                     //Blue stage
-
                     spikeB(location);
 //                    sleep(500);
 //                    tiles(-.9);
@@ -223,9 +219,6 @@ public class gyro extends LinearOpMode{
 //                    tiles(3);
                     break;
                 }
-                break;
-
-// END COMMETNED OUT SECTION
             }
 
 
@@ -264,7 +257,6 @@ public class gyro extends LinearOpMode{
     }
     public void spikeR(String location) {
         if (location == "Middle") {
-            System.out.println("bet");
             tiles(1);
             sleep(500);
             drop();
@@ -288,16 +280,11 @@ public class gyro extends LinearOpMode{
         }
     }
     public void tiles(double tiles){
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-
         robot.fLeftWheel.setPower(.5);
         robot.fRightWheel.setPower(.5);
         robot.bLeftWheel.setPower(.5);
         robot.bRightWheel.setPower(.5);
-        sleep((int) (900*tiles));
+        sleep((int) (800*tiles));
         robot.fLeftWheel.setPower(0);
         robot.fRightWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
@@ -419,39 +406,5 @@ public class gyro extends LinearOpMode{
 
 
 
-    //encoder method
-    public void stop(int time) {
-
-        sleep(time);
-    }
-    int WaitTillTargetReached(int tolerance,boolean lock){
-        int leftDifference = Math.abs(robot.lift.getTargetPosition() - robot.lift.getCurrentPosition());
-        // int rightDifference = Math.abs(robot.rightLift.getTargetPosition() - robot.rightLift.getCurrentPosition());
-
-        while(leftDifference > tolerance )
-
-        {
-            leftDifference = Math.abs(robot.lift.getTargetPosition() - robot.lift.getCurrentPosition());
-            //rightDifference = Math.abs(robot.rightLift.getTargetPosition() - robot.rightLift.getCurrentPosition());
-
-            robot.lift.setPower(0.5);
-            //robot.rightLift.setPower(0.5);
-            sleep(1);
-        }
-        int a = robot.lift.getCurrentPosition();
-        // int c = robot.rightLift.getCurrentPosition();
-        int position = (a );
-
-
-        if(!lock)
-        {
-            robot.lift.setPower(0);
-
-        }
-        return(position);
-    }
-    private void cycle() {
-
-    }
 
 }

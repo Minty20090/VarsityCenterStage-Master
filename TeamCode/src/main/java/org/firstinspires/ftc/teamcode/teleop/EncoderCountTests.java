@@ -14,18 +14,18 @@ public class EncoderCountTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-//        robot.fRightWheel.setTargetPosition(0);
-//        robot.fLeftWheel.setTargetPosition(0);
-//        robot.bRightWheel.setTargetPosition(0);
-//        robot.bLeftWheel.setTargetPosition(0);
-//        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fRightWheel.setTargetPosition(0);
+        robot.fLeftWheel.setTargetPosition(0);
+        robot.bRightWheel.setTargetPosition(0);
+        robot.bLeftWheel.setTargetPosition(0);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -45,8 +45,6 @@ public class EncoderCountTests extends LinearOpMode {
             telemetry.update();
             if (gamepad1.a) {
                 tiles(1);
-
-
 
             }
             if (gamepad1.b) {

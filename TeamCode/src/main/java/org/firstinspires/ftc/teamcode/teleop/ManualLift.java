@@ -86,14 +86,14 @@ public class ManualLift extends LinearOpMode {
             }
 
             if(gamepad1.dpad_up){
-                jointPosition = robot.ext.getCurrentPosition() + 50;
+                jointPosition = robot.ext.getCurrentPosition() + 200;
                 robot.ext.setPower(.5);
                 robot.ext.setTargetPosition(jointPosition);
 
             }
             else if(gamepad1.dpad_down){
                 robot.ext.setPower(.5);
-                jointPosition = robot.ext.getCurrentPosition() - 50;
+                jointPosition = robot.ext.getCurrentPosition() - 200;
                 robot.ext.setTargetPosition(jointPosition);
 
             }
@@ -103,9 +103,7 @@ public class ManualLift extends LinearOpMode {
 //            else if(gamepad1.y){
 //                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
 //            }
-            if(gamepad1.a ){
-                tiles(1);
-            }
+
             if(gamepad1.x ){
                 robot.lift.setPower(-.2);
             }

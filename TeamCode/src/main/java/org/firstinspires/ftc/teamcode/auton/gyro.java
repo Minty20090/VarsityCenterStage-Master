@@ -160,17 +160,21 @@ public class gyro extends LinearOpMode{
 
                 robot.clawR.setPosition(1);
                 robot.clawL.setPosition(0);
+                sleep(1000);
                 robot.lift.setPower(.5);
-                robot.lift.setTargetPosition(100);
+                robot.lift.setTargetPosition(50);
+                sleep(1000);
+                robot.lift.setTargetPosition(-20);
                 sleep(1000);
                 robot.lift.setTargetPosition(0);
-                sleep(20);
+                sleep(1000);
+
 
                 if(side==1) {
                     //Blue stage
-                    spikeB(location);
+                    spikeRight(location);
 //                    sleep(500);
-//                    tiles(-.9);
+//                    backTiles(-.9);
 //                    sleep(500);
 //                    robot.lift.setTargetPosition(0);
 //                    sleep(500);
@@ -181,9 +185,9 @@ public class gyro extends LinearOpMode{
                 }
                 if(side==2){
                     //Blue back stage
-                    spikeB(location);
+                    spikeLeft(location);
 //                    sleep(500);
-//                    tiles(-.9);
+//                    backTiles(-.9);
 //                    sleep(500);
 //                    robot.lift.setTargetPosition(0);
 //                    sleep(500);
@@ -195,9 +199,9 @@ public class gyro extends LinearOpMode{
                 }
                 if(side == 3){
                     //Red backstage
-                    spikeR(location);
+                    spikeRight(location);
 //                    sleep(500);
-//                    tiles(-.9);
+//                    backTiles(-.9);
 //                    sleep(500);
 //                    robot.lift.setTargetPosition(0);
 //                    sleep(500);
@@ -208,9 +212,10 @@ public class gyro extends LinearOpMode{
 
                 }
                 if(side == 4) {
-                    spikeR(location);
+                    // red stage
+                    spikeLeft(location);
 //                    sleep(500);
-//                    tiles(-.9);
+//                    backTiles(-.9);
 //                    sleep(500);
 //                    robot.lift.setTargetPosition(0);
 //                    sleep(500);
@@ -226,64 +231,131 @@ public class gyro extends LinearOpMode{
     }
     public void drop(){
         robot.clawR.setPosition(0);
-        robot.lift.setTargetPosition(100);
-        robot.clawR.setPosition(1);
+//        sleep(500);
+//        robot.lift.setTargetPosition(100);
+//        sleep(500);
+////        tiles(.2);
+//        robot.clawR.setPosition(1);
+//        sleep(500);
     }
-    public void spikeB(String location) { // blue
+    public void spikeLeft(String location) { // blue
         if (location == "Middle") {
-            tiles(1);
+            tiles(1.1);
             sleep(500);
             drop();
-            sleep(2000);
+//            sleep(2000);
 
         }
         else if(location == "Right"){
-            tiles(1);
-            turn(90);
+            tiles(1.1);
+            turn(-85);
             sleep(500);
+            correctionLeft(.2);
             drop();
-            sleep(2000);
-            turn(-90);
+//            turn(85);
         }
         else if(location == "Left"){
-            tiles(1);
-            turn(-90);
+            tiles(1.25);
+            turn(85);
             sleep(500);
+            tiles(-.2);
             drop();
-            sleep(2000);
-            turn(90);
+//            sleep(2000);
+//            turn(-85);
 
         }
     }
-    public void spikeR(String location) {
+    public void spikeRight(String location) {
         if (location == "Middle") {
-            tiles(1);
+            tiles(1.1);
             sleep(500);
             drop();
         }
         else if(location == "Right"){
-            tiles(1);
-            turn(90);
+            tiles(1.25);
+            turn(-85);
             sleep(500);
             drop();
-            turn(-90);
+//            turn(85);
 
         }
         else if(location == "Left"){
             tiles(1);
-            turn(-90);
+            turn(85);
             sleep(500);
             drop();
-            turn(90);
+//            turn(-85);
 
 //
         }
     }
+//    public void spikeB(String location) { // blue
+//        if (location == "Middle") {
+//            tiles(1.1);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//
+//        }
+//        else if(location == "Right"){
+//            tiles(1.25);
+//            turn(-85);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//            turn(85);
+//        }
+//        else if(location == "Left"){
+//            tiles(1.25);
+//            turn(85);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//            turn(-85);
+//
+//        }
+//    }
+//    public void spikeR(String location) {
+//        if (location == "Middle") {
+//            tiles(1.1);
+//            sleep(500);
+//            drop();
+//        }
+//        else if(location == "Right"){
+//            tiles(1.25);
+//            turn(-85);
+//            sleep(500);
+//            drop();
+//            turn(85);
+//
+//        }
+//        else if(location == "Left"){
+//            tiles(1);
+//            turn(85);
+//            sleep(500);
+//            correction(1);
+//            drop();
+//            turn(-85);
+//
+////
+//        }
+//    }
     public void tiles(double tiles){
         robot.fLeftWheel.setPower(.5);
-        robot.fRightWheel.setPower(.5);
+        robot.fRightWheel.setPower(.4);
         robot.bLeftWheel.setPower(.5);
-        robot.bRightWheel.setPower(.5);
+        robot.bRightWheel.setPower(.4);
+        sleep((int) (800*tiles));
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+    }
+    public void backTiles(double tiles) {
+        robot.fLeftWheel.setPower(-.5);
+        robot.fRightWheel.setPower(-.4);
+        robot.bLeftWheel.setPower(-.5);
+        robot.bRightWheel.setPower(-.4);
         sleep((int) (800*tiles));
         robot.fLeftWheel.setPower(0);
         robot.fRightWheel.setPower(0);
@@ -292,18 +364,41 @@ public class gyro extends LinearOpMode{
     }
 
 
-    public void resetAngle(){
+    public void correctionLeft( double tiles) {
+        robot.fLeftWheel.setPower(-.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(-.5);
+        sleep(200);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+    }
+    public void correctionRight( double tiles) {
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(-.5);
+        robot.bLeftWheel.setPower(-.5);
+        robot.bRightWheel.setPower(.5);
+        sleep(200);
+        robot.fLeftWheel.setPower(0);
+        robot.fRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+    }
+
+    public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currAngle = 0;
     }
-    public double getAngle(){
+
+    public double getAngle() {
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
 
-        if(deltaAngle > 180){
+        if (deltaAngle > 180) {
             deltaAngle -= 360;
-        }
-        else if(deltaAngle <= -180){
+        } else if (deltaAngle <= -180) {
             deltaAngle += 360;
         }
 
@@ -313,34 +408,13 @@ public class gyro extends LinearOpMode{
         return currAngle;
 
     }
-
-    //    public void turnRight(double degrees){
-//
-//        resetAngle();
-//
-//        double error = degrees;
-//
-//        while(opModeIsActive()&&Math.abs(error)>2){
-//            double motorPower = (error < 0?-0.3:0.3);
-//            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
-//            error = degrees - getAngle();
-//            telemetry.addData("error", error);
-//            telemetry.update();
-//        }
-//        robot.fRightWheel.setPower(0);
-//        robot.fLeftWheel.setPower(0);
-//        robot.bRightWheel.setPower(0);
-//        robot.bLeftWheel.setPower(0);
-//    }
-    //
-    public void turn(double degrees){
-
+    public void turn(double degrees) {
         resetAngle();
 
         double error = degrees;
 
-        while(opModeIsActive()&&Math.abs(error)>2){
-            double motorPower = (error < 0?-0.3:0.3);
+        while (opModeIsActive() && Math.abs(error) > 1) {
+            double motorPower = (error < 0 ? -0.3 : 0.3);
             setALLPower(motorPower);
             error = degrees - getAngle();
             telemetry.addData("error", error);
@@ -353,58 +427,43 @@ public class gyro extends LinearOpMode{
     }
     //
 
-    public void turnTo(double degrees){
+    public void turnTo(double degrees) {
         Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
 
         double error = degrees - orientation.firstAngle;
 
-        if(error>180){
-            error -=360;
+        if (error > 180) {
+            error -= 360;
+        } else if (error < -180) {
+            error += 360;
         }
-        else if(error<-180){
-            error+=360;
-        }
-        //
-//        if (error > 0) {
-//            turnRight(error);
-//        }
-//        if (error < 0) {
-//            turnLeft(error);
-//        }
         turn(error);
-//        if(degrees>=0){
-//            turnRight(degrees);
-//        }
-//        else{
-//            turnLeft(degrees);
-//        }
-        //
 
     }
-    public void setMotorPower(double frmotorPower, double flmotorPower,double brmotorPower, double blmotorPower) {
-        if(frmotorPower!=0) {
-            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int)(frmotorPower*4)*8);
+
+    public void setMotorPower(double frmotorPower, double flmotorPower, double brmotorPower, double blmotorPower) {
+        if (frmotorPower != 0) {
+            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int) (frmotorPower * 4) * 8);
         }
-        if(frmotorPower!=0) {
-            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int)(flmotorPower*4)*8);
+        if (frmotorPower != 0) {
+            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int) (flmotorPower * 4) * 8);
         }
-        if(frmotorPower!=0) {
-            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int)(brmotorPower*4)*8);
+        if (frmotorPower != 0) {
+            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int) (brmotorPower * 4) * 8);
         }
-        if(frmotorPower!=0) {
-            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int)(blmotorPower*4)*8);
+        if (frmotorPower != 0) {
+            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int) (blmotorPower * 4) * 8);
         }
 
     }
+
     public void setALLPower(double power) {
         robot.fRightWheel.setPower(power);
-        robot.fLeftWheel.setPower(power);
+        robot.fLeftWheel.setPower(-power);
         robot.bRightWheel.setPower(power);
-        robot.bLeftWheel.setPower(power);
+        robot.bLeftWheel.setPower(-power);
     }
-
-
 
 
 }

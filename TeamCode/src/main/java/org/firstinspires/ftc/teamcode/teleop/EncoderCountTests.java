@@ -4,12 +4,18 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 
 @TeleOp(name = "EncoderCountTests")
 public class EncoderCountTests extends LinearOpMode {
-    public HWMapBasic robot = new HWMapBasic();
-
+    public HWMap robot = new HWMap();
+    private Orientation lastAngles = new Orientation();
+    private double currAngle = 0.0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,20 +55,34 @@ public class EncoderCountTests extends LinearOpMode {
             }
             if (gamepad1.b) {
                 tiles(.5);
-
             }
             if (gamepad1.x) {
-                turn(90, 1);
+                turn(90);
             }
             if (gamepad1.y) {
                 tiles(1);
-                turn(90, -1);
+                turn(90);
             }
         }
 
 
     }
     public void tiles(double tiles){
+        int fleft = robot.fLeftWheel.getCurrentPosition();
+        int bleft = robot.bLeftWheel.getCurrentPosition();
+        int bright = robot.bRightWheel.getCurrentPosition();
+        int fright = robot.fRightWheel.getCurrentPosition();
+
+        robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(tiles * 600)));
+        robot.fRightWheel.setTargetPosition((int)(fright + (int)(tiles * 600)));
+        robot.bLeftWheel.setTargetPosition((int)(bleft + (int)(tiles * 600)));
+        robot.bRightWheel.setTargetPosition((int)(bright+ (int)(tiles * 600)));
+        robot.fLeftWheel.setPower(.5);
+        robot.fRightWheel.setPower(.5);
+        robot.bLeftWheel.setPower(.5);
+        robot.bRightWheel.setPower(.5);
+    }
+    public void tilesNoEncoders(double tiles){
         int fleft = robot.fLeftWheel.getCurrentPosition();
         int bleft = robot.bLeftWheel.getCurrentPosition();
         int bright = robot.bRightWheel.getCurrentPosition();
@@ -83,56 +103,84 @@ public class EncoderCountTests extends LinearOpMode {
         sleep(2000);
 
     }
-    public void correction( double tiles) {
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-        robot.fLeftWheel.setPower(.5);
-        robot.fRightWheel.setPower(.5);
-        robot.bLeftWheel.setPower(.5);
-        robot.bRightWheel.setPower(.5);
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -70));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 70));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 70));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -70));
+    public void resetAngle() {
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        currAngle = 0;
     }
 
+    public double getAngle() {
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
 
-    public void turn(int degrees, double direction){
-        String turn;
-
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-        if (direction < 0) {
-            turn = "right";
-        }
-        else {
-            turn = "left";
+        if (deltaAngle > 180) {
+            deltaAngle -= 360;
+        } else if (deltaAngle <= -180) {
+            deltaAngle += 360;
         }
 
-        if (turn == "left") {
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * 632)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * 365)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * -565));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * -259)));
+        currAngle += deltaAngle;
+        lastAngles = orientation;
+        telemetry.addData("gyro", orientation.firstAngle);
+        return currAngle;
 
+    }
+    public void turn(double degrees) {
+
+        resetAngle();
+
+        double error = degrees;
+
+        while (opModeIsActive() && Math.abs(error) > 2) {
+            double motorPower = (error < 0 ? -0.3 : 0.3);
+            setMotorPower(-motorPower, motorPower,-motorPower,motorPower);
+            setALLPower(motorPower);
+            error = degrees - getAngle();
+            telemetry.addData("error", error);
+            telemetry.update();
         }
-        if (turn == "right") {
+        robot.fRightWheel.setPower(0);
+        robot.fLeftWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+    }
+    //
 
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (degrees/90 * -528)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (degrees/90 * -329)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (degrees/90 * 567)));
-            robot.fRightWheel.setTargetPosition((int) (fright + (degrees/90 * 264)));
+    public void turnTo(double degrees) {
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+
+        double error = degrees - orientation.firstAngle;
+
+        if (error > 180) {
+            error -= 360;
+        } else if (error < -180) {
+            error += 360;
+        }
+        turn(error);
+
+    }
+
+    public void setMotorPower(double frmotorPower, double flmotorPower, double brmotorPower, double blmotorPower) {
+        if (frmotorPower != 0) {
+            robot.fRightWheel.setTargetPosition(robot.fRightWheel.getCurrentPosition() + (int) (frmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.fLeftWheel.setTargetPosition(robot.fLeftWheel.getCurrentPosition() + (int) (flmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.bRightWheel.setTargetPosition(robot.bRightWheel.getCurrentPosition() + (int) (brmotorPower * 4) * 8);
+        }
+        if (frmotorPower != 0) {
+            robot.bLeftWheel.setTargetPosition(robot.bLeftWheel.getCurrentPosition() + (int) (blmotorPower * 4) * 8);
         }
 
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-        sleep(3000);
+    }
+
+    public void setALLPower(double power) {
+        robot.fRightWheel.setPower(power);
+        robot.fLeftWheel.setPower(power);
+        robot.bRightWheel.setPower(power);
+        robot.bLeftWheel.setPower(power);
     }
 
 }

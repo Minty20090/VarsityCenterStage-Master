@@ -77,26 +77,6 @@ public class GyroTest extends LinearOpMode {
         return currAngle;
 
     }
-
-    //    public void turnRight(double degrees){
-//
-//        resetAngle();
-//
-//        double error = degrees;
-//
-//        while(opModeIsActive()&&Math.abs(error)>2){
-//            double motorPower = (error < 0?-0.3:0.3);
-//            setMotorPower(-motorPower, motorPower,-motorPower, motorPower);
-//            error = degrees - getAngle();
-//            telemetry.addData("error", error);
-//            telemetry.update();
-//        }
-//        robot.fRightWheel.setPower(0);
-//        robot.fLeftWheel.setPower(0);
-//        robot.bRightWheel.setPower(0);
-//        robot.bLeftWheel.setPower(0);
-//    }
-    //
     public void turn(double degrees) {
 
         resetAngle();
@@ -128,21 +108,7 @@ public class GyroTest extends LinearOpMode {
         } else if (error < -180) {
             error += 360;
         }
-        //
-//        if (error > 0) {
-//            turnRight(error);
-//        }
-//        if (error < 0) {
-//            turnLeft(error);
-//        }
         turn(error);
-//        if(degrees>=0){
-//            turnRight(degrees);
-//        }
-//        else{
-//            turnLeft(degrees);
-//        }
-        //
 
     }
 
@@ -164,9 +130,9 @@ public class GyroTest extends LinearOpMode {
 
     public void setALLPower(double power) {
         robot.fRightWheel.setPower(power);
-        robot.fLeftWheel.setPower(power);
+        robot.fLeftWheel.setPower(-power);
         robot.bRightWheel.setPower(power);
-        robot.bLeftWheel.setPower(power);
+        robot.bLeftWheel.setPower(-power);
     }
 }
 

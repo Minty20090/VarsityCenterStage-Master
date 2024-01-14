@@ -3,21 +3,23 @@ package org.firstinspires.ftc.teamcode.Projects;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
-public class NoEncoders extends Project{
-    public DcMotor fLeftWheel = null;
-    public DcMotor fRightWheel = null;
-    public DcMotor bLeftWheel = null;
-    public DcMotor bRightWheel = null;
+public class HWMapDCex extends Project{
+    public DcMotorEx fLeftWheel = null;
+    public DcMotorEx fRightWheel = null;
+    public DcMotorEx bLeftWheel = null;
+    public DcMotorEx bRightWheel = null;
     public DcMotor flip = null;
-    public DcMotor lift = null;
+    public DcMotorEx lift = null;
     public Servo clawR = null;
     public Servo clawL = null;
-    public DcMotor ext = null;
+    public DcMotorEx ext = null;
 
     //public Servo wrist = null;
     //public DcMotor wrist = null;
@@ -29,14 +31,14 @@ public class NoEncoders extends Project{
     @Override
     public void init(HardwareMap hwMap) {
         // Get motors from hardware map
-        fLeftWheel = hwMap.dcMotor.get("FrontLeft");
-        fRightWheel = hwMap.dcMotor.get("FrontRight");
-        bLeftWheel = hwMap.dcMotor.get("BackLeft");
-        bRightWheel = hwMap.dcMotor.get("BackRight");
-        ext = hwMap.dcMotor.get("slide");
-        lift = hwMap.dcMotor.get("lift");
+        fLeftWheel = hwMap.get(DcMotorEx.class, "FrontLeft");
+        fRightWheel = hwMap.get(DcMotorEx.class, "FrontRight");
+        bLeftWheel = hwMap.get(DcMotorEx.class, "BackLeft");
+        bRightWheel = hwMap.get(DcMotorEx.class, "BackRight");
+        ext = hwMap.get(DcMotorEx.class, "slide");
+        lift = hwMap.get(DcMotorEx.class, "lift");
         //stick = hwMap.servo.get("Stick");
-        clawL = hwMap.servo.get("clawL");
+       clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
@@ -53,10 +55,10 @@ public class NoEncoders extends Project{
         //wrist.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
-        fRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fLeftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bLeftWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ext.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -74,6 +76,7 @@ public class NoEncoders extends Project{
 
         // Get webcam from hardware map
         camera = hwMap.get(WebcamName.class, "webcam");
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -99,4 +102,6 @@ public class NoEncoders extends Project{
 //        slide.setPower(0);
         //wrist.setPower(0);
     }
+
 }
+

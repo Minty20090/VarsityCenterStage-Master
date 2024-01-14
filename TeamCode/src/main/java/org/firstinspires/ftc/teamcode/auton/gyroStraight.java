@@ -1,20 +1,16 @@
 package org.firstinspires.ftc.teamcode.auton;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -22,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 @Autonomous
-public class gyro extends LinearOpMode{
+public class gyroStraight extends LinearOpMode{
     public HWMap robot = new HWMap();
     int noU = 1000;
     OpenCvCamera webcam;
@@ -163,7 +159,7 @@ public class gyro extends LinearOpMode{
                 robot.clawL.setPosition(0);
                 sleep(1000);
                 robot.lift.setPower(.5);
-                robot.lift.setTargetPosition(70);
+                robot.lift.setTargetPosition(50);
                 sleep(1000);
                 robot.lift.setTargetPosition(-20);
                 sleep(1000);
@@ -241,9 +237,9 @@ public class gyro extends LinearOpMode{
 //        robot.clawR.setPosition(1);
 //        sleep(500);
     }
-    public void spikeLeft(String location) { // tress is to the right
+    public void spikeLeft(String location) { // blue
         if (location == "Middle") {
-            tiles(.9);
+            tiles(1);
             sleep(500);
             drop();
             robot.clawR.setPosition(0);
@@ -252,21 +248,18 @@ public class gyro extends LinearOpMode{
 
         }
         else if(location == "Right"){
-            tiles(.8);
+            tiles(1);
             turn(-85);
             sleep(500);
-            correctionLeft(.4);
-            sleep(500);
-            sleep(500);
+            backTiles(.2);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
 //            turn(85);
         }
         else if(location == "Left"){
-            tiles(1);
+            tiles(1.1);
             turn(85);
-
             sleep(500);
             backTiles(.3);
             drop();
@@ -277,19 +270,17 @@ public class gyro extends LinearOpMode{
 
         }
     }
-    public void spikeRight(String location) {// tress is to the left
+    public void spikeRight(String location) {
         if (location == "Middle") {
-            tiles(.9);
+            tiles(1);
             sleep(500);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
         }
         else if(location == "Right"){
-            tiles(1);
+            tiles(1.25);
             turn(-85);
-            sleep(500);
-            backTiles(.1);
             sleep(500);
             drop();
             robot.clawR.setPosition(0);
@@ -298,7 +289,7 @@ public class gyro extends LinearOpMode{
 
         }
         else if(location == "Left"){
-            tiles(.8);
+            tiles(1);
             turn(85);
             sleep(500);
             backTiles(.2);
@@ -310,6 +301,57 @@ public class gyro extends LinearOpMode{
 //
         }
     }
+//    public void spikeB(String location) { // blue
+//        if (location == "Middle") {
+//            tiles(1.1);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//
+//        }
+//        else if(location == "Right"){
+//            tiles(1.25);
+//            turn(-85);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//            turn(85);
+//        }
+//        else if(location == "Left"){
+//            tiles(1.25);
+//            turn(85);
+//            sleep(500);
+//            drop();
+//            sleep(2000);
+//            turn(-85);
+//
+//        }
+//    }
+//    public void spikeR(String location) {
+//        if (location == "Middle") {
+//            tiles(1.1);
+//            sleep(500);
+//            drop();
+//        }
+//        else if(location == "Right"){
+//            tiles(1.25);
+//            turn(-85);
+//            sleep(500);
+//            drop();
+//            turn(85);
+//
+//        }
+//        else if(location == "Left"){
+//            tiles(1);
+//            turn(85);
+//            sleep(500);
+//            correction(1);
+//            drop();
+//            turn(-85);
+//
+////
+//        }
+//    }
     public void tiles(double tiles){
         robot.fLeftWheel.setPower(.5);
         robot.fRightWheel.setPower(.45);
@@ -339,7 +381,7 @@ public class gyro extends LinearOpMode{
         robot.fRightWheel.setPower(.5);
         robot.bLeftWheel.setPower(.5);
         robot.bRightWheel.setPower(-.5);
-        sleep((int) (800*tiles));
+        sleep(200);
         robot.fLeftWheel.setPower(0);
         robot.fRightWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
@@ -350,7 +392,7 @@ public class gyro extends LinearOpMode{
         robot.fRightWheel.setPower(-.5);
         robot.bLeftWheel.setPower(-.5);
         robot.bRightWheel.setPower(.5);
-        sleep((int) (800*tiles));
+        sleep(200);
         robot.fLeftWheel.setPower(0);
         robot.fRightWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
@@ -436,6 +478,53 @@ public class gyro extends LinearOpMode{
     }
 
 
+
+    public void omgGoStraight(int time){
+        ElapsedTime runtime = new ElapsedTime();
+
+        // Start the timer
+        runtime.reset();
+
+        resetAngle();
+
+        // Loop until the specified time period ends
+        while (runtime.seconds() < time) {
+            robot.fRightWheel.setPower(.5);
+            robot.bRightWheel.setPower(.5);
+            robot.fLeftWheel.setPower(.5);
+            robot.bLeftWheel.setPower(.5);
+
+            if(getAngle() > 0){
+                robot.fRightWheel.setPower(.5);
+                robot.bRightWheel.setPower(.5);
+                robot.fLeftWheel.setPower(.6);
+                robot.bLeftWheel.setPower(.6);
+            }
+            else if(getAngle() < 0){
+                robot.fRightWheel.setPower(.6);
+                robot.bRightWheel.setPower(.6);
+                robot.fLeftWheel.setPower(.5);
+                robot.bLeftWheel.setPower(.5);
+            }
+
+            // Optional: Add a small delay to prevent the loop from hogging system resources
+            sleep(10);
+        }
+
+        // Stop the robot after the loop
+        robot.fRightWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+        robot.fLeftWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
+    }
+
+    private void sleep(int milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
 
 }

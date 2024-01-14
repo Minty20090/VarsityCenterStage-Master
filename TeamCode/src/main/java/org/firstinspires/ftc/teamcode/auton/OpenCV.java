@@ -6,18 +6,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-import org.firstinspires.ftc.teamcode.Projects.FleaFlickerMap;
-import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.auton.BasicAuto;
-import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline;
-import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
 import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
-import java.util.ArrayList;
 
 @Autonomous
 public class OpenCV extends LinearOpMode{

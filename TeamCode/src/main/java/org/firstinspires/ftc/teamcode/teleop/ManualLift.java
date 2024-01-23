@@ -64,6 +64,7 @@ public class ManualLift extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
+
             robot.fLeftWheel.setPower(frontLeftPower*speed);
             robot.bLeftWheel.setPower(backLeftPower*speed);
             robot.fRightWheel.setPower(frontRightPower*speed);

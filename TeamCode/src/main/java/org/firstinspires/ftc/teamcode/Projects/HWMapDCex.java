@@ -11,15 +11,15 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
 public class HWMapDCex extends Project{
-    public DcMotor fLeftWheel = null;
-    public DcMotor fRightWheel = null;
-    public DcMotor bLeftWheel = null;
-    public DcMotor bRightWheel = null;
+    public DcMotorEx fLeftWheel = null;
+    public DcMotorEx fRightWheel = null;
+    public DcMotorEx bLeftWheel = null;
+    public DcMotorEx bRightWheel = null;
     public DcMotor flip = null;
-    public DcMotor lift = null;
+    public DcMotorEx lift = null;
     public Servo clawR = null;
     public Servo clawL = null;
-    public DcMotor ext = null;
+    public DcMotorEx ext = null;
 
     //public Servo wrist = null;
     //public DcMotor wrist = null;
@@ -31,12 +31,12 @@ public class HWMapDCex extends Project{
     @Override
     public void init(HardwareMap hwMap) {
         // Get motors from hardware map
-        fLeftWheel = (DcMotorEx) hwMap.dcMotor.get("FrontLeft");
-        fRightWheel = (DcMotorEx) hwMap.dcMotor.get("FrontRight");
-        bLeftWheel = (DcMotorEx) hwMap.dcMotor.get("BackLeft");
-        bRightWheel = (DcMotorEx) hwMap.dcMotor.get("BackRight");
-        ext = (DcMotorEx) hwMap.dcMotor.get("slide");
-        lift = (DcMotorEx) hwMap.dcMotor.get("lift");
+        fLeftWheel = hwMap.get(DcMotorEx.class, "FrontLeft");
+        fRightWheel = hwMap.get(DcMotorEx.class, "FrontRight");
+        bLeftWheel = hwMap.get(DcMotorEx.class, "BackLeft");
+        bRightWheel = hwMap.get(DcMotorEx.class, "BackRight");
+        ext = hwMap.get(DcMotorEx.class, "slide");
+        lift = hwMap.get(DcMotorEx.class, "lift");
         //stick = hwMap.servo.get("Stick");
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");

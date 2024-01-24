@@ -5,12 +5,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 
 @TeleOp(name = "teleOP")
 public class teleOP extends LinearOpMode {
     public HWMap robot = new HWMap();
-
+    private double currAngle = 0.0;
+    private Orientation lastAngles = new Orientation();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,6 +27,7 @@ public class teleOP extends LinearOpMode {
         robot.ext.setTargetPosition(0);
         robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         //robot.init(hardwareMap);
         double speed = .7;
 
@@ -29,6 +36,7 @@ public class teleOP extends LinearOpMode {
         boolean isSpinning = false;
         int liftPosition = 0;
         int noU = 360;
+        boolean isFlip = false;
         int jointPosition = 0;
         boolean gateOpen = false;
         boolean clawsOpen = false;
@@ -36,6 +44,7 @@ public class teleOP extends LinearOpMode {
         int leftPosition = 0;
         //int[] positions;
         double pace = 0.9;
+
 
         while (opModeIsActive()) {
 
@@ -110,6 +119,10 @@ public class teleOP extends LinearOpMode {
             if(gamepad1.left_bumper){
                 robot.clawL.setPosition(.5);// closes
             }
+            //if(button == true&&isFlip==false){
+            // robot.flip.setPosition(1);}
+            //else if(button == true &&isFlip == true){
+            // robot.flip.setPosition(0);}
 
 
 //            if(gamepad1.y){
@@ -227,6 +240,9 @@ public class teleOP extends LinearOpMode {
 
 
             }
+            if(gamepad1.start==true){
+                omgGoStraight(1);
+            }
 
 
         }
@@ -237,6 +253,7 @@ public class teleOP extends LinearOpMode {
 
 
     }
+
     int WaitTillTargetReached(int tolerance,boolean lock){
         int leftDifference = Math.abs(robot.lift.getTargetPosition() - robot.lift.getCurrentPosition());
         // int rightDifference = Math.abs(robot.rightLift.getTargetPosition() - robot.rightLift.getCurrentPosition());
@@ -265,6 +282,67 @@ public class teleOP extends LinearOpMode {
     }
     private void cycle() {
 
+    }
+    public void resetAngle(){
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        currAngle = 0;
+    }
+    public double getAngle(){
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
+
+        if(deltaAngle > 180){
+            deltaAngle -= 360;
+        }
+        else if(deltaAngle <= -180){
+            deltaAngle += 360;
+        }
+
+        currAngle += deltaAngle;
+        lastAngles = orientation;
+        telemetry.addData("gyro", orientation.firstAngle);
+        return currAngle;
+
+    }
+    public void omgGoStraight(double tiles){
+
+        double target = robot.fRightWheel.getCurrentPosition()+tiles*600;
+        double delta = target - robot.fRightWheel.getCurrentPosition();
+        // Start the timer
+
+
+        resetAngle();
+
+        // Loop until the specified time period ends
+        while (delta>0) {
+            robot.fRightWheel.setPower(.5);
+            robot.bRightWheel.setPower(.5);
+            robot.fLeftWheel.setPower(.5);
+            robot.bLeftWheel.setPower(.5);
+
+            if(getAngle() > 0){
+                robot.fRightWheel.setPower(.7);
+                robot.bRightWheel.setPower(.7);
+                robot.fLeftWheel.setPower(.5);
+                robot.bLeftWheel.setPower(.5);
+            }
+            else if(getAngle() < 0){
+                robot.fRightWheel.setPower(.5);
+                robot.bRightWheel.setPower(.5);
+                robot.fLeftWheel.setPower(.7);
+                robot.bLeftWheel.setPower(.7);
+            }
+            delta = target - robot.fRightWheel.getCurrentPosition();
+
+            // Optional: Add a small delay to prevent the loop from hogging system resources
+            sleep(10);
+        }
+
+        // Stop the robot after the loop
+        robot.fRightWheel.setPower(0);
+        robot.bRightWheel.setPower(0);
+        robot.fLeftWheel.setPower(0);
+        robot.bLeftWheel.setPower(0);
     }
 
 }

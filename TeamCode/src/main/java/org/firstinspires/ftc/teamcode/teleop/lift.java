@@ -1,27 +1,26 @@
 package org.firstinspires.ftc.teamcode.teleop;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Projects.HWMap;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Projects.HWMapDCex;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@TeleOp(name = "ManualLift")
-public class ManualLift extends LinearOpMode {
-    public HWMap robot = new HWMap();
+@TeleOp(name = "lift")
+public class lift extends LinearOpMode{
+    public HWMapDCex robot = new HWMapDCex();
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
-        robot.ext.setTargetPosition(0);
-        robot.ext.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.ext.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        double speed = .7;
+
+        double speed = 100.0;
 
         waitForStart();
         boolean isSpinning = false;
@@ -64,7 +63,6 @@ public class ManualLift extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-
             robot.fLeftWheel.setPower(frontLeftPower*speed);
             robot.bLeftWheel.setPower(backLeftPower*speed);
             robot.fRightWheel.setPower(frontRightPower*speed);
@@ -87,17 +85,16 @@ public class ManualLift extends LinearOpMode {
             }
 
             if(gamepad1.dpad_up){
-                jointPosition = robot.ext.getCurrentPosition() + 200;
-                robot.ext.setPower(.5);
-                robot.ext.setTargetPosition(jointPosition);
-
+               //robot.lift.setVelocity(speed);
             }
             else if(gamepad1.dpad_down){
-                robot.ext.setPower(.5);
-                jointPosition = robot.ext.getCurrentPosition() - 200;
-                robot.ext.setTargetPosition(jointPosition);
+               // robot.lift.setVelocity(-speed);
 
             }
+            else{
+                //robot.lift.setVelocity(0.0);
+            }
+
 //            if(gamepad1.a){
 //                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
 //            }
@@ -105,20 +102,11 @@ public class ManualLift extends LinearOpMode {
 //                robot.lift.setPower(2*(Math.cos(robot.lift.getCurrentPosition()/2)));
 //            }
 
-            if(gamepad1.x ){
-                robot.lift.setPower(-.2);
-            }
 
-            else if(gamepad1.b ){
-                int liftCurrentPos = robot.lift.getCurrentPosition();
-                if (liftCurrentPos < 200){
-                    robot.lift.setPower(.2);
-                }
 
-            }
-            else {
-                robot.lift.setPower(0);
-            }
+
+
+
             telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
             telemetry.update();
 
@@ -127,23 +115,6 @@ public class ManualLift extends LinearOpMode {
 
 
     }
-    public void tiles(double tiles){
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
 
-        robot.fLeftWheel.setPower(.5);
-        robot.fRightWheel.setPower(.5);
-        robot.bLeftWheel.setPower(.5);
-        robot.bRightWheel.setPower(.5);
-        sleep((int) (800*tiles));
-        robot.fLeftWheel.setPower(0);
-        robot.fRightWheel.setPower(0);
-        robot.bLeftWheel.setPower(0);
-        robot.bRightWheel.setPower(0);
-    }
 }
-
-
 

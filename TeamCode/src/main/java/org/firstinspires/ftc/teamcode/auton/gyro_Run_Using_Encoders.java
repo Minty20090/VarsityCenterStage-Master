@@ -313,11 +313,12 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 //
         }
     }
+    int power = 1000;
     public void tiles(double tiles){
-        robot.fLeftWheel.setVelocity(1000);
-        robot.fRightWheel.setVelocity(1000);
-        robot.bLeftWheel.setVelocity(1000);
-        robot.bRightWheel.setVelocity(1000);
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(power);
         sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
@@ -325,10 +326,10 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         robot.bRightWheel.setVelocity(0);
     }
     public void backTiles(double tiles) {
-        robot.fLeftWheel.setVelocity(-1000);
-        robot.fRightWheel.setVelocity(-1000);
-        robot.bLeftWheel.setVelocity(-1000);
-        robot.bRightWheel.setVelocity(-1000);
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(-power);
         sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
@@ -338,10 +339,10 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
 
     public void correctionLeft( double tiles) {
-        robot.fLeftWheel.setVelocity(-1000);
-        robot.fRightWheel.setVelocity(1000);
-        robot.bLeftWheel.setVelocity(1000);
-        robot.bRightWheel.setVelocity(-1000);
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
         sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
@@ -349,10 +350,11 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         robot.bRightWheel.setVelocity(0);
     }
     public void correctionRight( double tiles) {
-        robot.fLeftWheel.setVelocity(1000);
-        robot.fRightWheel.setVelocity(-1000);
-        robot.bLeftWheel.setVelocity(-1000);
-        robot.bRightWheel.setVelocity(1000);
+
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(power);
         sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);

@@ -344,6 +344,15 @@ public class teleOP extends LinearOpMode {
         robot.fLeftWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
     }
+    public void inPlace(){
+        int n = robot.lift.getCurrentPosition();
+        while(robot.lift.getCurrentPosition()-n>5){
+            robot.lift.setPower(-.5);
+        }
+        while(robot.lift.getCurrentPosition()-n<-5){
+            robot.lift.setPower(.5);
+        }
+    }
 
 }
 

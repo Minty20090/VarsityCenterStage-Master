@@ -18,8 +18,9 @@ public class HWMap extends Project{
     public Servo clawR = null;
     public Servo clawL = null;
     public DcMotor ext = null;
-    //public DcMotor rHang = null;
-    //public DcMotor lHang = null;
+    //public Servo yPixel = null;
+    public DcMotor rHang = null;
+    public DcMotor lHang = null;
 
     //public Servo wrist = null;
     //public DcMotor wrist = null;
@@ -40,8 +41,9 @@ public class HWMap extends Project{
         //stick = hwMap.servo.get("Stick");
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
-        //rHang = hwMap.dcMotor.get("rHang");
-        //lHang = hwMap.dcMotor.get("lHang");
+        //yPixel = hwMap.servo.get("yPixel");
+        rHang = hwMap.dcMotor.get("rHang");
+        lHang = hwMap.dcMotor.get("lHang");
 
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
@@ -55,8 +57,8 @@ public class HWMap extends Project{
         bLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         ext.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
-        //rHang.setDirection(DcMotor.Direction.FORWARD);
-        //lHang.setDirection(DcMotor.Direction.FORWARD);
+        rHang.setDirection(DcMotor.Direction.FORWARD);
+        lHang.setDirection(DcMotor.Direction.FORWARD);
 
 
         //wrist.setDirection(DcMotor.Direction.FORWARD);
@@ -69,8 +71,8 @@ public class HWMap extends Project{
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ext.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //lHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -81,8 +83,8 @@ public class HWMap extends Project{
         bLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ext.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //lHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 //        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -109,8 +111,8 @@ public class HWMap extends Project{
         bRightWheel.setPower(0);
         bLeftWheel.setPower(0);
         ext.setPower(0);
-        //rHang.setPower(0);
-        //lHang.setPower(0);
+        rHang.setPower(0);
+        lHang.setPower(0);
 
         lift.setPower(0);
 

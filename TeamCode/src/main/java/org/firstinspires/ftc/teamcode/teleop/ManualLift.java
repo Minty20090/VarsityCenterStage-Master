@@ -117,12 +117,20 @@ public class ManualLift extends LinearOpMode {
 
             }
             else {
-                robot.lift.setPower(0);
+                inPlace();
             }
             telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
             telemetry.update();
 
 
+        }
+        if(gamepad1.y){
+            robot.rHang.setPower(1);
+            robot.lHang.setPower(1);
+        }
+        else{
+            robot.rHang.setPower(0);
+            robot.lHang.setPower(0);
         }
 
 
@@ -142,6 +150,15 @@ public class ManualLift extends LinearOpMode {
         robot.fRightWheel.setPower(0);
         robot.bLeftWheel.setPower(0);
         robot.bRightWheel.setPower(0);
+    }
+    public void inPlace(){
+        int n = robot.lift.getCurrentPosition();
+        while(robot.lift.getCurrentPosition()-n>5){
+            robot.lift.setPower(-.5);
+        }
+        while(robot.lift.getCurrentPosition()-n<-5){
+            robot.lift.setPower(.5);
+        }
     }
 }
 

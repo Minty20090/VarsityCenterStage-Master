@@ -13,14 +13,15 @@ public class HWMap extends Project{
     public DcMotor fRightWheel = null;
     public DcMotor bLeftWheel = null;
     public DcMotor bRightWheel = null;
+    public DcMotor rHang = null;
+    public DcMotor lHang = null;
     public DcMotor flip = null;
     public DcMotor lift = null;
     public Servo clawR = null;
     public Servo clawL = null;
     public DcMotor ext = null;
     //public Servo yPixel = null;
-    public DcMotor rHang = null;
-    public DcMotor lHang = null;
+
 
     //public Servo wrist = null;
     //public DcMotor wrist = null;
@@ -36,14 +37,15 @@ public class HWMap extends Project{
         fRightWheel = hwMap.dcMotor.get("FrontRight");
         bLeftWheel = hwMap.dcMotor.get("BackLeft");
         bRightWheel = hwMap.dcMotor.get("BackRight");
+        rHang = hwMap.dcMotor.get("rHang");
+        lHang = hwMap.dcMotor.get("lHang");
         ext = hwMap.dcMotor.get("slide");
         lift = hwMap.dcMotor.get("lift");
         //stick = hwMap.servo.get("Stick");
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
         //yPixel = hwMap.servo.get("yPixel");
-        rHang = hwMap.dcMotor.get("rHang");
-        lHang = hwMap.dcMotor.get("lHang");
+
 
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
@@ -58,21 +60,21 @@ public class HWMap extends Project{
         ext.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         rHang.setDirection(DcMotor.Direction.FORWARD);
-        lHang.setDirection(DcMotor.Direction.FORWARD);
+        lHang.setDirection(DcMotor.Direction.REVERSE);
 
 
         //wrist.setDirection(DcMotor.Direction.FORWARD);
 
         // Set run mode
-        fRightWheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bRightWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bLeftWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ext.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

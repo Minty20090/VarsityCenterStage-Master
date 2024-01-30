@@ -85,6 +85,18 @@ public class ManualLift extends LinearOpMode {
                 robot.clawL.setPosition(1);//open
 
             }
+            if(gamepad1.y){
+                robot.rHang.setPower(1);
+                robot.lHang.setPower(1);
+            }
+            else if(gamepad1.a){
+                robot.rHang.setPower(-1);
+                robot.lHang.setPower(-1);
+            }
+            else{
+                robot.rHang.setPower(0);
+                robot.lHang.setPower(0);
+            }
 
             if(gamepad1.dpad_up){
                 jointPosition = robot.ext.getCurrentPosition() + 200;
@@ -124,14 +136,7 @@ public class ManualLift extends LinearOpMode {
 
 
         }
-        if(gamepad1.y){
-            robot.rHang.setPower(1);
-            robot.lHang.setPower(1);
-        }
-        else{
-            robot.rHang.setPower(0);
-            robot.lHang.setPower(0);
-        }
+
 
 
     }

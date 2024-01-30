@@ -97,6 +97,12 @@ public class ManualLift extends LinearOpMode {
                 robot.rHang.setPower(0);
                 robot.lHang.setPower(0);
             }
+            if(gamepad1.dpad_right){
+                robot.wrist.setPosition(.5);
+            }
+            if(gamepad1.dpad_left){
+                robot.wrist.setPosition(1);
+            }
 
             if(gamepad1.dpad_up){
                 jointPosition = robot.ext.getCurrentPosition() + 200;

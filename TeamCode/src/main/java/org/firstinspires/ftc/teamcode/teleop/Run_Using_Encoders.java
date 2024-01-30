@@ -15,20 +15,22 @@ public class Run_Using_Encoders extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.init(hardwareMap);
-        if (gamepad1.a) {
-            tiles(1);
+        waitForStart();
+        while (opModeIsActive()) {
+            robot.init(hardwareMap);
+            if (gamepad1.a) {
+                tiles(1);
+            }
+            if (gamepad1.b) {
+                backTiles(1);
+            }
+            if (gamepad1.x) {
+                correctionLeft(1);
+            }
+            if (gamepad1.a) {
+                correctionRight(1);
+            }
         }
-        if (gamepad1.b) {
-            backTiles(1);
-        }
-        if (gamepad1.x) {
-            correctionLeft(1);
-        }
-        if (gamepad1.a) {
-            correctionRight(1);
-        }
-        
 
     }
 

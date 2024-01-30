@@ -23,7 +23,7 @@ public class HWMap extends Project{
     //public Servo yPixel = null;
 
 
-    //public Servo wrist = null;
+    public Servo wrist = null;
     //public DcMotor wrist = null;
     public BNO055IMU imu;
 
@@ -47,7 +47,7 @@ public class HWMap extends Project{
         //yPixel = hwMap.servo.get("yPixel");
 
 
-        //wrist = hwMap.servo.get("wrist");
+        wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
 
 

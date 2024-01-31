@@ -15,9 +15,12 @@ public class Run_Using_Encoders extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        robot.init(hardwareMap);
         waitForStart();
+
+        robot.wrist.setPosition(1);
         while (opModeIsActive()) {
-            robot.init(hardwareMap);
+
             if (gamepad1.a) {
                 tiles(1);
             }
@@ -34,7 +37,7 @@ public class Run_Using_Encoders extends LinearOpMode {
 
     }
 
-    int power = 1000;
+    int power = 500;
     public void tiles(double tiles){
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(power);
@@ -45,6 +48,7 @@ public class Run_Using_Encoders extends LinearOpMode {
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);
         robot.bRightWheel.setVelocity(0);
+
     }
     public void backTiles(double tiles) {
         robot.fLeftWheel.setVelocity(-power);

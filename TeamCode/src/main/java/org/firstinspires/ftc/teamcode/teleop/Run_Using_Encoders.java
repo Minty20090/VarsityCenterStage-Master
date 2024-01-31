@@ -40,9 +40,13 @@ public class Run_Using_Encoders extends LinearOpMode {
     int power = 500;
     public void tiles(double tiles){
         robot.fLeftWheel.setVelocity(power);
+        telemetry.addData("encoder counts fl", robot.fLeftWheel.getCurrentPosition());
         robot.fRightWheel.setVelocity(power);
+        telemetry.addData("encoder counts fr", robot.fRightWheel.getCurrentPosition());
         robot.bLeftWheel.setVelocity(power);
+        telemetry.addData("encoder counts bl", robot.bLeftWheel.getCurrentPosition());
         robot.bRightWheel.setVelocity(power);
+        telemetry.addData("encoder counts br", robot.bRightWheel.getCurrentPosition());
         sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);

@@ -93,11 +93,17 @@ public class manualtriglift extends LinearOpMode {
                 robot.ext.setTargetPosition(jointPosition);
 
             }
-            if(gamepad1.a){
-                robot.lift.setPower(-.2*(Math.sin(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
+            if(gamepad1.a&&robot.lift.getCurrentPosition()>=180){
+                robot.lift.setPower(-.3*(Math.sin(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
             }
-            else if(gamepad1.y){
-                robot.lift.setPower(.2*(Math.cos(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
+            else if(gamepad1.a&&robot.lift.getCurrentPosition()<180){
+                robot.lift.setPower(-.05*(Math.sin(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
+            }
+            else if(gamepad1.y&&robot.lift.getCurrentPosition()<=180){
+                robot.lift.setPower(.3*(Math.cos(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
+            }
+            else if(gamepad1.y&&robot.lift.getCurrentPosition()>180){
+                robot.lift.setPower(.05*(Math.cos(robot.lift.getCurrentPosition()/2*(Math.PI/180))));
             }
             else {
                 robot.lift.setPower(0);

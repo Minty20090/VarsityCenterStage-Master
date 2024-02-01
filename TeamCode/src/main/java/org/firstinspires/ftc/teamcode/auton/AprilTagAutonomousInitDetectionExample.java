@@ -23,22 +23,18 @@ package org.firstinspires.ftc.teamcode.auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.exception.RobotCoreException;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
 
 import java.util.ArrayList;
 
@@ -52,7 +48,7 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
     }
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad previousGamepad1 = new Gamepad();
-    public HWMap robot = new HWMap();
+    private HWMap robot = new HWMap();
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -70,10 +66,7 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-   // Tag ID 1,2,3 from the 36h11 family
-    int Left = 1;
-    int Middle = 2;
-    int Right = 3;
+
     AprilTagDetection tagOfInterest = null;
 
     @Override
@@ -114,8 +107,8 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
         while (!isStarted() && !isStopRequested())
         {
 
-                previousGamepad1.copy(currentGamepad1);
-                currentGamepad1.copy(gamepad1);
+            previousGamepad1.copy(currentGamepad1);
+            currentGamepad1.copy(gamepad1);
 
 
 
@@ -127,8 +120,7 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
 
                 for(AprilTagDetection tag : currentDetections)
 
-                    if(tag.id == Left  || tag.id == Middle || tag.id == Right )
-                    {
+                    if(tag != null) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
@@ -193,58 +185,102 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
             telemetry.update();
         }
 
+        // align with backboard based on tag
+        // There are three tags on the backboard, one on the left, one in the middle, and one on the right
+        // Assuming the robot is generally in front of the backboard, the robot will move to the left or right to align with the middle tag
+        // the middle tag ID is either 2 (if the set includes ID 1 or 3) or 5 (if the set includes ID 4 or 6)
+        // If the robot can see the middle tag, it will move to align with it (minimize the absolute value of the x value)
+        // If the robot cannot see the middle tag, but can see the left tag, it will move to the right until it can see the middle tag
+        // If the robot cannot see the middle tag, but can see the right tag, it will move to the left until it can see the middle tag
 
+        // Implementation:
 
-        if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper){
-
-            isRight = !isRight;
-        }
-        if (isRight){
-
-            a = Side.Right;
-        }
-        else{
-
-            a = Side.Left;
-        }
-        telemetry.addData("Side",a);
-        telemetry.update();
-
-        if (a == Side.Right) {
-            if(tagOfInterest == null || tagOfInterest.id == Left ) {
-
-
-
-
-
-
-
-
-            } else if(tagOfInterest.id == Middle) {
-                //trajectory
-
-
-            }else {
-                //trajectory
-
+        if(tagOfInterest != null)
+        {
+            if(tagOfInterest.id == 2 || tagOfInterest.id == 5)
+            {
+                // move forward/backward to align with the middle tag
+                if(tagOfInterest.pose.x > 0)
+                {
+                    // move left
+                    // trajectory
+                }
+                else
+                {
+                    // move right
+                    // trajectory
+                }
+            }
+            else if(tagOfInterest.id == 1 || tagOfInterest.id == 3)
+            {
+                // move to the right until the middle tag is in sight
+                // trajectory
 
             }
-        }
-        else {
-
-
-            /* Actually do something useful */
-            if (tagOfInterest == null || tagOfInterest.id == Left) {
-                //trajectory
-
-
-            } else if (tagOfInterest.id == Middle) {
-
-
-            } else {
-
+            else if(tagOfInterest.id == 4 || tagOfInterest.id == 6)
+            {
+                // move to the left until the middle tag is in sight
+                // trajectory
             }
         }
+        else
+        {
+            // move to the right until the middle tag is in sight
+            // trajectory
+        }
+
+
+
+//        if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper){
+//
+//            isRight = !isRight;
+//        }
+//        if (isRight){
+//
+//            a = Side.Right;
+//        }
+//        else{
+//
+//            a = Side.Left;
+//        }
+//        telemetry.addData("Side",a);
+//        telemetry.update();
+//
+//        if (a == Side.Right) {
+//            if(tagOfInterest == null || tagOfInterest.id == Left ) {
+//
+//
+//
+//
+//
+//
+//
+//
+//            } else if(tagOfInterest.id == Middle) {
+//                //trajectory
+//
+//
+//            }else {
+//                //trajectory
+//
+//
+//            }
+//        }
+//        else {
+//
+//
+//            /* Actually do something useful */
+//            if (tagOfInterest == null || tagOfInterest.id == Left) {
+//                //trajectory
+//
+//
+//            } else if (tagOfInterest.id == Middle) {
+//
+//
+//            } else {
+//
+//            }
+//        }
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
         while (opModeIsActive()) {sleep(20);}
     }
@@ -270,4 +306,15 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
         tagData[1] = rot.firstAngle*(180/Math.PI);
 
     }
-    }
+}
+
+
+// Notes
+// Translation X is the distance from the camera to the tag in the X direction (left/right)
+// Translation Y is the distance from the camera to the tag in the Y direction (up/down)
+// Translation Z is the distance from the camera to the tag in the Z direction (forward/backward)
+// Rotation Yaw is the rotation of the tag around the Y axis (left/right rotation)
+// Rotation Pitch is the rotation of the tag around the X axis (up/down rotation)
+// Rotation Roll is the rotation of the tag around the Z axis (tilt left/right rotation)
+
+

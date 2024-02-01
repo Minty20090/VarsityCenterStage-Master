@@ -161,18 +161,12 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
             while (opModeIsActive()) {
             //tiles(1);
-            sleep(10000);
 
                 robot.clawR.setPosition(1);
                 robot.clawL.setPosition(0);
                 sleep(500);
-                robot.lift.setPower(.5);
-                robot.lift.setTargetPosition(70);
-                sleep(1000);
-                robot.lift.setTargetPosition(-20);
-                sleep(500);
-                robot.lift.setTargetPosition(0);
-                sleep(100);
+                robot.wrist.setPosition(1);
+
 
 
                 if(side==1) {  // rblue
@@ -235,10 +229,23 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         }
     }
     public void drop(){
-        robot.clawR.setPosition(0);
+
+        robot.wrist.setPosition(.25);
+
+        robot.lift.setTargetPosition(100);
+        robot.lift.setPower(.2);
         sleep(1000);
-        //backTiles(.2);
-//        sleep(500);
+        tiles(.4);
+        robot.lift.setTargetPosition(0);
+        robot.lift.setPower(0);
+        sleep(1000);
+        robot.clawL.setPosition(1);
+        sleep(500);
+        backTiles(.2);
+        sleep(500);
+        robot.clawR.setPosition(1);
+        robot.clawL.setPosition(0);
+        robot.wrist.setPosition(1);
 //        robot.lift.setTargetPosition(100);
 //        sleep(500);
 ////        tiles(.2);
@@ -247,75 +254,75 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
     public void spikeLeft(String location) { // tress is to the right
         if (location == "Middle") {
-           // tiles(.9);
+            tiles(.8);
             sleep(500);
             drop();
-            robot.clawR.setPosition(0);
-            sleep(1000);
-//            sleep(2000);
+            sleep(2000);
+            backTiles(1.2);
 
         }
         else if(location == "Right"){
-           // tiles(.8);
+            tiles(.8);
             turn(-85);
             sleep(500);
-          //  correctionLeft(.4);
+            correctionLeft(.4);
             sleep(500);
             sleep(500);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
-//            turn(85);
+            turn(85);
         }
         else if(location == "Left"){
-           // tiles(1);
+            tiles(1);
             turn(85);
 
             sleep(500);
-           // backTiles(.3);
+            backTiles(.3);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
-//            sleep(2000);
-//            turn(-85);
+            sleep(2000);
+            turn(-85);
 
         }
     }
     public void spikeRight(String location) {// tress is to the left
         if (location == "Middle") {
-            //tiles(.9);
+            tiles(.8);
             sleep(500);
             drop();
-            robot.clawR.setPosition(0);
-            sleep(1000);
+            sleep(2000);
+            backTiles(1);
         }
         else if(location == "Right"){
-           // tiles(1);
+            tiles(1);
             turn(-85);
             sleep(500);
-            //backTiles(.1);
+            backTiles(.1);
             sleep(500);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
-//            turn(85);
+            turn(85);
 
         }
         else if(location == "Left"){
-           // tiles(.8);
+            tiles(.8);
             turn(85);
             sleep(500);
-           // backTiles(.2);
+            backTiles(.2);
             drop();
             robot.clawR.setPosition(0);
             sleep(1000);
-//            turn(-85);
+            turn(-85);
 
 //
         }
     }
-    int power = 1000;
+
     public void tiles(double tiles){
+        int power = 400;
         robot.fLeftWheel.setVelocity(power);
         telemetry.addData("encoder counts fl", robot.fLeftWheel.getCurrentPosition());
         robot.fRightWheel.setVelocity(power);
@@ -324,19 +331,20 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         telemetry.addData("encoder counts bl", robot.bLeftWheel.getCurrentPosition());
         robot.bRightWheel.setVelocity(power);
         telemetry.addData("encoder counts br", robot.bRightWheel.getCurrentPosition());
-        sleep((int) (800*tiles));
-        telemetry.update();
+        sleep((int) (1700*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);
         robot.bRightWheel.setVelocity(0);
+
     }
     public void backTiles(double tiles) {
+        int power = 400;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
         robot.bRightWheel.setVelocity(-power);
-        sleep((int) (800*tiles));
+        sleep((int) (1700*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);
@@ -345,6 +353,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
 
     public void correctionLeft( double tiles) {
+        int power = 250;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
@@ -356,7 +365,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         robot.bRightWheel.setVelocity(0);
     }
     public void correctionRight( double tiles) {
-
+        int power = 250;
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
@@ -423,10 +432,11 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
     }
     public void setALLPower(double power) {
-//        robot.fRightWheel.setVelocity(power);
-//        robot.fLeftWheel.setVelocity(-power);
-//        robot.bRightWheel.setVelocity(power);
-//        robot.bLeftWheel.setVelocity(-power);
+        double powerLevel = power * 500;
+        robot.fRightWheel.setVelocity(powerLevel);
+        robot.fLeftWheel.setVelocity(-powerLevel);
+        robot.bRightWheel.setVelocity(powerLevel);
+        robot.bLeftWheel.setVelocity(-powerLevel);
     }
 
 

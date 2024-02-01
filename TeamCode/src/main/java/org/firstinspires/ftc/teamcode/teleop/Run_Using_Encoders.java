@@ -19,8 +19,10 @@ public class Run_Using_Encoders extends LinearOpMode {
         double speed = 0.7;
         waitForStart();
 
-        robot.wrist.setPosition(1);
+
         while (opModeIsActive()) {
+
+            robot.wrist.setPosition(1);
 
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
@@ -57,8 +59,9 @@ public class Run_Using_Encoders extends LinearOpMode {
 
     }
 
-    int power = 500;
+
     public void tiles(double tiles){
+        int power = 400;
         robot.fLeftWheel.setVelocity(power);
         telemetry.addData("encoder counts fl", robot.fLeftWheel.getCurrentPosition());
         robot.fRightWheel.setVelocity(power);
@@ -67,7 +70,7 @@ public class Run_Using_Encoders extends LinearOpMode {
         telemetry.addData("encoder counts bl", robot.bLeftWheel.getCurrentPosition());
         robot.bRightWheel.setVelocity(power);
         telemetry.addData("encoder counts br", robot.bRightWheel.getCurrentPosition());
-        sleep((int) (800*tiles));
+        sleep((int) (1600*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);
@@ -75,6 +78,7 @@ public class Run_Using_Encoders extends LinearOpMode {
 
     }
     public void backTiles(double tiles) {
+        int power = 500;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
@@ -88,6 +92,7 @@ public class Run_Using_Encoders extends LinearOpMode {
 
 
     public void correctionLeft( double tiles) {
+        int power = 500;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
@@ -99,7 +104,7 @@ public class Run_Using_Encoders extends LinearOpMode {
         robot.bRightWheel.setVelocity(0);
     }
     public void correctionRight( double tiles) {
-
+        int power = 500;
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);

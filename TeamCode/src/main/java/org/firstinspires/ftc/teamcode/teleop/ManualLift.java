@@ -135,7 +135,7 @@ public class ManualLift extends LinearOpMode {
 
             }
             else {
-                inPlace();
+//                inPlace();
             }
             telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
             telemetry.update();

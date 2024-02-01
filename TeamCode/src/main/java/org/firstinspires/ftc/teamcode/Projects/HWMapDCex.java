@@ -41,7 +41,7 @@ public class HWMapDCex extends Project{
         //stick = hwMap.servo.get("Stick");
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
-        clawR = hwMap.servo.get("wrist");
+        wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.servo.get("wrist");
         //wrist = hwMap.dcMotor.get("wrist");
 

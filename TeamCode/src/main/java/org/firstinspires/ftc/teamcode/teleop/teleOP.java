@@ -308,7 +308,6 @@ public class teleOP extends LinearOpMode {
 
         double target = robot.fRightWheel.getCurrentPosition()+tiles*600;
         double delta = target - robot.fRightWheel.getCurrentPosition();
-        // Start the timer
 
 
         resetAngle();

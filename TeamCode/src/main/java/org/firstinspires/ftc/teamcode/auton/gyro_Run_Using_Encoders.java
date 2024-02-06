@@ -162,7 +162,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             while (opModeIsActive()) {
             //tiles(1);
 
-                robot.clawR.setPosition(1);
+//                robot.clawR.setPosition(1);
                 robot.clawL.setPosition(0);
                 sleep(500);
                 robot.wrist.setPosition(1);
@@ -232,13 +232,13 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
         robot.wrist.setPosition(.25);
 
-        robot.lift.setTargetPosition(100);
-        robot.lift.setPower(.2);
+//        robot.lift.setTargetPosition(100);
+//        robot.lift.setPower(.2);
         sleep(1000);
-        tiles(.4);
-        robot.lift.setTargetPosition(0);
-        robot.lift.setPower(0);
-        sleep(1000);
+        tiles(.2);
+//        robot.lift.setTargetPosition(0);
+//        robot.lift.setPower(0);
+//        sleep(1000);
         robot.clawL.setPosition(1);
         sleep(500);
         backTiles(.2);
@@ -258,32 +258,25 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             sleep(500);
             drop();
             sleep(2000);
-            backTiles(1.2);
+            backTiles(1);
 
         }
         else if(location == "Right"){
             tiles(.8);
-            turn(-85);
-            sleep(500);
-            correctionLeft(.4);
-            sleep(500);
-            sleep(500);
+            turn(-60);
+            backTiles(.2);
             drop();
-            robot.clawR.setPosition(0);
             sleep(1000);
-            turn(85);
+            turn(60);
         }
         else if(location == "Left"){
             tiles(1);
-            turn(85);
-
+            turn(60);
+            backTiles(.2);
             sleep(500);
-            backTiles(.3);
             drop();
-            robot.clawR.setPosition(0);
             sleep(1000);
-            sleep(2000);
-            turn(-85);
+            turn(-60);
 
         }
     }
@@ -302,7 +295,6 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             backTiles(.1);
             sleep(500);
             drop();
-            robot.clawR.setPosition(0);
             sleep(1000);
             turn(85);
 
@@ -313,7 +305,6 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             sleep(500);
             backTiles(.2);
             drop();
-            robot.clawR.setPosition(0);
             sleep(1000);
             turn(-85);
 
@@ -358,7 +349,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
         robot.bRightWheel.setVelocity(-power);
-        sleep((int) (800*tiles));
+        sleep((int) (1700*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);

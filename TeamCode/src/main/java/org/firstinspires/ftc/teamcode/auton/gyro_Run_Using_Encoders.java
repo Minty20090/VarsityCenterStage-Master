@@ -225,40 +225,28 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         }
     }
     public void drop(){
-
+        backTiles(.2);
         robot.wrist.setPosition(.25);
-
-//        robot.lift.setTargetPosition(100);
-//        robot.lift.setPower(.2);
         sleep(1000);
-        tiles(.2);
-//        robot.lift.setTargetPosition(0);
-//        robot.lift.setPower(0);
-//        sleep(1000);
+        tiles(.3);
         robot.clawL.setPosition(1);
         sleep(500);
-        backTiles(.2);
-        sleep(500);
+        backTiles(.3);
         robot.clawR.setPosition(1);
         robot.clawL.setPosition(0);
+        sleep(500);
         robot.wrist.setPosition(1);
-//        robot.lift.setTargetPosition(100);
-//        sleep(500);
-////        tiles(.2);
-//        robot.clawR.setPosition(1);
-//        sleep(500);
     }
     public void spikeLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.9);
+            tiles(.8);
             sleep(500);
             drop();
             sleep(2000);
-            backTiles(1);
 
         }
         else if(location == "Right"){
-            tiles(.8);
+            tiles(1.2);
             turn(-60);
             backTiles(.2);
             drop();
@@ -268,14 +256,12 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         else if(location == "Left"){
             tiles(1);
             turn(50);
-            backTiles(.2);
-            sleep(500);
+            backTiles(.3);
             drop();
-            sleep(1000);
+            tiles(.2);
             turn(-50);
-            sleep(1000);
             backTiles(.2);
-            turn(30);
+            turn(25);
 
         }
     }
@@ -285,44 +271,45 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             sleep(500);
             drop();
             sleep(2000);
-            backTiles(1);
+
         }
         else if(location == "Right"){
             tiles(1);
-            turn(-85);
-            sleep(500);
-            backTiles(.1);
+            turn(-50);
             sleep(500);
             drop();
             sleep(1000);
-            turn(85);
+            turn(50);
+            sleep(1000);
+            backTiles(.2);
+            turn(-30);
+
 
         }
         else if(location == "Left"){
-            tiles(.8);
-            turn(85);
-            sleep(500);
+            tiles(1);
+            turn(50);
             backTiles(.2);
             drop();
             sleep(1000);
-            turn(-85);
+            turn(-50);
 
-//
         }
     }
 
     public void driveThroughRigging(String dist) {
         backTiles(1);
-        turn(-85);
+        tiles(.25);
+        turn(-70);
         if(dist == "short"){
             tiles(1);
         }
         else if (dist == "long") {
-            tiles(3);
+            tiles(2.5);
         }
-        turn(85);
+        turn(70);
         tiles(1);
-        turn(-85);
+        turn(-9);
         tiles(.5);
 
     }

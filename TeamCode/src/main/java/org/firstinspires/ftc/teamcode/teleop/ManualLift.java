@@ -135,10 +135,18 @@ public class ManualLift extends LinearOpMode {
 
             }
             else {
+                robot.lift.setPower(0);
 //                inPlace();
             }
             telemetry.addData("lift: %d", robot.lift.getCurrentPosition());
             telemetry.update();
+
+            if (gamepad2.a) {
+                robot.launcher.setPosition(0);
+            }
+            if (gamepad2.y) {
+                robot.launcher.setPosition(1);
+            }
 
 
         }

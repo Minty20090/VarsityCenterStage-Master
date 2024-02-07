@@ -24,6 +24,7 @@ public class HWMap extends Project{
 
 
     public Servo wrist = null;
+    public Servo launcher = null;
     //public DcMotor wrist = null;
     public BNO055IMU imu;
 
@@ -48,6 +49,7 @@ public class HWMap extends Project{
 
 
         wrist = hwMap.servo.get("wrist");
+        launcher = hwMap.servo.get("launcher");
         //wrist = hwMap.dcMotor.get("wrist");
 
 

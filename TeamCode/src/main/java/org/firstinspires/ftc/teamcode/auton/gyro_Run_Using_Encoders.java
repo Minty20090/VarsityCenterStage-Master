@@ -254,7 +254,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
     public void spikeLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.8);
+            tiles(.9);
             sleep(500);
             drop();
             sleep(2000);
@@ -271,12 +271,15 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         }
         else if(location == "Left"){
             tiles(1);
-            turn(60);
+            turn(50);
             backTiles(.2);
             sleep(500);
             drop();
             sleep(1000);
-            turn(-60);
+            turn(-50);
+            sleep(1000);
+            backTiles(.2);
+            turn(30);
 
         }
     }
@@ -312,6 +315,22 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         }
     }
 
+    public void driveThroughRigging(String dist) {
+        backTiles(1);
+        turn(-85);
+        if(dist == "short"){
+            tiles(1);
+        }
+        else if (dist == "long") {
+            tiles(3);
+        }
+        turn(85);
+        tiles(1);
+        turn(-85);
+        
+
+    }
+
     public void tiles(double tiles){
         int power = 400;
         robot.fLeftWheel.setVelocity(power);
@@ -344,12 +363,12 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
 
     public void correctionLeft( double tiles) {
-        int power = 250;
+        int power = 500;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
         robot.bRightWheel.setVelocity(-power);
-        sleep((int) (1700*tiles));
+        sleep((int) (800*tiles));
         robot.fLeftWheel.setVelocity(0);
         robot.fRightWheel.setVelocity(0);
         robot.bLeftWheel.setVelocity(0);

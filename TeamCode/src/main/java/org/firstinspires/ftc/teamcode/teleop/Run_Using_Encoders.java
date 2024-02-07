@@ -50,10 +50,10 @@ public class Run_Using_Encoders extends LinearOpMode {
                 backTiles(1);
             }
             if (gamepad1.x) {
-                correctionLeft(1);
+                correctionLeft(.5);
             }
-            if (gamepad1.a) {
-                correctionRight(1);
+            if (gamepad1.y) {
+                correctionRight(.5);
             }
         }
 

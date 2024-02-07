@@ -64,7 +64,7 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
     double cy = 221.506;
 
     // UNITS ARE METERS
-    double tagsize = 0.166;
+    double tagsize = 0.05;
 
 
     AprilTagDetection tagOfInterest = null;
@@ -199,34 +199,78 @@ public class AprilTagAutonomousInitDetectionExample<tagOfInterest> extends Linea
         {
             if(tagOfInterest.id == 2 || tagOfInterest.id == 5)
             {
-                // move forward/backward to align with the middle tag
-                if(tagOfInterest.pose.x > 0)
+                // telemetry
+                tagToTelemetry(tagOfInterest);
+
+                // move forward/backward for proper distance
+                if(tagOfInterest.pose.z > 30)
                 {
-                    // move left
-                    // trajectory
+                    // move forward
+                    robot.fLeftWheel.setPower(0.5);
+                    robot.fRightWheel.setPower(0.5);
+                    robot.bLeftWheel.setPower(0.5);
+                    robot.bRightWheel.setPower(0.5);
+
+                    // telemetry
+                    telemetry.addData("Moving forward to align with middle tag.", tagOfInterest.pose.z);
+
                 }
-                else
+                else if (tagOfInterest.pose.z < 30)
                 {
-                    // move right
-                    // trajectory
+                    // move backward
+                    robot.fLeftWheel.setPower(-0.5);
+                    robot.fRightWheel.setPower(-0.5);
+                    robot.bLeftWheel.setPower(-0.5);
+                    robot.bRightWheel.setPower(-0.5);
+
+                    // telemetry
+                    telemetry.addData("Moving backward to align with middle tag.", tagOfInterest.pose.z);
+                }
+                else {
+                    // stop
+                    robot.fLeftWheel.setPower(0);
+                    robot.fRightWheel.setPower(0);
+                    robot.bLeftWheel.setPower(0);
+                    robot.bRightWheel.setPower(0);
+                    //score
+                    telemetry.addLine("Aligned with middle tag, ready to score.");
+
                 }
             }
             else if(tagOfInterest.id == 1 || tagOfInterest.id == 3)
             {
                 // move to the right until the middle tag is in sight
-                // trajectory
+                robot.fLeftWheel.setPower(0.5);
+                robot.fRightWheel.setPower(-0.5);
+                robot.bLeftWheel.setPower(0.5);
+                robot.bRightWheel.setPower(-0.5);
+
+                // telemetry
+                telemetry.addData("Moving right to align with middle tag.", tagOfInterest.id);
 
             }
             else if(tagOfInterest.id == 4 || tagOfInterest.id == 6)
             {
                 // move to the left until the middle tag is in sight
-                // trajectory
+                robot.fLeftWheel.setPower(-0.5);
+                robot.fRightWheel.setPower(0.5);
+                robot.bLeftWheel.setPower(-0.5);
+                robot.bRightWheel.setPower(0.5);
+
+                // telemetry
+                telemetry.addData("Moving left to align with middle tag.", tagOfInterest.id);
             }
         }
         else
         {
             // move to the right until the middle tag is in sight
-            // trajectory
+            robot.fLeftWheel.setPower(0.5);
+            robot.fRightWheel.setPower(-0.5);
+            robot.bLeftWheel.setPower(0.5);
+            robot.bRightWheel.setPower(-0.5);
+
+            // telemetry
+            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
         }
 
 

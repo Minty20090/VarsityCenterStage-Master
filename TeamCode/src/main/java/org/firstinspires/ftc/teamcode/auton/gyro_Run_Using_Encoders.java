@@ -172,6 +172,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side==1) {  // rblue
                     //Blue stage
                     spikeRight(location);
+                    driveThroughRigging("long");
 //                    sleep(500);
 //                    backTiles(-.9);
 //                    sleep(500);
@@ -185,6 +186,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side==2){
                     //Blue back stage
                     spikeLeft(location);
+                    driveThroughRigging("short");
 //                    sleep(500);
 //                    backTiles(-.9);
 //                    sleep(500);
@@ -199,6 +201,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side == 3){
                     //Red backstage
                     spikeRight(location);
+                    driveThroughRigging("short");
 //                    sleep(500);
 //                    backTiles(-.9);
 //                    sleep(500);
@@ -213,14 +216,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side == 4) {
                     // red stage //lred
                     spikeLeft(location);
-//                    sleep(500);
-//                    backTiles(-.9);
-//                    sleep(500);
-//                    robot.lift.setTargetPosition(0);
-//                    sleep(500);
-//                    turn(90);
-//                    sleep(500);
-//                    tiles(3);
+                    driveThroughRigging("long");
                     break;
                 }
             }
@@ -327,7 +323,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         turn(85);
         tiles(1);
         turn(-85);
-        
+        tiles(.5);
 
     }
 

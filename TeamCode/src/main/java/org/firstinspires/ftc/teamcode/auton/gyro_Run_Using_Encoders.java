@@ -216,6 +216,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side == 4) {
                     // red stage //lred
                     spikeLeft(location);
+
                     driveThroughRigging("long");
                     break;
                 }
@@ -228,7 +229,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         backTiles(.2);
         robot.wrist.setPosition(.25);
         sleep(1000);
-        tiles(.3);
+        tiles(.35);
         robot.clawL.setPosition(1);
         sleep(500);
         backTiles(.3);
@@ -298,8 +299,8 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
     public void driveThroughRigging(String dist) {
         backTiles(1);
-        tiles(.25);
-        turn(-70);
+        tiles(.15);
+        turn(-75);
         if(dist == "short"){
             tiles(1);
         }

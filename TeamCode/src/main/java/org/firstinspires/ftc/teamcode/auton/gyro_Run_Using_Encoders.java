@@ -240,7 +240,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
     public void spikeLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.8);
+            tiles(1.2);
             sleep(500);
             drop();
             sleep(2000);
@@ -248,10 +248,10 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         }
         else if(location == "Right"){
             tiles(1.2);
-            turn(-60);
+            turn(-70);
             drop();
             sleep(1000);
-            turn(60);
+            turn(70);
         }
         else if(location == "Left"){
             tiles(1);

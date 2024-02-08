@@ -20,7 +20,8 @@ public class HWMap extends Project{
     public Servo clawR = null;
     public Servo clawL = null;
     public DcMotor ext = null;
-    //public Servo yPixel = null;
+
+    public Servo yPixel = null;
 
 
     public Servo wrist = null;
@@ -45,7 +46,7 @@ public class HWMap extends Project{
         //stick = hwMap.servo.get("Stick");
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
-        //yPixel = hwMap.servo.get("yPixel");
+        yPixel = hwMap.servo.get("yPixel");
 
 
         wrist = hwMap.servo.get("wrist");
@@ -119,7 +120,7 @@ public class HWMap extends Project{
         lHang.setPower(0);
 
         lift.setPower(0);
-
+        yPixel.setPosition(0);
 //        slide.setPower(0);
         //wrist.setPower(0);
     }

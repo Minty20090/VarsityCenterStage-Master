@@ -187,10 +187,10 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                 if(side==2){
                     //Blue back stage
                     spikeLeft(location);
-                    backTiles(1);
-                    tiles(.25);
-                    turn(70);
-                    tiles(1);
+//                    backTiles(1);
+//                    tiles(.25);
+//                    turn(70);
+//                    tiles(1);
 //                    turn(-70);
 //                    tiles(1);
 //                    turn(90);
@@ -240,7 +240,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
     public void spikeLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(1.2);
+            tiles(.9);
             sleep(500);
             drop();
             sleep(2000);
@@ -249,6 +249,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         else if(location == "Right"){
             tiles(1.2);
             turn(-70);
+            backTiles(.1);
             drop();
             sleep(1000);
             turn(70);
@@ -267,7 +268,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
     public void spikeRight(String location) {// tress is to the left
         if (location == "Middle") {
-            tiles(.8);
+            tiles(1);
             sleep(500);
             drop();
             sleep(2000);
@@ -310,6 +311,22 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         turn(70);
         tiles(1);
         turn(-9);
+        tiles(.5);
+
+    }
+    public void driveThroughRiggingB(String dist) {
+        backTiles(1);
+        tiles(.15);
+        turn(75);
+        if(dist == "short"){
+            tiles(1);
+        }
+        else if (dist == "long") {
+            tiles(2.5);
+        }
+        turn(-70);
+        tiles(1);
+        turn(9);
         tiles(.5);
 
     }

@@ -190,11 +190,14 @@
 //
 //
 //
-//   public void turn(int degrees, double direction){
+//   public void turnLeft(int degrees){
 //       int turnCoefficient = 3000;
+//       int fleft = robot.fLeftWheel.getCurrentPosition();
+//       robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
+//
 //       String turn;
 //
-//       int fleft = robot.fLeftWheel.getCurrentPosition();
+//
 //       int bleft = robot.bLeftWheel.getCurrentPosition();
 //       int bright = robot.bRightWheel.getCurrentPosition();
 //       int fright = robot.fRightWheel.getCurrentPosition();
@@ -206,7 +209,7 @@
 //       }
 //
 //       if (turn == "left") {
-//           robot.fLeftWheel.setTargetPosition((int) (fleft + degrees/90 * turnCoefficient));
+//
 //           robot.fRightWheel.setTargetPosition((int) (fright+degrees/90 * turnCoefficient));
 //           robot.bLeftWheel.setTargetPosition((int) (bleft+degrees/90 * turnCoefficient));
 //           robot.bRightWheel.setTargetPosition((int) (bright+ degrees/90 * turnCoefficient));

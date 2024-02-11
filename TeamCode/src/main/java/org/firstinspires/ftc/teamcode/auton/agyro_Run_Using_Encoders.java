@@ -1,33 +1,34 @@
 package org.firstinspires.ftc.teamcode.auton;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Projects.HWMap;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
 import org.firstinspires.ftc.teamcode.Projects.HWMapDCex;
-import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
-import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
+import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
+
+import java.util.ArrayList;
+
 @Autonomous
-public class gyro_Run_Using_Encoders extends LinearOpMode{
+public class agyro_Run_Using_Encoders extends LinearOpMode {
     public HWMapDCex robot = new HWMapDCex();
     int noU = 1000;
     OpenCvCamera webcam;
+    AprilTagDetection tagOfInterest = null;
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -160,9 +161,7 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
 
 
             while (opModeIsActive()) {
-            //tiles(1);
 
-//                robot.clawR.setPosition(1);
                 robot.clawL.setPosition(0);
                 sleep(500);
                 robot.wrist.setPosition(1);
@@ -173,31 +172,12 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                     //Blue stage
                     spikeBRight(location);
                     driveThroughRiggingB("long");
-//                    backTiles(1);
-//                    tiles(.25);
-//                    turn(70);
-//
-//                    tiles(2.5);
-
-//                    turn(-70);
-//                    tiles(1);
-//                    turn(90);
-//                    tiles(.5);
-//
                     break;
                 }
                 if(side==2){
                     //Blue back stage
                     spikeBLeft(location);
-                    driveThroughRiggingB("long");
-//                    backTiles(1);
-//                    tiles(.25);
-//                    turn(70);
-//                    tiles(1);
-//                    turn(-70);
-//                    tiles(1);
-//                    turn(90);
-//                    tiles(.5);
+                    driveThroughRiggingB("short");
                     break;
 
                 }
@@ -205,29 +185,18 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
                     //Red backstage
                     spikeRRight(location);
                     driveThroughRiggingR("short");
-
-
-//                    sleep(500);
-//                    backTiles(-.9);
-//                    sleep(500);
-//                    robot.lift.setTargetPosition(0);
-//                    sleep(500);
-//                    turn(90);
-//                    sleep(500);
-//                    tiles(2);
                     break;
 
                 }
                 if(side == 4) {
                     // red stage //lred
                     spikeRLeft(location);
-
                     driveThroughRiggingR("long");
                     break;
                 }
+
+
             }
-
-
         }
     }
     public void drop(){
@@ -308,29 +277,22 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     public void spikeBRight(String location) {// tress is to the left
         if (location == "Middle") {
             tiles(.9);
-            sleep(500);
             drop();
             sleep(2000);
-
         }
         else if(location == "Right"){
             tiles(1.1);
-            turn(-50);
-            sleep(500);
-            backTiles(.1);
+            turn(-60);
             drop();
+            tiles(.15);
             sleep(1000);
-            turn(50);
-            sleep(1000);
-            backTiles(.2);
-            turn(-30);
-
+            turn(60);
 
         }
         else if(location == "Left"){
             tiles(1);
             turn(50);
-            backTiles(.2);
+            backTiles(.25);
             drop();
             sleep(1000);
             turn(-50);
@@ -341,7 +303,6 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     public void spikeRRight(String location) {// tress is to the left // tentatively done
         if (location == "Middle") {
             tiles(.9);
-            sleep(500);
             drop();
             sleep(2000);
 
@@ -350,11 +311,9 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             tiles(1.1);
             turn(-50);
             sleep(500);
-            backTiles(.1);
             drop();
-            sleep(1000);
+            tiles(.3);
             turn(50);
-            sleep(1000);
             backTiles(.2);
             turn(-30);
 
@@ -372,35 +331,68 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
 
     public void driveThroughRiggingR(String dist) {
-        backTiles(1);
-        tiles(.15);
-        turn(-75);
-        if(dist == "short"){
+        if(location == "Middle") {
+            tiles(.2);
+            turn(-70);
+            if(dist == "short"){
+                tiles(1);
+            }
+            else if (dist == "long") {
+                tiles(1.2);
+                tiles(1.3);
+            }
+
+        }
+
+        else {
             tiles(1);
+            turn(-70);
+            if(dist == "short"){
+                tiles(1);
+            }
+            else if (dist == "long") {
+                tiles(2.5);
+
+            }
         }
-        else if (dist == "long") {
-            tiles(2.5);
-        }
-        turn(70);
-        tiles(1);
-        turn(-90);
-        tiles(.5);
 
     }
     public void driveThroughRiggingB(String dist) {
-        backTiles(1);
-        tiles(.15);
-        turn(75);
-        if(dist == "short"){
-            tiles(1);
+        if(location == "Middle") {
+            tiles(.2);
+            turn(70);
+            if(dist == "short"){
+                tiles(1);
+            }
+            else if (dist == "long") {
+                tiles(1.2);
+                tiles(1.3);
+            }
+
         }
-        else if (dist == "long") {
-            tiles(2.5);
+        else if(location == "Right") {
+            tiles(1.2);
+            turn(70);
+            if(dist == "short"){
+                tiles(1);
+            }
+            else if (dist == "long") {
+                tiles(2.5);
+
+            }
         }
-        turn(-70);
-        tiles(1);
-        turn(90);
-        tiles(.5);
+        else {
+            tiles(1.2);
+            turn(80);
+            if(dist == "short"){
+                tiles(1);
+            }
+            else if (dist == "long") {
+                tiles(2.5);
+
+            }
+        }
+
 
     }
 
@@ -434,30 +426,34 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
         robot.bRightWheel.setVelocity(0);
     }
 
-
-    public void correctionLeft( double tiles) {
-        int power = 500;
-        robot.fLeftWheel.setVelocity(-power);
-        robot.fRightWheel.setVelocity(power);
-        robot.bLeftWheel.setVelocity(power);
-        robot.bRightWheel.setVelocity(-power);
-        sleep((int) (800*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
-        robot.bRightWheel.setVelocity(0);
-    }
-    public void correctionRight( double tiles) {
-        int power = 250;
+    public void strafeRight() {
+        int power = 400;
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
         robot.bRightWheel.setVelocity(power);
-        sleep((int) (800*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
-        robot.bRightWheel.setVelocity(0);
+    }
+    public void strafeLeft() {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
+    }
+
+    public void turnRight() {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
+    }
+    public void turnLeft() {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(power);
     }
 
     public void resetAngle() {
@@ -493,25 +489,23 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
             telemetry.addData("error", error);
             telemetry.update();
         }
-//        robot.fLeftWheel.setVelocity(0);
-//        robot.fRightWheel.setVelocity(0);
-//        robot.bLeftWheel.setVelocity(0);
-//        robot.bRightWheel.setVelocity(0);
+        robot.fLeftWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+        robot.bRightWheel.setVelocity(0);
     }
-    //
 
-    public void turnTo(double degrees) {
-        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-
-        double error = degrees - orientation.firstAngle;
-
-        if (error > 180) {
-            error -= 360;
-        } else if (error < -180) {
-            error += 360;
+    public void manualTurn(String direction, int degrees) {
+        if (direction == "left"){
+            setALLPower(.5);
+            sleep(1000 * (int) (degrees/90));
+            setALLPower(0);
         }
-        turn(error);
+        else {
+            setALLPower(-.5);
+            sleep(1000 * (int) (degrees/90));
+            setALLPower(0);
+        }
 
     }
     public void setALLPower(double power) {
@@ -523,6 +517,108 @@ public class gyro_Run_Using_Encoders extends LinearOpMode{
     }
 
 
+    public void correctionLeft( double tiles) {
+        int power = 500;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
+        sleep((int) (800*tiles));
+        robot.fLeftWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+        robot.bRightWheel.setVelocity(0);
+    }
+    public void correctionRight( double tiles) {
+        int power = 250;
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(power);
+        sleep((int) (800*tiles));
+        robot.fLeftWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+        robot.bRightWheel.setVelocity(0);
+    }
+
+    public void alignAprilTags(int side, String location) {
+        int targetTagNum = 1;
+        if(side == 1 || side == 2) {
+            switch (location) {
+                case "Middle":
+                    targetTagNum = 2;
+                case "Left":
+                    targetTagNum = 1;
+                case "Right":
+                    targetTagNum = 3;
+            }
+        }
+        else {
+            switch (location) {
+                case "Middle":
+                    targetTagNum = 5;
+                case "Left":
+                    targetTagNum = 4;
+                case "Right":
+                    targetTagNum = 6;
+            }
+        }
+        webcam.setPipeline(AprilTagDetectionPipeline);
+        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
+
+        while(tagOfInterest == null) {
+            if((side == 1 || side == 2) && location == "Left" || location == "Right"){
+                strafeLeft();
+            }
+            else if ((side == 3 || side == 4) && location == "Left" || location == "Right"){
+                strafeRight();
+            }
+            else {
+                tiles(.5);
+            }
+
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        break;
+                    }
+            }
+        }
+        setALLPower(0);
+
+        while(tagOfInterest.id != targetTagNum) {
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        break;
+                    }
+            }
+            if (side == 1 || side == 2) {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeLeft();
+                }
+                else{
+                    strafeRight();
+                }
+
+            }
+            else {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeRight();
+                }
+                else{
+                    strafeLeft();
+                }
+            }
+        }
+        setALLPower(0);
+    }
 
 
 }

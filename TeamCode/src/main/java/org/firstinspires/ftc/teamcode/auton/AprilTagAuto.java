@@ -42,11 +42,11 @@ public class AprilTagAuto extends LinearOpMode {
     final double OPTIMAL_DISTANCE_Z = 1.0;
     final double DISTANCE_THRESHOLD = 0.1;
     final double ALIGNMENT_THRESHOLD_YAW = 5.0;
-    final double LEFT_POWER = -0.5;
-    final double RIGHT_POWER = 0.5;
-    final double FORWARD_POWER = 0.5;
-    final double BACKWARD_POWER = -0.5;
-    final double ROTATE_POWER = 0.5;
+    final double LEFT_POWER = -0.1;
+    final double RIGHT_POWER = 0.1;
+    final double FORWARD_POWER = 0.1;
+    final double BACKWARD_POWER = -0.1;
+    final double ROTATE_POWER = 0.1;
 
     @Override
     public void runOpMode() {

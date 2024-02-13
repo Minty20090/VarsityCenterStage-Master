@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import static org.firstinspires.ftc.teamcode.auton.AprilTagAutonomousInitDetectionExample.FEET_PER_METER;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -172,12 +174,18 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     //Blue stage
                     spikeBRight(location);
                     driveThroughRiggingB("long");
-                    break;
+                    if (location != "Middle") {
+                        alignAprilTags(side,location);
+                        break;
+                    }
+
                 }
                 if(side==2){
                     //Blue back stage
                     spikeBLeft(location);
                     driveThroughRiggingB("short");
+                    alignAprilTags(side,location);
+
                     break;
 
                 }
@@ -185,6 +193,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     //Red backstage
                     spikeRRight(location);
                     driveThroughRiggingR("short");
+                    alignAprilTags(side,location);
                     break;
 
                 }
@@ -192,8 +201,14 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     // red stage //lred
                     spikeRLeft(location);
                     driveThroughRiggingR("long");
+                    if (location != "Middle") {
+                        alignAprilTags(side,location);
+                        break;
+                    }
                     break;
                 }
+
+                break;
 
 
             }
@@ -214,31 +229,30 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     }
 
     // BLUE LEFT
-    public void spikeBLeft(String location) { // tress is to the right  // tentatively done
-        if (location == "Middle") {
-            tiles(.9);
-            sleep(500);
+    public void spikeBLeft(String location) { // tress is to the right
+        if (location == "Middle") { //DONE
+            tiles(.8);
             drop();
-            sleep(2000);
 
         }
         else if(location == "Right"){
-            tiles(1.2);
-            turn(-70);
+            tiles(1.1);
+            turn(-65);
             backTiles(.1);
             drop();
+            tiles(.35);
             sleep(1000);
-            turn(70);
+            turn(75);
+
         }
         else if(location == "Left"){
             tiles(1);
-            turn(50);
-            backTiles(.3);
+            turn(65);
+            backTiles(.35);
             drop();
             tiles(.2);
-            turn(-50);
-            backTiles(.2);
-            turn(-25);
+            turn(-45);
+
 
         }
     }
@@ -246,7 +260,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     // RED LEFT
     public void spikeRLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.9);
+            tiles(.8);
             sleep(500);
             drop();
             sleep(2000);
@@ -276,17 +290,18 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     // BLUE RIGHT
     public void spikeBRight(String location) {// tress is to the left
         if (location == "Middle") {
-            tiles(.9);
+            tiles(.8);
             drop();
-            sleep(2000);
+
         }
         else if(location == "Right"){
             tiles(1.1);
-            turn(-60);
+            turn(-65);
+            backTiles(.25);
             drop();
-            tiles(.15);
+            tiles(.35);
             sleep(1000);
-            turn(60);
+            turn(65);
 
         }
         else if(location == "Left"){
@@ -302,7 +317,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     // RIGHT RED
     public void spikeRRight(String location) {// tress is to the left // tentatively done
         if (location == "Middle") {
-            tiles(.9);
+            tiles(.85);
             drop();
             sleep(2000);
 
@@ -332,18 +347,24 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
     public void driveThroughRiggingR(String dist) {
         if(location == "Middle") {
-            tiles(.2);
-            turn(-70);
+            if(dist == "short"){
+                tiles(.2);
+                turn(-70);
+                tiles(1);
+            }
+
+        }
+        else if (location == "Left") {
+            tiles(1);
+            turn(-65);
             if(dist == "short"){
                 tiles(1);
             }
             else if (dist == "long") {
-                tiles(1.2);
-                tiles(1.3);
+                tiles(2.5);
+
             }
-
         }
-
         else {
             tiles(1);
             turn(-70);
@@ -359,36 +380,38 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     }
     public void driveThroughRiggingB(String dist) {
         if(location == "Middle") {
-            tiles(.2);
-            turn(70);
             if(dist == "short"){
+                tiles(.2);
+                turn(65);
                 tiles(1);
-            }
-            else if (dist == "long") {
-                tiles(1.2);
-                tiles(1.3);
             }
 
         }
         else if(location == "Right") {
-            tiles(1.2);
-            turn(70);
+
             if(dist == "short"){
+                tiles(.6);
+                turn(65);
                 tiles(1);
             }
             else if (dist == "long") {
+                tiles(1);
+                turn(65);
                 tiles(2.5);
 
             }
         }
-        else {
-            tiles(1.2);
-            turn(80);
+        else if(location == "Left"){
+
             if(dist == "short"){
+                tiles(.8);
+                turn(75);
                 tiles(1);
             }
             else if (dist == "long") {
-                tiles(2.5);
+                tiles(1.2);
+                turn(75);
+                tiles(3);
 
             }
         }
@@ -407,10 +430,10 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         robot.bRightWheel.setVelocity(power);
         telemetry.addData("encoder counts br", robot.bRightWheel.getCurrentPosition());
         sleep((int) (1700*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
         robot.bRightWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.fLeftWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
 
     }
     public void backTiles(double tiles) {
@@ -420,41 +443,29 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         robot.bLeftWheel.setVelocity(-power);
         robot.bRightWheel.setVelocity(-power);
         sleep((int) (1700*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
         robot.bRightWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.fLeftWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+
     }
 
     public void strafeRight() {
-        int power = 400;
+        int power = 200;
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
         robot.bRightWheel.setVelocity(power);
     }
     public void strafeLeft() {
-        int power = 400;
+        int power = 200;
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
         robot.bRightWheel.setVelocity(-power);
     }
 
-    public void turnRight() {
-        int power = 400;
-        robot.fLeftWheel.setVelocity(power);
-        robot.fRightWheel.setVelocity(-power);
-        robot.bLeftWheel.setVelocity(power);
-        robot.bRightWheel.setVelocity(-power);
-    }
-    public void turnLeft() {
-        int power = 400;
-        robot.fLeftWheel.setVelocity(-power);
-        robot.fRightWheel.setVelocity(power);
-        robot.bLeftWheel.setVelocity(-power);
-        robot.bRightWheel.setVelocity(power);
-    }
+
 
     public void resetAngle() {
         lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -495,19 +506,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         robot.bRightWheel.setVelocity(0);
     }
 
-    public void manualTurn(String direction, int degrees) {
-        if (direction == "left"){
-            setALLPower(.5);
-            sleep(1000 * (int) (degrees/90));
-            setALLPower(0);
-        }
-        else {
-            setALLPower(-.5);
-            sleep(1000 * (int) (degrees/90));
-            setALLPower(0);
-        }
-
-    }
     public void setALLPower(double power) {
         double powerLevel = power * 500;
         robot.fRightWheel.setVelocity(powerLevel);
@@ -517,30 +515,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     }
 
 
-    public void correctionLeft( double tiles) {
-        int power = 500;
-        robot.fLeftWheel.setVelocity(-power);
-        robot.fRightWheel.setVelocity(power);
-        robot.bLeftWheel.setVelocity(power);
-        robot.bRightWheel.setVelocity(-power);
-        sleep((int) (800*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
-        robot.bRightWheel.setVelocity(0);
-    }
-    public void correctionRight( double tiles) {
-        int power = 250;
-        robot.fLeftWheel.setVelocity(power);
-        robot.fRightWheel.setVelocity(-power);
-        robot.bLeftWheel.setVelocity(-power);
-        robot.bRightWheel.setVelocity(power);
-        sleep((int) (800*tiles));
-        robot.fLeftWheel.setVelocity(0);
-        robot.fRightWheel.setVelocity(0);
-        robot.bLeftWheel.setVelocity(0);
-        robot.bRightWheel.setVelocity(0);
-    }
 
     public void alignAprilTags(int side, String location) {
         int targetTagNum = 1;
@@ -565,25 +539,32 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
         webcam.setPipeline(AprilTagDetectionPipeline);
+
         ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
 
-
         while(tagOfInterest == null) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
             if((side == 1 || side == 2) && location == "Left" || location == "Right"){
                 strafeLeft();
+            }
+            else if((side == 1 || side == 2) && location == "Middle") {
+                strafeRight();
             }
             else if ((side == 3 || side == 4) && location == "Left" || location == "Right"){
                 strafeRight();
             }
-            else {
-                tiles(.5);
+            else if ((side == 3 || side == 4) && location == "Middle"){
+                strafeRight();
             }
+
 
             if (currentDetections.size() != 0) {
                 for (AprilTagDetection tag : currentDetections)
 
                     if (tag != null) {
                         tagOfInterest = tag;
+                        tagToTelemetry(tagOfInterest);
                         break;
                     }
             }
@@ -618,6 +599,18 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
         setALLPower(0);
+    }
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
     }
 
 

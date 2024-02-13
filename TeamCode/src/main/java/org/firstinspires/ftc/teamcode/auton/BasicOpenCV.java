@@ -1,23 +1,36 @@
 package org.firstinspires.ftc.teamcode.auton;
 
+import static org.firstinspires.ftc.teamcode.auton.AprilTagAutonomousInitDetectionExample.FEET_PER_METER;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Projects.HWMapBasic;
-import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
-import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.Projects.HWMap;
+import org.firstinspires.ftc.teamcode.Projects.HWMapDCex;
+import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import org.firstinspires.ftc.teamcode.auton.BluePropDetectionPipeline.BluePropLocation;
+import org.firstinspires.ftc.teamcode.auton.RedPropDetectionPipeline.RedPropLocation;
+
+import java.util.ArrayList;
+
 @Autonomous
-public class BasicOpenCV extends LinearOpMode{
-     public HWMapBasic robot = new HWMapBasic();
+public class BasicOpenCV extends LinearOpMode {
+    public HWMapDCex robot = new HWMapDCex();
+    int noU = 1000;
     OpenCvCamera webcam;
+    AprilTagDetection tagOfInterest = null;
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -26,10 +39,12 @@ public class BasicOpenCV extends LinearOpMode{
     double fy = 578.272;
     double cx = 402.145;
     double cy = 221.506;
+    private Orientation lastAngles = new Orientation();
+    private double currAngle = 0.0;
 
     // UNITS ARE METERS
     double tagsize = 0.166;
-    public String location = "Middle";
+    public String location = "Left";
 
     RedPropDetectionPipeline RedPropDetectionPipeline = new RedPropDetectionPipeline(telemetry);
     BluePropDetectionPipeline BluePropDetectionPipeline = new BluePropDetectionPipeline(telemetry);
@@ -41,19 +56,14 @@ public class BasicOpenCV extends LinearOpMode{
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.fRightWheel.setTargetPosition(0);
-        robot.fLeftWheel.setTargetPosition(0);
-        robot.bRightWheel.setTargetPosition(0);
-        robot.bLeftWheel.setTargetPosition(0);
-        robot.fLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.bRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.gate.setPosition(0);
+
+        robot.lift.setTargetPosition(0);
+
+        robot.lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+
 
         // Side c = Side.rBlue;
 
@@ -79,330 +89,231 @@ public class BasicOpenCV extends LinearOpMode{
 
         while (!isStarted() && !isStopRequested()) {
 
-
-            if (gamepad1.a) {
-                telemetry.addLine("rBlue");
-                telemetry.update();
-                side = 1;
-            }
-            if (gamepad1.b) {
-                telemetry.addLine("lBlue");
-                telemetry.update();
-                side = 2;
-            }
-            if (gamepad1.x) {
-                telemetry.addLine("rRed");
-                telemetry.update();
-                side = 3;
-            }
-            if (gamepad1.y) {
-                telemetry.addLine("lRed");
-                telemetry.update();
-                side = 4;
-            }
-
-            runTime.reset();
-            if (side == 1 || side == 2) {
-                webcam.setPipeline(BluePropDetectionPipeline);
-                BluePropLocation elementLocation = BluePropDetectionPipeline.getPropLocation();
-                if (elementLocation == BluePropLocation.RIGHT) {
-                    telemetry.addLine("right");
-                    telemetry.update();
-                    location = "Right";
-
-
-                } else if (elementLocation == BluePropLocation.LEFT) {
-                    telemetry.addLine("left");
-                    telemetry.update();
-                    location = "Left";
-
-                } else if (elementLocation == BluePropLocation.MIDDLE) {
-                    telemetry.addLine("middle");
-                    telemetry.update();
-                    location = "Middle";
-
-
-                } else {
-                    telemetry.addLine("not detected");
-                    telemetry.update();
-                    location = "Middle";
-                }
-            } else {
-                webcam.setPipeline(RedPropDetectionPipeline);
-                RedPropLocation elementLocation = RedPropDetectionPipeline.getPropLocation();
-                if (elementLocation == RedPropLocation.RIGHT) {
-                    telemetry.addLine("right");
-                    telemetry.update();
-                    location = "Right";
-                } else if (elementLocation == RedPropLocation.LEFT) {
-                    telemetry.addLine("left");
-                    telemetry.update();
-                    location = "Left";
-                } else if (elementLocation == RedPropLocation.MIDDLE) {
-                    telemetry.addLine("middle");
-                    telemetry.update();
-                    location = "Middle";
-
-                } else {
-                    telemetry.addLine("not detected");
-                    telemetry.update();
-                    location = "Middle";
-                }
-
-            }
-
+            webcam.setPipeline(AprilTagDetectionPipeline);
+            ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+            
 
             while (opModeIsActive()) {
-                //robot.lift.setPower(.5);
-              //  sleep(1000);
-               // robot.lift.setPower(0);
-                robot.fLeftWheel.setPower(.8);
-                robot.fRightWheel.setPower(.8);
-                robot.bLeftWheel.setPower(.8);
-                robot.bRightWheel.setPower(.8);
+                alignAprilTags(side, location);
 
-            // START COMMETNED OUT SECTION
-                sleep(20);
-                if(side==1) {
-                    //Blue stage
-
-                    spikeB(location,side);
-                    robot.gate.setPosition(0);
-//                    turn(105,.8);
-//                    sleep(1000);
-//                    tiles(3.5);
-                    break;
-                }
-                if(side==2){
-                    //Blue back tage
-                    spikeB(location,side);
-                    robot.gate.setPosition(0);
-//                    turn(100,.8);
-//                    sleep(1000);
-//                    tiles(1.5);
-                    break;
-
-                }
-                if(side == 3){
-                    //Red backstage
-                    spikeR(location,side);
-//                    robot.gate.setPosition(0);
-//                    turn(100,-.8);
-//                    sleep(1000);
-//                    tiles(1.5);
-                    break;
-
-                }
-                if(side == 4) {
-                    //Red stage - Far
-                    spikeR(location,side);
-                    robot.gate.setPosition(0);
-//                    sleep(1000);
-//                    turn(105,-.8);
-//                    sleep(1000);
-//                    tiles(3.5);
-                    break;
-                }
-                break;
-
-// END COMMETNED OUT SECTION
             }
 
-
         }
     }
-    public void drop(){
-        robot.gate.setPosition(1);
-        sleep(1000);
-    }
-    public void spikeB(String location, int side) { // blue
-        if (location == "Middle") {
-            System.out.println("bet");
-            tiles(1.2,side);
-            drop();
-            tiles(-1.1,side);
-
-        }
-        else if(location == "Right"){
-            tiles(1.1,side);
-            turn(95,-.8);
-            tiles(.2,side);
-            drop();
-            tiles(-.25,side);
-            turn(95,.8);
-            tiles(-1,side);
-        }
-        else if(location == "Left"){
-            tiles(1.1,side);
-            turn(95,.8);
-            tiles(.2,side);
-            drop();
-            tiles(-.25,side);
-            turn(95,-.8);
-            tiles(-1,side);
 
 
-        }
-    }
-    public void spikeR(String location, int side) {
-        if (location == "Middle") {
-            System.out.println("bet");
-            tiles(1.2,side);
-            drop();
-            tiles(-1.1,side);
-
-        }
-        else if(location == "Right"){
-            tiles(1.1,side);
-            turn(100,-.8);
-            tiles(.2,side);
-            drop();
-            tiles(-.25,side);
-            turn(95,.8);
-            tiles(-1,side);
-
-        }
-        else if(location == "Left"){
-            tiles(1.1,side);
-            turn(95,.8);
-            tiles(.2,side);
-            drop();
-            tiles(-.25,side);
-            turn(95,-.8);
-            tiles(-1,side);
-//
-        }
-    }
-    public void tiles(double tiles, int side){
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-        robot.fLeftWheel.setPower(.5);
-        robot.fRightWheel.setPower(.5);
-        robot.bLeftWheel.setPower(.5);
-        robot.bRightWheel.setPower(.5);
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -580));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * -580));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * -580));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -580));
-        sleep(2000);
-//        if (tiles > 0 && (side == 3 || side == 4)) {
-//            correction(tiles);
-//        }
-
+    public void tiles(double tiles){
+        int power = 400;
+        robot.fLeftWheel.setVelocity(power);
+        telemetry.addData("encoder counts fl", robot.fLeftWheel.getCurrentPosition());
+        robot.fRightWheel.setVelocity(power);
+        telemetry.addData("encoder counts fr", robot.fRightWheel.getCurrentPosition());
+        robot.bLeftWheel.setVelocity(power);
+        telemetry.addData("encoder counts bl", robot.bLeftWheel.getCurrentPosition());
+        robot.bRightWheel.setVelocity(power);
+        telemetry.addData("encoder counts br", robot.bRightWheel.getCurrentPosition());
+        sleep((int) (1700*tiles));
+        robot.bRightWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.fLeftWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
 
     }
-    public void correction( double tiles) {
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-        robot.fLeftWheel.setPower(.5);
-        robot.fRightWheel.setPower(.5);
-        robot.bLeftWheel.setPower(.5);
-        robot.bRightWheel.setPower(.5);
-        robot.fLeftWheel.setTargetPosition((int) (fleft + tiles * -70));
-        robot.fRightWheel.setTargetPosition((int)(fright + tiles * 70));
-        robot.bLeftWheel.setTargetPosition((int)(bleft + tiles * 70));
-        robot.bRightWheel.setTargetPosition((int)(bright+ tiles * -70));
-        sleep(500);
+    public void backTiles(double tiles) {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(-power);
+        sleep((int) (1700*tiles));
+        robot.bRightWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.fLeftWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+
     }
 
+    public void strafeRight() {
+        int power = 200;
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(power);
+    }
+    public void strafeLeft() {
+        int power = 200;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
+    }
 
-    public void turn(int degrees, double direction){
-        String turn;
+    public void turnRight() {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(power);
+        robot.fRightWheel.setVelocity(-power);
+        robot.bLeftWheel.setVelocity(power);
+        robot.bRightWheel.setVelocity(-power);
+    }
+    public void turnLeft() {
+        int power = 400;
+        robot.fLeftWheel.setVelocity(-power);
+        robot.fRightWheel.setVelocity(power);
+        robot.bLeftWheel.setVelocity(-power);
+        robot.bRightWheel.setVelocity(power);
+    }
 
-        int fleft = robot.fLeftWheel.getCurrentPosition();
-        int bleft = robot.bLeftWheel.getCurrentPosition();
-        int bright = robot.bRightWheel.getCurrentPosition();
-        int fright = robot.fRightWheel.getCurrentPosition();
-        if (direction < 0) {
-            turn = "right";
+    public void resetAngle() {
+        lastAngles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        currAngle = 0;
+    }
+
+    public double getAngle() {
+        Orientation orientation = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double deltaAngle = orientation.firstAngle - lastAngles.firstAngle;
+
+        if (deltaAngle > 180) {
+            deltaAngle -= 360;
+        } else if (deltaAngle <= -180) {
+            deltaAngle += 360;
+        }
+
+        currAngle += deltaAngle;
+        lastAngles = orientation;
+        telemetry.addData("gyro", orientation.firstAngle);
+        return currAngle;
+
+    }
+    public void turn(double degrees) {
+        resetAngle();
+
+        double error = degrees;
+
+        while (opModeIsActive() && Math.abs(error) > 1) {
+            double motorPower = (error < 0 ? -0.3 : 0.3);
+            setALLPower(motorPower);
+            error = degrees - getAngle();
+            telemetry.addData("error", error);
+            telemetry.update();
+        }
+        robot.fLeftWheel.setVelocity(0);
+        robot.fRightWheel.setVelocity(0);
+        robot.bLeftWheel.setVelocity(0);
+        robot.bRightWheel.setVelocity(0);
+    }
+
+    public void manualTurn(String direction, int degrees) {
+        if (direction == "left"){
+            setALLPower(.5);
+            sleep(1000 * (int) (degrees/90));
+            setALLPower(0);
         }
         else {
-            turn = "left";
+            setALLPower(-.5);
+            sleep(1000 * (int) (degrees/90));
+            setALLPower(0);
         }
 
-        if (turn == "left") {
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees) * (int) (287/90)));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees) * (int) (369/90)));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (int) (degrees * (int) (-279/90))));
-            robot.fRightWheel.setTargetPosition((int) (fright + (int) (degrees * (int) (-367/90))));
-
-        }
-        if (turn == "right") {
-
-            robot.bLeftWheel.setTargetPosition((int) (bleft + (int)(degrees * (int)(-290/90))));
-            robot.fLeftWheel.setTargetPosition((int) (fleft + (int)(degrees * (int)(-390/90))));
-            robot.bRightWheel.setTargetPosition((int) (bright+ (int)(degrees * (int)(285/90))));
-            robot.fRightWheel.setTargetPosition((int) (fright + (int)(degrees * (int)(340/90))));
-        }
-
-        robot.fLeftWheel.setPower(.8);
-        robot.fRightWheel.setPower(.8);
-        robot.bLeftWheel.setPower(.8);
-        robot.bRightWheel.setPower(.8);
-        sleep(2000);
+    }
+    public void setALLPower(double power) {
+        double powerLevel = power * 500;
+        robot.fRightWheel.setVelocity(powerLevel);
+        robot.fLeftWheel.setVelocity(-powerLevel);
+        robot.bRightWheel.setVelocity(powerLevel);
+        robot.bLeftWheel.setVelocity(-powerLevel);
     }
 
 
-
-    //encoder method
-    public void encoderDrive(double speed,
-                             double frontLeftCounts, double frontRightCounts, double backLeftCounts, double backRightCounts) {
-        int newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-//
-//            // Determine new target position, and pass to motor controller
-//            newFrontLeftTarget = robot.fLeftWheel.getCurrentPosition() + (int) (frontLeftCounts);
-//            newFrontRightTarget = robot.fRightWheel.getCurrentPosition() + (int) (frontRightCounts);
-//            newBackLeftTarget = robot.bLeftWheel.getCurrentPosition() + (int) (backLeftCounts);
-//            newBackRightTarget = robot.bRightWheel.getCurrentPosition() + (int) (backRightCounts);
-//            robot.fLeftWheel.setTargetPosition(newFrontLeftTarget);
-//            robot.fRightWheel.setTargetPosition(newFrontRightTarget);
-//            robot.bLeftWheel.setTargetPosition(newBackLeftTarget);
-//            robot.bRightWheel.setTargetPosition(newBackRightTarget);
-//
-//            // Turn On RUN_TO_POSITION
-//            robot.fLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.fRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.bLeftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            robot.bRightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            robot.fLeftWheel.setPower(Math.abs(speed));
-//            robot.fRightWheel.setPower(Math.abs(speed));
-//            robot.bLeftWheel.setPower(Math.abs(speed));
-//            robot.bRightWheel.setPower(Math.abs(speed));
-//
-//            // keep looping while we are still active, and there is time left, and both motors are running.
-//            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//            // always end the motion as soon as possible.
-//            // However, if you require that BOTH motors have finished their moves before the robot continues
-//            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//            while (opModeIsActive() &&
-//                    (robot.fLeftWheel.isBusy() && robot.fRightWheel.isBusy() && robot.bLeftWheel.isBusy() && robot.bRightWheel.isBusy())) {
-//
-//                // Display it for the driver.
-//                telemetry.addData("Path1", "Running to %7d :%7d", newFrontLeftTarget, newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
-//                telemetry.addData("Path2", "Running at %7d :%7d");
-//
-//                telemetry.update();
-//            }
-//
-//            // Stop all motion;
-//
-//
-//            // Turn off RUN_TO_POSITION
-
+    public void alignAprilTags(int side, String location) {
+        int targetTagNum = 1;
+        if(side == 1 || side == 2) {
+            switch (location) {
+                case "Middle":
+                    targetTagNum = 2;
+                case "Left":
+                    targetTagNum = 1;
+                case "Right":
+                    targetTagNum = 3;
+            }
         }
-    }
-    public void stop(int time) {
+        else {
+            switch (location) {
+                case "Middle":
+                    targetTagNum = 5;
+                case "Left":
+                    targetTagNum = 4;
+                case "Right":
+                    targetTagNum = 6;
+            }
+        }
+        webcam.setPipeline(AprilTagDetectionPipeline);
+        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
 
-        sleep(time);
-   }
+
+        while(tagOfInterest == null) {
+            if((side == 1 || side == 2) && location == "Left" || location == "Right"){
+                strafeLeft();
+            }
+            else if ((side == 3 || side == 4) && location == "Left" || location == "Right"){
+                strafeRight();
+            }
+            else {
+                tiles(.5);
+            }
+
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        tagToTelemetry(tagOfInterest);
+                        break;
+                    }
+            }
+        }
+        setALLPower(0);
+
+        while(tagOfInterest.id != targetTagNum) {
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        break;
+                    }
+            }
+            if (side == 1 || side == 2) {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeLeft();
+                }
+                else{
+                    strafeRight();
+                }
+
+            }
+            else {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeRight();
+                }
+                else{
+                    strafeLeft();
+                }
+            }
+        }
+        setALLPower(0);
+    }
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
+    }
+
 
 }

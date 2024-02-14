@@ -90,7 +90,10 @@ public class AprilTagAuto extends LinearOpMode {
 
             tagOfInterest = bestTag;
 
-            while(tagOfInterest == null || tagOfInterest.pose.z < 0.1) {
+            if(tagOfInterest == null || tagOfInterest.pose.z < 0.1) {
+
+
+
                 moveLaterally(isBlue ? LEFT_POWER : RIGHT_POWER);
                 telemetry.addData("Status", "Strafing to find tag");
                 telemetry.addData("Tag ID", tagOfInterest.id);
@@ -98,10 +101,12 @@ public class AprilTagAuto extends LinearOpMode {
                 telemetry.addData("Z Distance", tagOfInterest.pose.z);
                 telemetry.update();
             }
+            else{
+                stopMovement();
+            }
 
-            stopMovement();
 
-            while(tagOfInterest.pose.z > 0.05) {
+            if(tagOfInterest.pose.z > 0.1) {
                 moveForward();
                 telemetry.addData("Status", "Moving into scoring position");
                 telemetry.addData("Tag ID", tagOfInterest.id);
@@ -109,8 +114,11 @@ public class AprilTagAuto extends LinearOpMode {
                 telemetry.addData("Z Distance", tagOfInterest.pose.z);
                 telemetry.update();
             }
+            else{
+                stopMovement();
+            }
 
-            stopMovement();
+
 
 
 

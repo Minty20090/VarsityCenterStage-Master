@@ -38,15 +38,15 @@ public class AprilTagAuto extends LinearOpMode {
     AprilTagDetection tagOfInterest = null;
 
     // Constants for movement and alignment
-    final double ALIGNMENT_THRESHOLD_X = 0.1;
-    final double OPTIMAL_DISTANCE_Z = 1.0;
-    final double DISTANCE_THRESHOLD = 0.1;
+    final double ALIGNMENT_THRESHOLD_X = 0.1; // in meters
+    final double OPTIMAL_DISTANCE_Z = 0.1; // in meters
+    final double DISTANCE_THRESHOLD = 0.1; // in meters
     final double ALIGNMENT_THRESHOLD_YAW = 5.0;
-    final double LEFT_POWER = -0.1;
-    final double RIGHT_POWER = 0.1;
-    final double FORWARD_POWER = 0.1;
-    final double BACKWARD_POWER = -0.1;
-    final double ROTATE_POWER = 0.1;
+    final double LEFT_POWER = -0.4;
+    final double RIGHT_POWER = 0.4;
+    final double FORWARD_POWER = 0.3;
+    final double BACKWARD_POWER = -0.3;
+    final double ROTATE_POWER = 0.5;
 
     @Override
     public void runOpMode() {
@@ -116,9 +116,11 @@ public class AprilTagAuto extends LinearOpMode {
                 telemetry.addData("X Offset", xOffset);
                 telemetry.addData("Z Distance", zDistance);
 //                telemetry.addData("Yaw", yaw);
+
             } else {
 //                searchForTag();
                 telemetry.addData("Status", "Searching for Tag");
+                stopMovement();
             }
 
             telemetry.update();
@@ -128,9 +130,12 @@ public class AprilTagAuto extends LinearOpMode {
     // Utility methods for robot movement
     void moveLaterally(double power) {
         robot.fLeftWheel.setPower(power);
-        robot.bLeftWheel.setPower(-power);
         robot.fRightWheel.setPower(-power);
+        robot.bLeftWheel.setPower(-power);
         robot.bRightWheel.setPower(power);
+
+        //telemetry
+        telemetry.addData("Status", "Moving Laterally");
     }
 
     void moveForward() {
@@ -138,6 +143,9 @@ public class AprilTagAuto extends LinearOpMode {
         robot.bLeftWheel.setPower(FORWARD_POWER);
         robot.fRightWheel.setPower(FORWARD_POWER);
         robot.bRightWheel.setPower(FORWARD_POWER);
+
+        //telemetry
+        telemetry.addData("Status", "Moving Forward");
     }
 
     void moveBackward() {
@@ -145,6 +153,9 @@ public class AprilTagAuto extends LinearOpMode {
         robot.bLeftWheel.setPower(BACKWARD_POWER);
         robot.fRightWheel.setPower(BACKWARD_POWER);
         robot.bRightWheel.setPower(BACKWARD_POWER);
+
+        //telemetry
+        telemetry.addData("Status", "Moving Backward");
     }
 
     void stopMovement() {

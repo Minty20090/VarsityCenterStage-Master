@@ -42,8 +42,8 @@ public class AprilTagAuto extends LinearOpMode {
     final double OPTIMAL_DISTANCE_Z = 0.1; // in meters
     final double DISTANCE_THRESHOLD = 0.1; // in meters
     final double ALIGNMENT_THRESHOLD_YAW = 5.0;
-    final double LEFT_POWER = -0.4;
-    final double RIGHT_POWER = 0.4;
+    final double LEFT_POWER = -0.3;
+    final double RIGHT_POWER = 0.3;
     final double FORWARD_POWER = 0.3;
     final double BACKWARD_POWER = -0.3;
     final double ROTATE_POWER = 0.5;
@@ -92,12 +92,22 @@ public class AprilTagAuto extends LinearOpMode {
 
             while(tagOfInterest == null || tagOfInterest.pose.z < 0.1) {
                 moveLaterally(isBlue ? LEFT_POWER : RIGHT_POWER);
+                telemetry.addData("Status", "Strafing to find tag");
+                telemetry.addData("Tag ID", tagOfInterest.id);
+                telemetry.addData("X Distance", tagOfInterest.pose.x);
+                telemetry.addData("Z Distance", tagOfInterest.pose.z);
+                telemetry.update();
             }
 
             stopMovement();
 
             while(tagOfInterest.pose.z > 0.05) {
                 moveForward();
+                telemetry.addData("Status", "Moving into scoring position");
+                telemetry.addData("Tag ID", tagOfInterest.id);
+                telemetry.addData("X Distance", tagOfInterest.pose.x);
+                telemetry.addData("Z Distance", tagOfInterest.pose.z);
+                telemetry.update();
             }
 
             stopMovement();

@@ -48,6 +48,8 @@ public class AprilTagAuto extends LinearOpMode {
     final double BACKWARD_POWER = -0.3;
     final double ROTATE_POWER = 0.5;
 
+    boolean isBlue = false;
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -89,7 +91,7 @@ public class AprilTagAuto extends LinearOpMode {
             tagOfInterest = bestTag;
 
             while(tagOfInterest == null || tagOfInterest.pose.z < 0.1) {
-                moveLaterally(RIGHT_POWER);
+                moveLaterally(isBlue ? LEFT_POWER : RIGHT_POWER);
             }
 
             stopMovement();

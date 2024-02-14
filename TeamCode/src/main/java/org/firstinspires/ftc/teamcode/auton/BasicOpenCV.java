@@ -64,11 +64,7 @@ public class BasicOpenCV extends LinearOpMode {
         robot.lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
 
-
-        // Side c = Side.rBlue;
-
-
-        int side = 1;
+        int side = 3;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
 
@@ -90,11 +86,8 @@ public class BasicOpenCV extends LinearOpMode {
         while (!isStarted() && !isStopRequested()) {
 
             webcam.setPipeline(AprilTagDetectionPipeline);
-            ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
-            
-
             while (opModeIsActive()) {
-                alignAprilTags(side, location);
+                alignAprilTags(side, "Middle");
 
             }
 
@@ -202,19 +195,7 @@ public class BasicOpenCV extends LinearOpMode {
         robot.bRightWheel.setVelocity(0);
     }
 
-    public void manualTurn(String direction, int degrees) {
-        if (direction == "left"){
-            setALLPower(.5);
-            sleep(1000 * (int) (degrees/90));
-            setALLPower(0);
-        }
-        else {
-            setALLPower(-.5);
-            sleep(1000 * (int) (degrees/90));
-            setALLPower(0);
-        }
 
-    }
     public void setALLPower(double power) {
         double powerLevel = power * 500;
         robot.fRightWheel.setVelocity(powerLevel);
@@ -228,28 +209,30 @@ public class BasicOpenCV extends LinearOpMode {
     public void alignAprilTags(int side, String location) {
         int targetTagNum = 1;
         if(side == 1 || side == 2) {
-            switch (location) {
-                case "Middle":
-                    targetTagNum = 2;
-                case "Left":
-                    targetTagNum = 1;
-                case "Right":
+            if (location == "Middle") {
+                targetTagNum = 2;
+            }
+            else if (location == "Left") {
+                targetTagNum = 1;
+            }
+            else if (location == "Right") {
                     targetTagNum = 3;
             }
         }
         else {
-            switch (location) {
-                case "Middle":
-                    targetTagNum = 5;
-                case "Left":
-                    targetTagNum = 4;
-                case "Right":
-                    targetTagNum = 6;
+            if (location == "Middle") {
+                targetTagNum = 5;
+            }
+            else if (location == "Left") {
+                targetTagNum = 4;
+            }
+            else if (location == "Right") {
+                targetTagNum = 6;
             }
         }
         webcam.setPipeline(AprilTagDetectionPipeline);
 
-        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+        ArrayList<AprilTagDetection> currentDetections;
 
         while(tagOfInterest == null) {
             currentDetections = AprilTagDetectionPipeline.getLatestDetections();
@@ -273,7 +256,7 @@ public class BasicOpenCV extends LinearOpMode {
 
                     if (tag != null) {
                         tagOfInterest = tag;
-                        tagToTelemetry(tagOfInterest);
+                        tagToTelemetry(tagOfInterest, targetTagNum);
                         break;
                     }
             }
@@ -289,6 +272,7 @@ public class BasicOpenCV extends LinearOpMode {
 
                     if (tag != null) {
                         tagOfInterest = tag;
+                        tagToTelemetry(tagOfInterest, targetTagNum);
                         break;
                     }
             }
@@ -296,23 +280,26 @@ public class BasicOpenCV extends LinearOpMode {
                 if(tagOfInterest.id > targetTagNum) {
                     strafeLeft();
                 }
-                else{
+                else {
                     strafeRight();
                 }
 
             }
-            else {
+            else if (side == 3 || side == 4) {
                 if(tagOfInterest.id > targetTagNum) {
-                    strafeRight();
-                }
-                else{
                     strafeLeft();
+                }
+                else if (tagOfInterest.id < targetTagNum){
+                    strafeRight();
                 }
             }
         }
         setALLPower(0);
+        robot.tipper.setPosition(0);
+        sleep(1000);
+        robot.tipper.setPosition(1);
     }
-    void tagToTelemetry(AprilTagDetection detection)
+    void tagToTelemetry(AprilTagDetection detection, int targetTag)
     {
         Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
@@ -323,6 +310,7 @@ public class BasicOpenCV extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
+        telemetry.addLine(String.format("Target April Tag: " + targetTag));
         telemetry.update();
     }
 

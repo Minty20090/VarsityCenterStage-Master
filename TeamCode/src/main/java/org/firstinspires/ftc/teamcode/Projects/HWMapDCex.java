@@ -21,7 +21,7 @@ public class HWMapDCex extends Project{
     public Servo clawL = null;
     public DcMotorEx ext = null;
     public Servo wrist = null;
-
+    public Servo tipper = null;
     //public Servo wrist = null;
     //public DcMotor wrist = null;
     public BNO055IMU imu;
@@ -42,8 +42,7 @@ public class HWMapDCex extends Project{
        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
         wrist = hwMap.servo.get("wrist");
-        //wrist = hwMap.servo.get("wrist");
-        //wrist = hwMap.dcMotor.get("wrist");
+        tipper = hwMap.servo.get("yPixel");
 
 
 

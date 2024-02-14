@@ -79,7 +79,7 @@ public class AprilTagAuto extends LinearOpMode {
             AprilTagDetection bestTag = null;
 
             for (AprilTagDetection tag : currentDetections) {
-                if (tag.id == 2 || tag.id == 5) {
+                if (tag.id == 1 || tag.id == 4) {
                     if (bestTag == null || Math.abs(tag.pose.x) < Math.abs(bestTag.pose.x)) {
                         bestTag = tag;
                     }
@@ -88,43 +88,60 @@ public class AprilTagAuto extends LinearOpMode {
 
             tagOfInterest = bestTag;
 
-            if (tagOfInterest != null) {
-                double xOffset = tagOfInterest.pose.x;
-                double zDistance = tagOfInterest.pose.z;
-//                double yaw = getYaw(tagOfInterest);
-
-                if (Math.abs(xOffset) > ALIGNMENT_THRESHOLD_X) {
-                    moveLaterally(xOffset > 0 ? LEFT_POWER : RIGHT_POWER);
-                } else {
-                    stopMovement();
-                }
-
-                if (zDistance > OPTIMAL_DISTANCE_Z + DISTANCE_THRESHOLD) {
-                    moveForward();
-                } else if (zDistance < OPTIMAL_DISTANCE_Z - DISTANCE_THRESHOLD) {
-                    moveBackward();
-                } else {
-                    stopMovement();
-                }
-
-//                if (Math.abs(yaw) > ALIGNMENT_THRESHOLD_YAW) {
-//                    adjustOrientation(yaw);
-//                }
-
-                telemetry.addData("Status", "Tag Detected");
-                telemetry.addData("Tag ID", tagOfInterest.id);
-                telemetry.addData("X Offset", xOffset);
-                telemetry.addData("Z Distance", zDistance);
-//                telemetry.addData("Yaw", yaw);
-
-            } else {
-//                searchForTag();
-                telemetry.addData("Status", "Searching for Tag");
-                stopMovement();
+            while(tagOfInterest == null || tagOfInterest.pose.z < 0.1) {
+                moveLaterally(RIGHT_POWER);
             }
 
-            telemetry.update();
+            stopMovement();
+
+            while(tagOfInterest.pose.z > 0.05) {
+                moveForward();
+            }
+
+            stopMovement();
+
+
+
         }
+
+
+//            if (tagOfInterest != null) {
+//                double xOffset = tagOfInterest.pose.x;
+//                double zDistance = tagOfInterest.pose.z;
+////                double yaw = getYaw(tagOfInterest);
+//
+//                if (Math.abs(xOffset) > ALIGNMENT_THRESHOLD_X) {
+//                    moveLaterally(xOffset > 0 ? LEFT_POWER : RIGHT_POWER);
+//                } else {
+//                    stopMovement();
+//                }
+//
+//                if (zDistance > OPTIMAL_DISTANCE_Z + DISTANCE_THRESHOLD) {
+//                    moveForward();
+//                } else if (zDistance < OPTIMAL_DISTANCE_Z - DISTANCE_THRESHOLD) {
+//                    moveBackward();
+//                } else {
+//                    stopMovement();
+//                }
+//
+////                if (Math.abs(yaw) > ALIGNMENT_THRESHOLD_YAW) {
+////                    adjustOrientation(yaw);
+////                }
+//
+//                telemetry.addData("Status", "Tag Detected");
+//                telemetry.addData("Tag ID", tagOfInterest.id);
+//                telemetry.addData("X Offset", xOffset);
+//                telemetry.addData("Z Distance", zDistance);
+////                telemetry.addData("Yaw", yaw);
+//
+//            } else {
+////                searchForTag();
+//                telemetry.addData("Status", "Searching for Tag");
+//                stopMovement();
+//            }
+//
+//            telemetry.update();
+//        }
     }
 
     // Utility methods for robot movement

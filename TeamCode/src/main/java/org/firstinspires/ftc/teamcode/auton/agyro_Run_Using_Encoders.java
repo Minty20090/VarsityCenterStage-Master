@@ -260,29 +260,29 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     // RED LEFT
     public void spikeRLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.8);
-            sleep(500);
+            tiles(.9);
             drop();
-            sleep(2000);
 
         }
         else if(location == "Right"){
-            tiles(1.2);
-            turn(-70);
-            backTiles(.1);
+            tiles(1.1);
+            turn(-50);
+            sleep(500);
             drop();
-            sleep(1000);
-            turn(70);
+            tiles(.3);
+            turn(50);
+            backTiles(.2);
+            turn(-30);
+
+
         }
         else if(location == "Left"){
             tiles(1);
             turn(50);
-            backTiles(.3);
-            drop();
-            tiles(.2);
-            turn(-50);
             backTiles(.2);
-            turn(25);
+            drop();
+            sleep(1000);
+            turn(-50);
 
         }
     }
@@ -570,8 +570,11 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
         setALLPower(0);
+        sleep(1000);
 
         while(tagOfInterest.id != targetTagNum) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
             if (currentDetections.size() != 0) {
                 for (AprilTagDetection tag : currentDetections)
 
@@ -611,6 +614,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
+        telemetry.update();
     }
 
 

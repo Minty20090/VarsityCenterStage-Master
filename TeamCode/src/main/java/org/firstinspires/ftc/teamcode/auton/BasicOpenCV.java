@@ -224,6 +224,7 @@ public class BasicOpenCV extends LinearOpMode {
     }
 
 
+
     public void alignAprilTags(int side, String location) {
         int targetTagNum = 1;
         if(side == 1 || side == 2) {
@@ -247,19 +248,25 @@ public class BasicOpenCV extends LinearOpMode {
             }
         }
         webcam.setPipeline(AprilTagDetectionPipeline);
+
         ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
 
-
         while(tagOfInterest == null) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
             if((side == 1 || side == 2) && location == "Left" || location == "Right"){
                 strafeLeft();
+            }
+            else if((side == 1 || side == 2) && location == "Middle") {
+                strafeRight();
             }
             else if ((side == 3 || side == 4) && location == "Left" || location == "Right"){
                 strafeRight();
             }
-            else {
-                tiles(.5);
+            else if ((side == 3 || side == 4) && location == "Middle"){
+                strafeRight();
             }
+
 
             if (currentDetections.size() != 0) {
                 for (AprilTagDetection tag : currentDetections)
@@ -272,8 +279,11 @@ public class BasicOpenCV extends LinearOpMode {
             }
         }
         setALLPower(0);
+        sleep(1000);
 
         while(tagOfInterest.id != targetTagNum) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
             if (currentDetections.size() != 0) {
                 for (AprilTagDetection tag : currentDetections)
 
@@ -313,6 +323,7 @@ public class BasicOpenCV extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
+        telemetry.update();
     }
 
 

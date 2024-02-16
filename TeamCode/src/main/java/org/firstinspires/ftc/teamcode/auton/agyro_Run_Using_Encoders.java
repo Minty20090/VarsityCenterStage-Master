@@ -537,16 +537,18 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         else {
             if (location == "Left") {
                 strafeLeft(200);
-                sleep(1000);
+                sleep(800);
                 setALLPower(0);
             }
             if (location == "Middle") {
-                strafeLeft(400);
-                sleep(500);
-                setALLPower(0);
+//                strafeLeft(400);
+//                sleep(500);
+//                setALLPower(0);
             }
             else {
-
+                strafeLeft(200);
+                sleep(800);
+                setALLPower(0);
             }
         }
         tiles(1);

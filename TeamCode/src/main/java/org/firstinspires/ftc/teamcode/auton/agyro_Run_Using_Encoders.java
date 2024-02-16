@@ -371,7 +371,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 if (location == "Right") {
                     tiles(.7);
                 }
-                turn(-70);
+                turn(-65);
                 tiles(1);
             }
             else if (dist == "long") {
@@ -557,8 +557,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         robot.tipper.setPosition(1);
         tiles(.2);
         strafeRight(800);
-
-        sleep(2000);
+        sleep(1000);
         setALLPower(0);
     }
 

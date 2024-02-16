@@ -550,6 +550,10 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         sleep(1000);
         robot.tipper.setPosition(0);
         sleep(2000);
+        sleep(500);
+        robot.tipper.setPosition(.3);
+        sleep(500);
+        robot.tipper.setPosition(0);
         backTiles(.2);
         robot.tipper.setPosition(0);
         sleep(1000);

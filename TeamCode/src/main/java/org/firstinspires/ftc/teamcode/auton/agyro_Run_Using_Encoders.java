@@ -325,7 +325,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             tiles(1);
             turn(-75);
             sleep(500);
-            backTiles(.3);
+            backTiles(.2);
             drop();
             tiles(.2);
             turn(60);

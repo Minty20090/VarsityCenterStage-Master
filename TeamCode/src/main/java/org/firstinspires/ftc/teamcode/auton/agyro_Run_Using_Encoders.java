@@ -325,7 +325,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             tiles(1);
             turn(-75);
             sleep(500);
-            backTiles(.2);
+            backTiles(.3);
             drop();
             tiles(.2);
             turn(60);
@@ -530,7 +530,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
             if (location == "Right") {
                 strafeRight(200);
-                sleep(600);
+                sleep(1000);
                 setALLPower(0);
             }
         }

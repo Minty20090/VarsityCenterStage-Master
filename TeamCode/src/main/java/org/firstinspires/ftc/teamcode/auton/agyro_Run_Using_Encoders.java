@@ -372,7 +372,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     tiles(.7);
                 }
                 turn(-60);
-                tiles(1.2);
+                tiles(1);
             }
             else if (dist == "long") {
                 tiles(1);
@@ -546,7 +546,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 setALLPower(0);
             }
         }
-        tiles(.8);
+        tiles(1);
         sleep(1000);
         robot.tipper.setPosition(0);
         sleep(2000);

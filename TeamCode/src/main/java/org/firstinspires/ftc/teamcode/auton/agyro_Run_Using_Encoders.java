@@ -520,7 +520,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         if(side == 3 || side == 4){
             if (location == "Left") {
                 strafeRight(200);
-                sleep(1000);
+                sleep(700);
                 setALLPower(0);
             }
             if (location == "Middle") {
@@ -545,9 +545,11 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 sleep(500);
                 setALLPower(0);
             }
+            else {
+
+            }
         }
         tiles(1);
-        sleep(1000);
         robot.tipper.setPosition(0);
         sleep(2000);
         backTiles(.4);
@@ -559,6 +561,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         strafeRight(800);
         sleep(1000);
         setALLPower(0);
+        tiles(.5);
     }
 
     public void tiles(double tiles){

@@ -163,6 +163,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
 
             while (opModeIsActive()) {
+                location = "Right";
 
                 robot.clawL.setPosition(0);
                 sleep(500);
@@ -324,9 +325,9 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             tiles(1);
             turn(-75);
             sleep(500);
-            backTiles(.2);
+            backTiles(.3);
             drop();
-            tiles(.25);
+            tiles(.2);
             turn(60);
 
 
@@ -371,7 +372,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     tiles(.7);
                 }
                 turn(-70);
-                tiles(1.1);
+                tiles(1);
             }
             else if (dist == "long") {
                 tiles(1);

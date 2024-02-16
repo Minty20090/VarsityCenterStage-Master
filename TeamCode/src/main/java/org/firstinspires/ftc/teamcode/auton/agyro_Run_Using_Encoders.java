@@ -164,7 +164,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
             while (opModeIsActive()) {
                 location = "Right";
-                location = "Right";
 
                 robot.clawL.setPosition(0);
                 sleep(500);

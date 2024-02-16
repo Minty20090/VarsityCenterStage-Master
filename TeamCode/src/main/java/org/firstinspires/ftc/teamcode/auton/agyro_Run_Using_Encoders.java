@@ -215,11 +215,17 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
     }
-    public void drop(){
+    public void drop(int side, String location){
         backTiles(.2);
         robot.wrist.setPosition(.25);
         sleep(1000);
-        tiles(.35);
+        if (side == 3 && location == "Right") {
+            tiles(.25);
+        }
+        else{
+            tiles(.35);
+        }
+
         robot.clawL.setPosition(1);
         sleep(500);
         backTiles(.3);
@@ -329,7 +335,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             drop();
             tiles(.2);
             turn(55);
-
 
         }
         else if(location == "Left"){

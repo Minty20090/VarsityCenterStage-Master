@@ -527,7 +527,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 strafeRight(200);
                 sleep(600);
                 
-                setALLPower(0);
+                setALLPower(0);[]
             }
             if (location == "Right") {
                 strafeRight(200);

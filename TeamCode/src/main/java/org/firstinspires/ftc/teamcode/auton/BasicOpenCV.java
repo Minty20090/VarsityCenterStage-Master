@@ -280,8 +280,11 @@ public class BasicOpenCV extends LinearOpMode {
                 if(tagOfInterest.id > targetTagNum) {
                     strafeLeft();
                 }
-                else {
+                else if (tagOfInterest.id < targetTagNum){
                     strafeRight();
+                }
+                else {
+                    setALLPower(0);
                 }
 
             }
@@ -292,7 +295,11 @@ public class BasicOpenCV extends LinearOpMode {
                 else if (tagOfInterest.id < targetTagNum){
                     strafeRight();
                 }
+                else {
+                    setALLPower(0);
+                }
             }
+
         }
         setALLPower(0);
         robot.tipper.setPosition(0);

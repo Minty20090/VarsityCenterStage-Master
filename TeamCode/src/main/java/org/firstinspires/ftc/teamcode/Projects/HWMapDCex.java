@@ -39,7 +39,7 @@ public class HWMapDCex extends Project{
         ext = hwMap.get(DcMotorEx.class, "slide");
         lift = hwMap.get(DcMotorEx.class, "lift");
         //stick = hwMap.servo.get("Stick");
-       clawL = hwMap.servo.get("clawL");
+        clawL = hwMap.servo.get("clawL");
         clawR = hwMap.servo.get("clawR");
         wrist = hwMap.servo.get("wrist");
         tipper = hwMap.servo.get("yPixel");

@@ -269,9 +269,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             turn(-50);
             sleep(500);
             drop();
-            tiles(.3);
-            turn(50);
-            backTiles(.2);
+            tiles(.2);
             turn(-30);
 
 
@@ -323,21 +321,20 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
         }
         else if(location == "Right"){
-            tiles(1.1);
-            turn(-50);
+            tiles(1);
+            turn(-75);
             sleep(500);
-            drop();
-            tiles(.3);
-            turn(50);
             backTiles(.2);
-            turn(-30);
+            drop();
+            tiles(.25);
+            turn(60);
 
 
         }
         else if(location == "Left"){
             tiles(1);
             turn(50);
-            backTiles(.2);
+            backTiles(.15);
             drop();
             sleep(1000);
             turn(-50);
@@ -355,23 +352,30 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
         }
         else if (location == "Left") {
-            tiles(1);
-            turn(-65);
+
             if(dist == "short"){
-                tiles(1);
+                tiles(.6);
+                turn(-65);
+                tiles(.8);
             }
             else if (dist == "long") {
+                tiles(1);
+                turn(-65);
                 tiles(2.5);
 
             }
         }
-        else {
-            tiles(1);
-            turn(-70);
+        else { // RED SHORT SIDE
             if(dist == "short"){
-                tiles(1);
+                if (location == "Right") {
+                    tiles(.7);
+                }
+                turn(-70);
+                tiles(1.1);
             }
             else if (dist == "long") {
+                tiles(1);
+                turn(-70);
                 tiles(2.5);
 
             }
@@ -418,6 +422,140 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
 
     }
+    public void alignAprilTags(int side, String location) {
+        int targetTagNum = 1;
+        if(side == 1 || side == 2) {
+            if (location == "Middle") {
+                targetTagNum = 2;
+            }
+            else if (location == "Left") {
+                targetTagNum = 1;
+            }
+            else if (location == "Right") {
+                targetTagNum = 3;
+            }
+        }
+        else {
+            if (location == "Middle") {
+                targetTagNum = 5;
+            }
+            else if (location == "Left") {
+                targetTagNum = 4;
+            }
+            else if (location == "Right") {
+                targetTagNum = 6;
+            }
+        }
+        webcam.setPipeline(AprilTagDetectionPipeline);
+
+        ArrayList<AprilTagDetection> currentDetections;
+
+        while(tagOfInterest == null) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
+            if((side == 1 || side == 2) && (location == "Left" || location == "Right")){
+                strafeLeft(200);
+            }
+            else if((side == 1 || side == 2) && location == "Middle") {
+                strafeRight(200);
+            }
+            else if ((side == 3 || side == 4)){
+                strafeRight(200);
+            }
+
+
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        tagToTelemetry(tagOfInterest, targetTagNum);
+                        break;
+                    }
+            }
+        }
+        setALLPower(0);
+        sleep(1000);
+
+        while(tagOfInterest.id != targetTagNum) {
+            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
+
+            if (currentDetections.size() != 0) {
+                for (AprilTagDetection tag : currentDetections)
+
+                    if (tag != null) {
+                        tagOfInterest = tag;
+                        tagToTelemetry(tagOfInterest, targetTagNum);
+                        break;
+                    }
+            }
+            if (side == 1 || side == 2) {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeLeft(200);
+                }
+                else if (tagOfInterest.id < targetTagNum){
+                    strafeRight(200);
+                }
+                else {
+                    setALLPower(0);
+                }
+
+            }
+            else if (side == 3 || side == 4) {
+                if(tagOfInterest.id > targetTagNum) {
+                    strafeLeft(200);
+                }
+                else if (tagOfInterest.id < targetTagNum){
+                    strafeRight(200);
+                }
+                else {
+                    setALLPower(0);
+                }
+            }
+
+        }
+
+        setALLPower(0);
+        if(side == 3 || side == 4){
+            if (location == "Left") {
+                strafeRight(200);
+                sleep(1000);
+                setALLPower(0);
+            }
+            if (location == "Middle") {
+                strafeRight(200);
+                sleep(600);
+                setALLPower(0);
+            }
+            if (location == "Right") {
+                strafeRight(200);
+                sleep(1000);
+                setALLPower(0);
+            }
+        }
+        else {
+            if (location == "Left") {
+                strafeLeft(200);
+                sleep(1000);
+                setALLPower(0);
+            }
+            if (location == "Middle") {
+                strafeLeft(400);
+                sleep(500);
+                setALLPower(0);
+            }
+        }
+        tiles(1);
+        sleep(1000);
+        robot.tipper.setPosition(0);
+        sleep(2000);
+        backTiles(.2);
+
+        robot.tipper.setPosition(1);
+        strafeRight(600);
+        sleep(2000);
+        setALLPower(0);
+    }
 
     public void tiles(double tiles){
         int power = 400;
@@ -450,15 +588,15 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
     }
 
-    public void strafeRight() {
-        int power = 200;
+    public void strafeRight(int power) {
+
         robot.fLeftWheel.setVelocity(power);
         robot.fRightWheel.setVelocity(-power);
         robot.bLeftWheel.setVelocity(-power);
         robot.bRightWheel.setVelocity(power);
     }
-    public void strafeLeft() {
-        int power = 200;
+    public void strafeLeft(int power) {
+
         robot.fLeftWheel.setVelocity(-power);
         robot.fRightWheel.setVelocity(power);
         robot.bLeftWheel.setVelocity(power);
@@ -516,94 +654,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
 
 
-    public void alignAprilTags(int side, String location) {
-        int targetTagNum = 1;
-        if(side == 1 || side == 2) {
-            switch (location) {
-                case "Middle":
-                    targetTagNum = 2;
-                case "Left":
-                    targetTagNum = 1;
-                case "Right":
-                    targetTagNum = 3;
-            }
-        }
-        else {
-            switch (location) {
-                case "Middle":
-                    targetTagNum = 5;
-                case "Left":
-                    targetTagNum = 4;
-                case "Right":
-                    targetTagNum = 6;
-            }
-        }
-        webcam.setPipeline(AprilTagDetectionPipeline);
-
-        ArrayList<AprilTagDetection> currentDetections = AprilTagDetectionPipeline.getLatestDetections();
-
-        while(tagOfInterest == null) {
-            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
-
-            if((side == 1 || side == 2) && location == "Left" || location == "Right"){
-                strafeLeft();
-            }
-            else if((side == 1 || side == 2) && location == "Middle") {
-                strafeRight();
-            }
-            else if ((side == 3 || side == 4) && location == "Left" || location == "Right"){
-                strafeRight();
-            }
-            else if ((side == 3 || side == 4) && location == "Middle"){
-                strafeRight();
-            }
-
-
-            if (currentDetections.size() != 0) {
-                for (AprilTagDetection tag : currentDetections)
-
-                    if (tag != null) {
-                        tagOfInterest = tag;
-                        tagToTelemetry(tagOfInterest);
-                        break;
-                    }
-            }
-        }
-        setALLPower(0);
-        sleep(1000);
-
-        while(tagOfInterest.id != targetTagNum) {
-            currentDetections = AprilTagDetectionPipeline.getLatestDetections();
-
-            if (currentDetections.size() != 0) {
-                for (AprilTagDetection tag : currentDetections)
-
-                    if (tag != null) {
-                        tagOfInterest = tag;
-                        break;
-                    }
-            }
-            if (side == 1 || side == 2) {
-                if(tagOfInterest.id > targetTagNum) {
-                    strafeLeft();
-                }
-                else{
-                    strafeRight();
-                }
-
-            }
-            else {
-                if(tagOfInterest.id > targetTagNum) {
-                    strafeRight();
-                }
-                else{
-                    strafeLeft();
-                }
-            }
-        }
-        setALLPower(0);
-    }
-    void tagToTelemetry(AprilTagDetection detection)
+    void tagToTelemetry(AprilTagDetection detection, int targetTag)
     {
         Orientation rot = Orientation.getOrientation(detection.pose.R, AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
 
@@ -614,6 +665,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", rot.firstAngle));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", rot.secondAngle));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
+        telemetry.addLine(String.format("Target April Tag: " + targetTag));
         telemetry.update();
     }
 

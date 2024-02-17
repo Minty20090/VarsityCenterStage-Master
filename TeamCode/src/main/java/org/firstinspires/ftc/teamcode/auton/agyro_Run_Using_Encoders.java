@@ -249,7 +249,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         else if(location == "Left"){
             tiles(1.1);
             turn(65);
-            backTiles(.25);
+            backTiles(.15);
             drop();
             tiles(.2);
             turn(-45);
@@ -411,7 +411,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             if(dist == "short"){
                 tiles(.8);
                 turn(60);
-                tiles(1.2);
+                tiles(1);
             }
             else if (dist == "long") {
                 tiles(1.2);

@@ -251,7 +251,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             turn(65);
             backTiles(.15);
             drop();
-            tiles(.2);
+            tiles(.1);
             turn(-45);
 
 
@@ -411,7 +411,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             if(dist == "short"){
                 tiles(.8);
                 turn(65);
-                tiles(1);
+                tiles(.9);
             }
             else if (dist == "long") {
                 tiles(1.2);

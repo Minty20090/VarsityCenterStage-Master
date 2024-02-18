@@ -57,17 +57,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
 
-        robot.lift.setTargetPosition(0);
-
-        robot.lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-        robot.lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-
-
-        // Side c = Side.rBlue;
-
-
         int side = 1;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
@@ -88,8 +77,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         telemetry.setMsTransmissionInterval(50);
 
         while (!isStarted() && !isStopRequested()) {
-
-
             if (gamepad1.a) {
                 telemetry.addLine("rBlue");
                 telemetry.update();
@@ -163,13 +150,10 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
 
             while (opModeIsActive()) {
-                location = "Left";
 
                 robot.clawL.setPosition(0);
-                sleep(500);
                 robot.wrist.setPosition(1);
-
-
+                sleep(500);
 
                 if(side==1) {  // rblue
                     //Blue stage
@@ -177,8 +161,8 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     driveThroughRiggingB("long");
                     if (location != "Middle") {
                         alignAprilTags(side,location);
-                        break;
                     }
+                    break;
 
                 }
                 if(side==2){
@@ -186,7 +170,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     spikeBLeft(location);
                     driveThroughRiggingB("short");
                     alignAprilTags(side,location);
-
                     break;
 
                 }
@@ -204,7 +187,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     driveThroughRiggingR("long");
                     if (location != "Middle") {
                         alignAprilTags(side,location);
-                        break;
                     }
                     break;
                 }
@@ -215,26 +197,14 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
     }
-    public void drop(){
-        backTiles(.2);
-        robot.wrist.setPosition(.25);
-        sleep(1000);
-        tiles(.35);
-        robot.clawL.setPosition(1);
-        sleep(500);
-        backTiles(.3);
-        robot.clawR.setPosition(1);
-        robot.clawL.setPosition(0);
-        sleep(500);
-        robot.wrist.setPosition(1);
-    }
 
-    // BLUE LEFT
+    // ===================================================
+    // BLUE LEFT, BLUE BACKSTAGE
+    // ===================================================
     public void spikeBLeft(String location) { // tress is to the right
         if (location == "Middle") { //DONE
-            tiles(.8);
+            tiles(.85);
             drop();
-
         }
         else if(location == "Right"){
             tiles(1.1);
@@ -257,13 +227,13 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
         }
     }
-
-    // RED LEFT
+    // ===================================================
+    // RED LEFT, Red Stage
+    // ===================================================
     public void spikeRLeft(String location) { // tress is to the right
         if (location == "Middle") {
-            tiles(.9);
+            tiles(.85);
             drop();
-
         }
         else if(location == "Right"){
             tiles(1.1);
@@ -272,8 +242,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             drop();
             tiles(.2);
             turn(-30);
-
-
         }
         else if(location == "Left"){
             tiles(1);
@@ -285,11 +253,12 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
         }
     }
-
+    // ===================================================
     // BLUE RIGHT
+    // ===================================================
     public void spikeBRight(String location) {// tress is to the left
         if (location == "Middle") {
-            tiles(.8);
+            tiles(.85);
             drop();
 
         }
@@ -313,7 +282,9 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
         }
     }
+    // ===================================================
     // RIGHT RED
+    // ===================================================
     public void spikeRRight(String location) {// tress is to the left // tentatively done
         if (location == "Middle") {
             tiles(.85);
@@ -350,10 +321,8 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 turn(-70);
                 tiles(1);
             }
-
         }
         else if (location == "Left") {
-
             if(dist == "short"){
                 tiles(.6);
                 turn(-65);
@@ -363,14 +332,11 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 tiles(1);
                 turn(-65);
                 tiles(2.5);
-
             }
         }
-        else { // RED SHORT SIDE
+        else if (location == "Right") {
             if(dist == "short"){
-                if (location == "Right") {
-                    tiles(.7);
-                }
+                tiles(.7);
                 turn(-63);
                 tiles(.8);
             }
@@ -390,10 +356,8 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 turn(65);
                 tiles(1);
             }
-
         }
         else if(location == "Right") {
-
             if(dist == "short"){
                 tiles(.6);
                 turn(65);
@@ -407,7 +371,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
             }
         }
         else if(location == "Left"){
-
             if(dist == "short"){
                 tiles(.8);
                 turn(65);
@@ -417,7 +380,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 tiles(1.2);
                 turn(60);
                 tiles(3);
-
             }
         }
 
@@ -447,6 +409,7 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                 targetTagNum = 6;
             }
         }
+
         webcam.setPipeline(AprilTagDetectionPipeline);
 
         ArrayList<AprilTagDetection> currentDetections;
@@ -454,11 +417,8 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         while(tagOfInterest == null) {
             currentDetections = AprilTagDetectionPipeline.getLatestDetections();
 
-            if((side == 1 || side == 2) && (location == "Left" || location == "Right")){
+            if(side == 1 || side == 2){
                 strafeLeft(200);
-            }
-            else if((side == 1 || side == 2) && location == "Middle") {
-                strafeRight(200);
             }
             else if ((side == 3 || side == 4)){
                 strafeRight(200);
@@ -467,7 +427,6 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
 
             if (currentDetections.size() != 0) {
                 for (AprilTagDetection tag : currentDetections)
-
                     if (tag != null) {
                         tagOfInterest = tag;
                         tagToTelemetry(tagOfInterest, targetTagNum);
@@ -475,8 +434,9 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
                     }
             }
         }
+
         setALLPower(0);
-        sleep(1000);
+
         if(side == 2) {
             turn(-10);
         }
@@ -563,11 +523,19 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         backTiles(.1);
         robot.tipper.setPosition(1);
         tiles(.2);
-        strafeRight(800);
-        sleep(1000);
-        setALLPower(0);
+        if(side == 3 || side == 4) {
+            strafeRight(800);
+            sleep(1000);
+            setALLPower(0);
+        }
+        else {
+            strafeRight(800);
+            sleep(1000);
+            setALLPower(0);
+        }
         tiles(.5);
     }
+
 
     public void tiles(double tiles){
         int power = 400;
@@ -679,6 +647,20 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", rot.thirdAngle));
         telemetry.addLine(String.format("Target April Tag: " + targetTag));
         telemetry.update();
+    }
+
+    public void drop(){
+        backTiles(.2);
+        robot.wrist.setPosition(.25);
+        sleep(1000);
+        tiles(.35);
+        robot.clawL.setPosition(1);
+        sleep(500);
+        backTiles(.3);
+        robot.clawR.setPosition(1);
+        robot.clawL.setPosition(0);
+        sleep(500);
+        robot.wrist.setPosition(1);
     }
 
 

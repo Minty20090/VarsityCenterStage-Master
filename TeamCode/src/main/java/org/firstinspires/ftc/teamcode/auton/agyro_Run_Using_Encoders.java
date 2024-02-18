@@ -477,6 +477,9 @@ public class agyro_Run_Using_Encoders extends LinearOpMode {
         }
         setALLPower(0);
         sleep(1000);
+        if(side == 2) {
+            turn(-10);
+        }
 
         while(tagOfInterest.id != targetTagNum) {
             currentDetections = AprilTagDetectionPipeline.getLatestDetections();
